@@ -1,3 +1,8 @@
+---
+layout: home
+title: Home
+---
+
 # Imaginative Coding
 
 I think that coding gets an awfully bad rap among non-coders, often justifiably. Here are some things I have noticed that stopped people from coding.

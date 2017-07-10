@@ -1,3 +1,7 @@
+---
+title: "Process and Code"
+---
+
 ### Code
 
 I used to hate the word code. Obviously, I have grown to accept it, but I still find it irritating. Why? Because code is a series of instructions or procedures to follow. Code is an  obtuse message someone sends so that others can't read it. This does not describe what I spend most of my time on. Instead, I make processes.
