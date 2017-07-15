@@ -10,7 +10,7 @@ In line with the more philosophical nature of this question, I found my first re
 
 ### Precise philosophical framework
 
-If you don't like definitions, feel free to skip to the next part.
+If you don't like to read definitions, feel free to skip to the next part.
 
 Definitions:
 
@@ -22,3 +22,43 @@ Inside this world, intelligence is the degree to which
 
 
 ### Circumstantial evidence
+
+If you are already convinced by my thesis, feel free to skip to the next section.
+
+I collected several stories to support this reasoning.
+
+First, why do we see younger people accomplishing tasks as more amazing than older people? In particular, lets say we have a college undergraduate math major, and a college math professor. They look at a math problem, go at it, and solve it in the same time. Why do we tend to see the college student as smarter in this scenario? Especially when the physical brain of the college professor is probably in worse shape? It seems to be because we expect the college professor to know more, have more experience, etc, and thus be able to solve the problem faster.
+
+Second, why do experienced programmers seem too see computers as less intelligent than average people? This is a pattern I have seen myself over and over:
+
+A person sees a technology like Siri, which pretend to be intelligent, or traditional AIs for games like chess. They get really excited, and think that it is an amazing thing. They dig into AI, learn to code, start reading papers, etc, to learn how it works. Then they start to realize that it is actually not that intelligent--rather, a lot of smart programmers and computer scientists built a fairly complex framework which gets the very specific task at hand done.
+
+What do they learn that makes them so skeptical?
+
+For traditional AI, it seems to be the programming. People realize that everything they thought was intelligent was simply a reaction coded by a person. This reaction seems to be why the Chinese room thought experiment is such a compelling argument.
+
+For modern AI, like Google's AlphaGo, the perception of intelligence tends to stick around a little longer. It is more convincing, even to knowledgeable people. Part of this is that neural networks are famously hard to reason about, and so even reasonably informed people still can be in ignorant bliss of how it actually works. Part of it is that NNs are legitimately able to handle more complex problems.
+
+But others, including myself, loose their perception of its intelligence. This seems to be caused by two things:
+
+1. The model lacks generality to work in anything remotely approaching the real world.
+2. The model requires ridiculous volumes of data, far more than it would take a human to learn the same thing.
+
+Note that these two things are a famous tradeoff in all AI, and you can be assured that one or the other will hold until we actually get strong AI.
+
+The second one is what I see as evidence for my thesis, that intelligence is about acting quickly with limited data.
+
+### So what?
+
+What does all this mean? Why do we care what intelligence is?
+
+As a AI enthusiast, I think it is vital to creating low level representations of intelligence. Simply understanding that an intelligent behavior defined by is acting with limited data has helped me focus my study of AI. It provides an easy way to eliminate strategies which seem neat, but clearly won't work well generally because they require too much data.
+
+I also think that this perspective offers insight into the deep philosophical question: What is the purpose of emotions? In this framework, emotions are the cost function of the intelligence.
+
+As a person who has always strived to be smarter, this insight into intelligence also provides a framework for understanding why some people seem smarter than others. After all, our brains work approximately the same. So why are some people more naturally talented at things than others?
+
+
+
+
+Of course
