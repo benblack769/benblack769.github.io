@@ -33,7 +33,7 @@ Now, we as humans understand how to guess words, but how might a computer guess 
 
 Now see how this gets translated into a real programming language, Python,
 
-[code language="python"]
+```python
 def guess(word_with_blanks,dictionary):
     '''
     word_with_blanks: a string with underscores for missing letters
@@ -42,11 +42,11 @@ def guess(word_with_blanks,dictionary):
     for guess_word in dictionary:
         if matches(guess_word, word_with_blanks):
              return guess_word
-[/code]
+```
 
 That translated nicely! We haven't told the computer what <code>matches</code> does though, and so this doesn't work yet.
 
-[code language="python"]
+```python
 def guess(word_with_blanks,dictionary):
     '''
     word_with_blanks: a string with underscores for missing letters
@@ -55,11 +55,12 @@ def guess(word_with_blanks,dictionary):
     for guess_word in dictionary:
         if matches(guess_word, word_with_blanks):
              return guess_word
-[/code]
+```
 
 If we want this to actually be random, instead of choose the first word, we need  only need a small change.
 
-[code language="python"]
+
+```python
     def guess(word_with_blanks,dictionary):
         '''
         word_with_blanks: a string with underscores for missing letters
@@ -69,7 +70,8 @@ If we want this to actually be random, instead of choose the first word, we need
             guess_word = random.choice(dictionary)
                 if matches(guess_word, word_with_blanks):
                     return guess_word
-[/code]
+
+```
 
 Are you curious how well this strategy actually works? If you are interested, I put some very simple, but working code [here](https://gist.github.com/weepingwillowben/6dd77d47c151dddda568cb132422ca95). You can run it by copying and pasting the code to [here](https://repl.it/languages/python3), or download it and run it on the command line.
 

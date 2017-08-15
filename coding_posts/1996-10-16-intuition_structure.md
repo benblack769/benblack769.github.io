@@ -2,17 +2,38 @@
 title: "Intuition and structure: The story of code"
 ---
 
-When I first started coding, I thought that coding was like other forms of engineering. You have a task, and you have some tools to solve that task, the challenge is to piece together the tools in a clever way to make a working solution. It is a pretty common thought, and not entirely wrong, either. Many libraries and frameworks are built with this methodology in mind. But I find it lacking.
+When I first started coding, I thought that coding was like other forms of engineering. You have a problem, some materials, and the challenge is to piece together the tools in a clever way to make a working solution. It is a pretty common thought, and not entirely wrong, either. Many libraries and frameworks are built with this methodology in mind. But I find it lacking.
 
-The problem that finally forced me to work on this was a game I designed and wrote. When I first started writing it, it was almost all in a single 4500 line file, with several functions that were multiple hundreds of lines (with a dense coding style). If you want to laugh at some really bad code, you can find that file [here](https://gist.github.com/weepingwillowben/9f180dda531aed3249836efe12351033). I spent almost 2 years refactoring it and improving the AI, and ended up rewriting the whole thing around 3 times (you can see the latest version on [here](https://github.com/weepingwillowben/qtwargame)). But every time I was deeply unsatisfied. I was unsatisfied with my AI design, I was unsatisfied with my GUI, and I was unsatisfied with the abstractions my code had, and the additional burden they placed on me. And eventually I grew impatient enough, and the code hard enough, that I abandoned the project. I just wasn't smart enough to solve the problems I needed to solve. And that made me sad.
+The problem that finally forced me to work on this was a game I designed and wrote. When I first started writing it, it was almost all in a single 4500 line file, with several functions that were several hundred lines, with a dense coding style. If you want to laugh at some really bad code, you can find that file [here](https://gist.github.com/weepingwillowben/9f180dda531aed3249836efe12351033). I spent almost 2 years refactoring it and improving the AI, and ended up rewriting the whole thing around 3 times (you can see the latest version on [here](https://github.com/weepingwillowben/qtwargame)). But every time I was deeply unsatisfied. I was unsatisfied with my AI design, I was unsatisfied with my GUI, and I was unsatisfied with the abstractions my code had, and the additional burden they placed on me. And eventually I grew impatient enough, and the code hard enough, that I abandoned the project. I just wasn't smart enough to solve the problems I needed to solve. And that made me sad.
 
 So I set on a mission to figure out how to do better next time. I promised myself that the next time I would start on a project, I would not fail.
 
+## The solution
+
 Eventually I found a solution. It is not exactly an original solution, although I approached it with somewhat more energy than most, due to my rather painful way of arriving at it.
 
-The solution is to have the structure of your code reflect the structure of the problem. After all, your code is in the end your design. Any sufficiently detailed and unambiguous description of a process is code. The code should reflect the process and structure as clearly and precisely as possible. Imagine that you are telling a story to someone else with your code. The person doesn't know how to play tick tack toe, and your code will show them.
+The solution is complex, but the concept is simple: **don't make yourself think too hard**.
 
-Everyone knows that the secret to dealing with complexity is to break it down into manageable components, and reason about each component separately. This is quite challenging, and I can't hope to teach this in a blog post. Rather I will try to show how to communicate these components in code.
+It is common knowledge that the secret to dealing with complexity is to break it down into manageable components, and reason about each component separately. But implementing this in the wild is not necessarily easy. Two questions need to be answered.
+
+1. What should the components should look like?
+    * Interfaces/APIs
+    * Naming schemes
+    * Abstraction level
+2. How should you implement those in code?
+    * Polymorphic types vs. instance files
+    * Language (c++, python, Haskell, etc.)
+    * Codebase issues (packages, install process, etc)
+
+While the second one is super important, I don't have space to talk about it right now. Rather, I hope to convince you that you can reason the say way about the problems in \#1 no matter which way you handle \#2.
+
+### What should the components should look like?
+
+The solution is to have the structure of your code reflect the structure of the problem. After all, your code is in the end your design. Any sufficiently detailed and unambiguous description of a process is code. So, the code should reflect the process as clearly and precisely as possible.
+
+Imagine that you are telling a story to someone else with your code. The person doesn't know how to play tick tack toe, and your code will show them.
+
+This is quite challenging, and I can't hope to teach this in a blog post. Rather I will try to show how to communicate these components in code.
 
 The basic ideas here are:
 
