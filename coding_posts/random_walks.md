@@ -18,13 +18,15 @@ Here is a grid of pixels. I am trying to get from the top left corner to the bot
 
 So lets watch the behavior of this line as the space grows:
 
+![zoom1]("images/random_walks/outblank2.png")
 
+![zoom2]("images/random_walks/outblank3.png")
 
+![zoom3]("images/random_walks/outblank.png")
 
+![zoom4]("images/random_walks/outblank4.png")
 
-
-
-
+![zoom5]("images/random_walks/outblank5.png")
 
 One thing to note is that this blue path is consistently around 10,000 longer than the red path for the bigger spaces. If you remember our original intentions, it is to move around intelligently in a space we don't know about. If this takes that much longer than walking strait there, then we might as well not bother. This confirms what I thought originally about the random direction approach being very bad.
 
