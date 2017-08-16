@@ -61,16 +61,15 @@ If we want this to actually be random, instead of choose the first word, we need
 
 
 ```python
-    def guess(word_with_blanks,dictionary):
-        '''
-        word_with_blanks: a string with underscores for missing letters
-        dictionary: a list of all viable English words
-        '''
-        for i in range(10000):
-            guess_word = random.choice(dictionary)
-                if matches(guess_word, word_with_blanks):
-                    return guess_word
-
+def guess(word_with_blanks,dictionary):
+    '''
+    word_with_blanks: a string with underscores for missing letters
+    dictionary: a list of all viable English words
+    '''
+    for i in range(10000):
+        guess_word = random.choice(dictionary)
+            if matches(guess_word, word_with_blanks):
+                return guess_word
 ```
 
 Are you curious how well this strategy actually works? If you are interested, I put some very simple, but working code [here](https://gist.github.com/weepingwillowben/6dd77d47c151dddda568cb132422ca95). You can run it by copying and pasting the code to [here](https://repl.it/languages/python3), or download it and run it on the command line.

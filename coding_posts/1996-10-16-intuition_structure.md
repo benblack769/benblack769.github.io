@@ -29,26 +29,46 @@ While the second one is super important, I don't have space to talk about it rig
 
 ### What should the components should look like?
 
-The solution is to have the structure of your code reflect the structure of the problem. After all, your code is in the end your design. Any sufficiently detailed and unambiguous description of a process is code. So, the code should reflect the process as clearly and precisely as possible.
+#### The standard answer
+
+So when most people teach clean coding, they go talk about huge numbers of individual characteristics that it is good for code to have.
+
+Here is a small list of the characteristics people discuss when talking about improving code (feel free to skim over this):
+
+* Clear operations, internal structures
+    * Functions/classes should have an explicit purpose (this purpose can be fairly abstract, but it should not change all the time)
+    * Good usually means a clean, well defined API.
+    * These are the building blocks of your code. If these aren't good, then everything will be ugly and annoying.
+* Reusable code
+    * helper functions should be helpful to more than one use case
+    * Classes should be extensible
+* Clear variable names
+    * Someone who is reasonably familiar with the problem being solved should know what a particular variable is, even if they aren't familiar with the codebase.
+* Separate each idea
+    * If you can find further ideas within the original idea, separate that apart as well.
+    * Minimal function input-output
+* Testable
+    * Tests should not break during refactoring
+    * Only a few tests should break during feature changes
+    * Unit tests should run fast, test small units of code
+    * Minimal state injection
+    * Minimal stubs/mocks
+
+Unfortunately, it is very hard to learn how to apply all these different, contradicting ideas to code. Throw in the messiness of real code, the time pressure people usually code under, the unknowns and constant changes of software engineering, and all the things I didn't mention in the above list, and it is no wonder that many people can code for years and never learn how to write good code.
+
+#### My answer
+
+You shouldn't have to think to figure out what your code is doing. It should be obvious (except in very rare cases where you are actually dealing with a complicated algorithm). Variable names are a key part of this.
+
+
+
+I will try to show how these ideas that form the basis of code readability are tied to our intuitions of the ideas, and also to mathematical structure. That way, perhaps you can figure out your own code problems.
+
+The structure of your code needs to reflect the structure of the problem. After all, your code is in the end your design. Any sufficiently detailed and unambiguous description of a process is code. And any  So, the code should reflect the process as clearly and precisely as possible.
 
 Imagine that you are telling a story to someone else with your code. The person doesn't know how to play tick tack toe, and your code will show them.
 
 This is quite challenging, and I can't hope to teach this in a blog post. Rather I will try to show how to communicate these components in code.
-
-The basic ideas here are:
-
-* Clean basic data structures
- 	* These are the building blocks of your code. If these aren't good, then everything will be ugly and annoying.
-* Good usually means a clean, well defined API.</li>
-* Clear operations, internal structures (row, col, diag)
-* You shouldn't have to think to figure out what your code is doing. It should be obvious (except in very rare cases where you are actually dealing with a complicated algorithm). Variable names are a key part of this.
-* Clear variable names
-* Variable names are a key part of obvious code.</li>
-* Someone who is reasonably familiar with the problem being solved should know what a particular variable is, even if they aren't familiar with the codebase.
-* Minimal input-output
-* Separate each idea. If you can find further separation within the idea, separate that apart as well.
-* Find internal structure, and make the backends of the external structures use that.
-* I will try to show how these ideas that form the basis of code readability are tied to our intuitions of the ideas, and also to mathematical structure. That way, perhaps you can figure out your own code problems.
 
 
 ## Examples
