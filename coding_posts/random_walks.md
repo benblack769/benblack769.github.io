@@ -6,7 +6,7 @@ In terms of fun, well run, accessible and longer competitions, MIT's [battlecode
 
 This year, there was a specific feature to the competition I found challenging. The robots operated in a fully continuous space, i.e., there were not a finite number of positions a robot could be in, or move to. Here is a screenshot of what it looked like. [Link](https://www.battlecode.org/tournaments/watch/SPRINT/1262) to view this match (link expires around September 2017).
 
-![Screenshot]("images/random_walks/capture-1.png")
+![Screenshot]("../images/random_walks/capture-1.png")
 
 Now, I have some code which decides on a destination for each robot. My problem is that I don't know how to get there. After all, how can you make reasonably intelligent decisions about how to get there if there are obstacles in the way? Obstacles which you don't know about? Especially considering there are a infinite number of possible locations to move each turn? (well, ok, technically not infinite, but very large). I should also mention that there is a very tight computation limit on the decisions (for those who know low level code, it is 10,000 Java bytecodes for all decisions per turn). What this all means practically is that you cannot start building maps of the trees around you and navigate via standard algorithms. Instead, you have to operate with much less information.
 
@@ -18,15 +18,15 @@ Here is a grid of pixels. I am trying to get from the top left corner to the bot
 
 So lets watch the behavior of this line as the space grows:
 
-![zoom1]("images/random_walks/outblank2.png")
+![zoom1]("../images/random_walks/outblank2.png")
 
-![zoom2]("images/random_walks/outblank3.png")
+![zoom2]("../images/random_walks/outblank3.png")
 
-![zoom3]("images/random_walks/outblank.png")
+![zoom3]("../images/random_walks/outblank.png")
 
-![zoom4]("images/random_walks/outblank4.png")
+![zoom4]("../images/random_walks/outblank4.png")
 
-![zoom5]("images/random_walks/outblank5.png")
+![zoom5]("../images/random_walks/outblank5.png")
 
 One thing to note is that this blue path is consistently around 10,000 longer than the red path for the bigger spaces. If you remember our original intentions, it is to move around intelligently in a space we don't know about. If this takes that much longer than walking strait there, then we might as well not bother. This confirms what I thought originally about the random direction approach being very bad.
 
