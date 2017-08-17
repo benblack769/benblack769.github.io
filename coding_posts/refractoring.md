@@ -15,15 +15,16 @@ I think the best way is to take the best parts of these two ideas by the followi
 2. Identify the structure of the code you want to have
 3. Make minimal movement towards the structure you want to have in order to make the change you want
 
-I will walk you through this process in a fairly complex example.
-
-## Examples
+## Tick Tack Toe example
 
 Here is a relatively simple problem which should demonstrate this. The problem is that I know how to check if someone won in tick tack toe. Simple enough, right? You check the rows, columns, and diagonals, and see if a player occupies all the spots there. But this problem, and other similar to it haunted me for years afterwards, making my code error prone, and difficult to debug.
 
+{% gist 8786b84688936e206408d71ae040c18e %}
+
+
 Below is some code that solves the tick tack toe problem. I wrote only a few weeks from when I learned programming for the first time. It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty. It then finds out who won (full code [here](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e), windows only unfortunately). It looks like this:
 
-```c
+```c++
     num1 = box1 + box2 + box3;
     num2 = box4 + box5 + box6;
     num3 = box7 + box8 + box9;

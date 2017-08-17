@@ -10,10 +10,6 @@ So I set on a mission to figure out how to do better next time. I promised mysel
 
 ## The solution
 
-Eventually I found a solution. It is not exactly an original solution, although I approached it with somewhat more energy than most, due to my rather painful way of arriving at it.
-
-The solution is complex, but the concept is simple: **don't make yourself think too hard**.
-
 It is common knowledge that the secret to dealing with complexity is to break it down into manageable components, and reason about each component separately. But implementing this in the wild is not necessarily easy. Two questions need to be answered.
 
 1. What should the components should look like?
@@ -57,6 +53,10 @@ Here is a small list of the characteristics people discuss when talking about im
 Unfortunately, it is very hard to learn how to apply all these different, contradicting ideas to code. Throw in the messiness of real code, the time pressure people usually code under, the unknowns and constant changes of software engineering, and all the things I didn't mention in the above list, and it is no wonder that many people can code for years and never learn how to write good code.
 
 #### My answer
+
+Eventually I found a solution. It is not exactly an original solution, although I approached it with somewhat more energy than most, due to my rather painful way of arriving at it.
+
+The solution is complex, but the concept is simple: **don't make yourself think too hard**.
 
 You shouldn't have to think to figure out what your code is doing. It should be obvious (except in very rare cases where you are actually dealing with a complicated algorithm). Variable names are a key part of this.
 
