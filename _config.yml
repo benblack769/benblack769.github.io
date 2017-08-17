@@ -31,7 +31,10 @@ theme: minima #jekyll-theme-slate
 header_pages:
  - about.md
  - index.md
- - coding_posts/process-code.md
+ - coding_posts/index.md
+ - exploration_intelligence/index.md
+ - neural_posts/index.md
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

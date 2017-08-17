@@ -17,9 +17,7 @@ I think the best way is to take the best parts of these two ideas by the followi
 
 ## Tick Tack Toe example
 
-
-
-Below is some code that allows you to play tick tack toe. I wrote only a few weeks from when I learned programming for the first time. It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty. It then finds out who won (full code [here](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e), windows only unfortunately). It looks like this:
+Below is some code that allows you to play tick tack toe. I wrote it when I learned programming for the first time. It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty (full code [here](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e), windows only unfortunately). It looks like this:
 
 ### Full code
 <style>
@@ -80,7 +78,8 @@ cout << "O";
 }
 ```
 
-Nicely for us, it is
+Nicely for us, this part is separated from the rest of the code in a function. However, this function does not
+
 
 Here is a relatively simple problem which should demonstrate this. The problem is that I know how to check if someone won in tick tack toe. Simple enough, right? You check the rows, columns, and diagonals, and see if a player occupies all the spots there. But this problem, and other similar to it haunted me for years afterwards, making my code error prone, and difficult to debug.
 
