@@ -23,7 +23,7 @@ Below is some code that allows you to play tick tack toe. I wrote only a few wee
 
 ### Full code
 <style>
-.gist {
+.gist-data > div > div > table {
     height: 1000px;
     overflow-y: auto;
 }
