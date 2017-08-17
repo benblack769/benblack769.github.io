@@ -8,4 +8,4 @@ As a result, almost every student of computer science is fascinated by them. But
 
 I will be doing a series on my own exploration of this subject, and try to demonstrate my own method of learning how it actually works. I am no expert in neural nets. I spent a month or two learning about them from excellent sources like [this](http://neuralnetworksanddeeplearning.com/). So don't take my word for anything! Instead, try things on your own, and see how it turns out for you.
 
-{% include index_menu.html %}
+{% include index_menu.md %}

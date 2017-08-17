@@ -6,4 +6,4 @@ This is
 
 posts:
 
-{% include index_menu.html %}
+{% include index_menu.md %}
