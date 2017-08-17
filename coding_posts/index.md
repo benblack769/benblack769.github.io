@@ -2,4 +2,8 @@
 title: "Coding Blog"
 ---
 
-This is 
+This is
+
+posts:
+
+{% include index_menu.html %}
