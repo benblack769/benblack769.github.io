@@ -35,7 +35,6 @@ Below is some code that allows you to play tick tack toe. I wrote only a few wee
 
 Cleary, there are a bunch of problems with this code. But hopefully it looks complicated enough that you don't want to try to fix it all at once. I will walk you through the following steps of fixing this code:
 
-1. Reformatting
 1. Cross-Platform Support
 2. Data structure cleanup
 3. Testable logic
@@ -45,13 +44,13 @@ Cleary, there are a bunch of problems with this code. But hopefully it looks com
 
 The most serious problem here is the windows specific code. I want my Apple friends to be able to use this too!
 
-Looking at the code there is only one bit which uses the windows specific API. Lets look at it:
+A quick scan through the code shows that there is only one bit which uses the windows specific API. Lets look at it:
 
 ```c++
 COORD coord = {0,0};
 void place(int entry, char playchoice)
 {
-int x, y;
+    int x, y;
        if(entry % 3 == 1)
         x = 0;
        if (entry % 3 == 2)
@@ -80,6 +79,8 @@ cout << "O";
 
 }
 ```
+
+Nicely for us, it is
 
 Here is a relatively simple problem which should demonstrate this. The problem is that I know how to check if someone won in tick tack toe. Simple enough, right? You check the rows, columns, and diagonals, and see if a player occupies all the spots there. But this problem, and other similar to it haunted me for years afterwards, making my code error prone, and difficult to debug.
 
