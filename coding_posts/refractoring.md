@@ -22,7 +22,7 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 ### Full code
 
 <div style="height: 1000px; overflow-y: auto;" >
-{% highlight ruby linenos %}
+{% highlight c++ linenos %}
 {% include sources/refactoring/tick_tack.cpp%}
 {% endhighlight %}
 </div>
@@ -38,9 +38,9 @@ Cleary, there are a bunch of problems with this code. But hopefully it looks com
 
 ### Cross-Platform Support
 
-The most serious problem here is the windows specific code. I want my Apple friends to be able to use this too!
+The most serious problem here is the windows specific code. I want my Mac and Linux friends to be able to use this too!
 
-A quick scan through the code shows that there is only one bit which uses the windows specific API. Lets look at it:
+A quick scan through the code shows that there is only one bit which uses the windows specific API: the `SetConsoleCursorPosition` call. Lets look at it:
 
 ```c++
 COORD coord = {0,0};
@@ -75,6 +75,8 @@ cout << "O";
 
 }
 ```
+
+What is this mess? What is it accomplishing in this program?
 
 Nicely for us, this part is separated from the rest of the code in a function. However, this function does not
 
