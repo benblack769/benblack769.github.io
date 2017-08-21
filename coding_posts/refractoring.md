@@ -21,7 +21,7 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 
 ### Full code
 
-<div style="height: 1000px; overflow-y: auto; >
+<div style="height: 1000px; overflow-y: auto;" >
 {% highlight ruby linenos %}
 {% include sources/refactoring/tick_tack.cpp%}
 {% endhighlight %}
