@@ -20,14 +20,12 @@ I think the best way is to take the best parts of these two ideas by the followi
 Below is some code that allows you to play tick tack toe. I wrote it when I learned programming for the first time. It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty (full code [here](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e), windows only unfortunately). It looks like this:
 
 ### Full code
-<style>
-.gist-data > div > div > table {
-    height: 1000px;
-    overflow-y: auto;
-}
-</style>
 
-{% gist 8786b84688936e206408d71ae040c18e %}
+<div style="height: 1000px; overflow-y: auto; >
+{% highlight ruby linenos %}
+{% include sources/refactoring/tick_tack.cpp%}
+{% endhighlight %}
+</div>
 
 ### Process
 
