@@ -17,7 +17,7 @@ I think the best way is to take the best parts of these two ideas by the followi
 
 ## Tick Tack Toe example
 
-Below is some code that allows you to play tick tack toe. I wrote it when I learned programming for the first time. It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty (full code [here](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e), windows only unfortunately). It looks like this:
+Below is some code that allows you to play tick tack toe. I wrote it when I learned programming for the first time. In fact, it is the first code I was proud of. It is doing something amazing, after all. It implements an more or less optimal strategy (at least for the first player). It looks like this:
 
 ### Full code
 
@@ -26,6 +26,8 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 {% include sources/refactoring/tick_tack.cpp%}
 {% endhighlight %}
 </div>
+
+full code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
 
 ### Process
 
@@ -38,9 +40,9 @@ Cleary, there are a bunch of problems with this code. But hopefully it looks com
 
 ### Cross-Platform Support
 
-The most serious problem here is the windows specific code. I want my Mac and Linux friends to be able to use this too!
+The most serious problem here is the Windows specific code. I want my Mac and Linux friends to be able to use this too!
 
-A quick scan through the code shows that there is only one bit which uses the windows specific API: the `SetConsoleCursorPosition` call. Lets look at it:
+A quick scan through the code shows that there is only a few bits which uses the windows specific API: the `SetConsoleCursorPosition` call on lines 26 and 36. There is also a system dependent `system("cls")` call on line 366. Lets look at the `SetConsoleCursorPosition` call first, as it is more complicated:
 
 ```c++
 COORD coord = {0,0};
@@ -76,10 +78,18 @@ cout << "O";
 }
 ```
 
-What is this mess? What is it accomplishing in this program?
+How on earth can we turn this mess into something cross-platform?  What is this mess? What is it accomplishing in this program?
 
 Nicely for us, this part is separated from the rest of the code in a function. However, this function does not
 
+
+### Data-structure cleanup
+
+It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty
+
+### Testable logic
+
+### Structured AI
 
 Here is a relatively simple problem which should demonstrate this. The problem is that I know how to check if someone won in tick tack toe. Simple enough, right? You check the rows, columns, and diagonals, and see if a player occupies all the spots there. But this problem, and other similar to it haunted me for years afterwards, making my code error prone, and difficult to debug.
 
