@@ -1,8 +1,8 @@
 _site
 .sass-cache
 .jekyll-metadata
-vendor
 *.gem
+vendor
 .bundle
 .DS_Store
 .sass-cache
