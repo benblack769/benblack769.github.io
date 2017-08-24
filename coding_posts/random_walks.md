@@ -1,5 +1,6 @@
 ---
 title: "Random walks"
+layout: page
 ---
 
 In terms of fun, well run, accessible and longer competitions, MIT's [battlecode](https://www.battlecode.org/) competition is one of the best. I would recommend it if you are ever bored in January.
