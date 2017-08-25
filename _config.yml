@@ -44,7 +44,7 @@ title_separator          : "-"
 name                     : "Ben Black"
 description              : > # this means to ignore newlines until "baseurl:"
   An exploration of CS ideas.
-url                      : "https://weepingwillowben.github.io/" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://weepingwillowben.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "/" # the subpath of your site, e.g. "/blog"
 repository               : "weepingwillowben/weepingwillowben.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
@@ -68,7 +68,7 @@ staticman:
   filename               : comment-{@timestamp}
   format                 : "yml"
   moderation             : false
-  path                   : "/_data/comments/{options.slug}" # "/_data/comments/{options.slug}" (default)
+  path                   : "_data/comments/{options.slug}" # "/_data/comments/{options.slug}" (default)
   requiredFields         : ['name', 'email', 'message']
   transforms:
     email                : "md5"
@@ -270,11 +270,10 @@ defaults:
   # _posts
   - scope:
       path: ""
-      type: posts
     values:
       layout: single
       author_profile: true
       read_time: true
-      comments: # true
+      comments: true
       share: true
       related: true
