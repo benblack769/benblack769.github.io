@@ -1,4 +1,4 @@
-comments:
+comments: #also change _config.yml
   allowedFields          : ['name', 'email', 'url', 'message']
   branch                 : "master"
   commitMessage          : "New comment."
