@@ -1,5 +1,6 @@
 ---
 title: "Intuition and structure: The story of code"
+slug: intuition-structure
 ---
 
 When I first started coding, I thought that coding was like other forms of engineering. You have a problem, some materials, and the challenge is to piece together the tools in a clever way to make a working solution. It is a pretty common thought, and not entirely wrong, either. Many libraries and frameworks are built with this methodology in mind. But I find it lacking.

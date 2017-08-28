@@ -1,5 +1,6 @@
 ---
 title: "Process and Code"
+slug: process-code
 ---
 
 ### Code
