@@ -2,7 +2,7 @@
 
 ### Inspiration
 
-I have always been a fan of SimCity. Awhile ago, I decided it would be neat to build a simulation of the world where all simulated behavior occurs at the individual level, instead of relying on models of broader societal behavior. I realized that I would need the individuals to have some level of intelligence for this to work.
+I have always been a fan of SimCity. Awhile ago, I decided it would be neat to build a simulation of the world where all simulated behavior occurs at the individual level, instead of relying on models of broader societal behavior. After some thought, I realized that I would need the individuals to have some level of intelligence for this to work.
 
 I started listing out requirements of this AI. At a basic level, each individual needs to be able to figure out what is best for itself, under a variety of different situations. Ideally, these individuals working for themselves will eventually learn how to work together in order to achieve mutual benefit, i.e. social behavior, or a hivemind.
 
@@ -12,13 +12,13 @@ Remember that the goal here is not to produce the most intelligent possible beha
 
 ### Introduction
 
-In order to think about intelligence, I decided to back up, and think about the many different intelligent things in this world. There are the ones we are most familiar with, human and animal intelligences. Although we don't really understand them, every day we learn something new. Within human intelligence there is conscious intelligence and unconscious intelligence. There are hiveminds, with each individual signaling to others in a way that drives overall behavior. Then there are the more bizarre intelligences: evolutionary intelligence, machine intelligences like IBM Watson, decentralized animal and plant intelligences, and more.
+In order to think about intelligence, I decided to back up, and think about the many different intelligent things in this world. There are the ones we are most familiar with, human and animal intelligences. Although we don't really understand them, every day we learn something new. Within human intelligence there is conscious intelligence and unconscious intelligence (although how separate these really are is debatable). There are hiveminds, with each individual signaling to others in a way that drives overall behavior. Then there are the more bizarre intelligences: evolutionary intelligence, machine intelligences like IBM Watson, decentralized animal and plant intelligences, and more.
 
-I believe that the conscious intelligence and social intelligence have a significant amount in common, and that unconscious intelligence isn't too far off either.
+I believe that conscious, unconscious and social intelligence have a significant amount in common.
 
-What I want to do is build a model that, with minimal structural tweaking, can be used to simulate any of those intelligences. This way, I can use the same concepts for studying the individual and social intelligences, perhaps using the same code. We can also learn about some of the more unusual ones, such as hiveminds, and perhaps gain some insight into our real goals.
+So what I want to do is build a model that, with minimal structural tweaking, can be used to simulate any of those intelligences. This way, I can use the same concepts for studying the individual and social intelligences, perhaps using the same code. We can also learn about some of the more unusual ones, such as hiveminds, and perhaps gain some insight into our real goals.
 
-Also, making intelligence general like this will allow for a new concept of layering. Social intelligence wrapping over conscious intelligence wrapping over unconscious intelligence is a tricky and difficult thing to reason about. But layering 3 similar learners in a hierarchy is simple to implement.
+Also, making intelligence general like this will allow for a new concept of layering. Social intelligence wrapping over conscious intelligence wrapping over unconscious intelligence is tricky. But layering 3 similar learners in a hierarchy is simple to implement.
 
 ### Basic requirements
 
@@ -62,4 +62,4 @@ Potential side benefits:
 
 My proposed solution is [on this post](exploration_intelligence/generalized_intelligence_model), but any learner with these requirements and that learns well should be able to meet the goals of my project, and make great strides into understanding the natural intelligences.
 
-So try to come up with something yourself! Who knows, it might change the world!
+So try to come up with something yourself!
