@@ -30,7 +30,7 @@ While the second one is super important, I don't have space to talk about it rig
 
 So when most people teach clean coding, they go talk about huge numbers of individual characteristics that it is good for code to have.
 
-Here is a small list of the characteristics people discuss when talking about improving code (feel free to skim over this):
+Here is a very incomplete list of characteristics people discuss when improving code (feel free to skim over this):
 
 * Clear operations, internal structures
     * Functions/classes should have an explicit purpose (this purpose can be fairly abstract, but it should not change all the time)
@@ -51,7 +51,7 @@ Here is a small list of the characteristics people discuss when talking about im
     * Minimal state injection
     * Minimal stubs/mocks
 
-Unfortunately, it is very hard to learn how to apply all these different, contradicting ideas to code. Throw in the messiness of real code, the time pressure people usually code under, the unknowns and constant changes of software engineering, and all the things I didn't mention in the above list, and it is no wonder that many people can code for years and never learn how to write good code.
+Unfortunately, it is very hard to learn how to apply all these different, contradicting ideas to code. Considering the messiness of real code, the time pressure people usually code under, the unknowns and constant changes of software engineering, and all the things I didn't mention in the above list, and it is no wonder that many people can code for years and never learn how to write good code.
 
 #### My answer
 

@@ -3,7 +3,7 @@ title: "Refactoring and reading"
 slug: refractoring
 ---
 
-My Intuition and Structure page describes how to build decent code from scratch. However, what happens when you are given a awful codebase, and expected to do things with it quickly?
+My [Intuition and Structure](coding_posts/intuition-structure) page describes how to build decent code from scratch. However, what happens when you are given a awful codebase, and expected to do things with it quickly?
 
 There are 2 obvious options:
 
@@ -18,7 +18,7 @@ I think the best way is to take the best parts of these two ideas by the followi
 
 ## Tick Tack Toe example
 
-Below is some code that allows you to play tick tack toe. I wrote it when I learned programming for the first time. In fact, it is the first code I was proud of. It is doing something amazing, after all. It implements an more or less optimal strategy (at least for the first player). It looks like this:
+Below is some code that allows you to play tick tack toe. I wrote it when I learned programming for the first time. In fact, it is the first code I was proud of. It is doing something kind of amazing, after all: perfectly executing a more or less optimal strategy (at least for the first player). It looks like this:
 
 ### Full code
 
@@ -32,7 +32,7 @@ full code also on a [github gist](https://gist.github.com/weepingwillowben/8786b
 
 ### Process
 
-Cleary, there are a bunch of problems with this code. But hopefully it looks complicated enough that you don't want to try to fix it all at once. I will walk you through the following steps of fixing this code:
+Cleary, there are a bunch of problems with this code. But hopefully it looks complicated enough that you don't want to try to fix it all at once, which is why it makes a good example. I will walk you through the following steps of fixing this code:
 
 1. Cross-Platform Support
 2. Data structure cleanup
@@ -43,7 +43,7 @@ Cleary, there are a bunch of problems with this code. But hopefully it looks com
 
 The most serious problem here is the Windows specific code. I want my Mac and Linux friends to be able to use this too!
 
-A quick scan through the code shows that there is only a few bits which uses the windows specific API: the `SetConsoleCursorPosition` call on lines 26 and 36. There is also a system dependent `system("cls")` call on line 366. Lets look at the `SetConsoleCursorPosition` call first, as it is more complicated:
+A quick scan through the code shows that there is only a few bits which uses the window.h API: the `SetConsoleCursorPosition` call on lines 26 and 36. There is also a system dependent `system("cls")` call on line 366. Lets look at the `SetConsoleCursorPosition` call first, as it is more complicated:
 
 ```c++
 COORD coord = {0,0};
@@ -80,6 +80,54 @@ cout << "O";
 ```
 
 How on earth can we turn this mess into something cross-platform?  What is this mess? What is it accomplishing in this program?
+
+Remember, the goal is to fix this quickly, and the easiest thing to do here is replace the `SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord)` call with a similar cross platform call.
+
+After a quick search, the best I could find is [the solution to this question](http://www.cplusplus.com/forum/general/41709/). Copied here:
+
+```c++
+#ifdef _WIN32
+
+#include <windows.h>
+
+void gotoxy( int x, int y )
+{
+    COORD p = { x, y };
+    SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), p );
+}
+
+#else
+
+
+//Make sure to link properly with the Unix version. You'll need to link with one of
+//-lcurses
+//-lterminfo
+//-lncurses
+//(whichever is appropriate for your system).
+
+
+#include <unistd.h>
+#include <term.h>
+
+void gotoxy( int x, int y )
+{
+    int err;
+    if (!cur_term)
+      if (setupterm( NULL, STDOUT_FILENO, &err ) == ERR)
+        return;
+    putp( tparm( tigetstr( "cup" ), y, x, 0, 0, 0, 0, 0, 0, 0 ) );
+}
+
+#endif
+```
+
+Wow, this is ugly. And not only is it ugly, we still haven't finished making it truly portable, because it needs to link with different libraries depending on the Unix system. And if we are using some weird operating system, like a really old DOS OS, then even this code won't work.
+
+So, if that is the best we can do to replace the specific API call with a cross-platform one, then I consider this a really poor solution. So lets try to find something better. 
+
+So what can we do if we cannot make a call like that?
+
+So lets zoom out a little and see if we can rep
 
 Nicely for us, this part is separated from the rest of the code in a function. However, this function does not
 
