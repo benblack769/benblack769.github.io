@@ -60,6 +60,6 @@ Potential side benefits:
 
 ### Solution
 
-My proposed solution is [on this post](exploration_intelligence/generalized_intelligence_model), but any learner with these requirements and that learns well should be able to meet the goals of my project, and make great strides into understanding the natural intelligences.
+I conceptualize my solution [on this post](exploration_intelligence/conceptualizing-model), but any learner with these requirements and that learns well should be able to meet the goals of my project, and make great strides into understanding the natural intelligences.
 
 So try to come up with something yourself!
