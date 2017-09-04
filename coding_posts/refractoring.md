@@ -98,14 +98,11 @@ void gotoxy( int x, int y )
 
 #else
 
-
 //Make sure to link properly with the Unix version. You'll need to link with one of
 //-lcurses
 //-lterminfo
 //-lncurses
 //(whichever is appropriate for your system).
-
-
 #include <unistd.h>
 #include <term.h>
 
@@ -123,9 +120,48 @@ void gotoxy( int x, int y )
 
 Wow, this is ugly. And not only is it ugly, we still haven't finished making it truly portable, because it needs to link with different libraries depending on the Unix system. And if we are using some weird operating system, like a really old DOS OS, then even this code won't work.
 
-So, if that is the best we can do to replace the specific API call with a cross-platform one, then I consider this a really poor solution. So lets try to find something better. 
+So, if that is the best we can do to replace the specific API call with a cross-platform one, then I consider this a really poor solution. So lets try to find something better.
 
-So what can we do if we cannot make a call like that?
+So what can we do if we cannot make a call like that? Since the exact mechanisms of the code cannot be matched, lets try to see what sort of functionality it creates, and see if we can copy that in a different way.
+
+Here is the output of the program in a normal play through:
+
+    Tick Tack Toe
+
+    Do you want to be X (first players) or O (second player)?X
+    Enter numbers 1-9(as shown) to play
+    1 | 2 | 3
+    ---------
+    4 | 5 | 6
+    ---------
+    7 | 8 | 9
+
+    You go first
+    O | X | O
+    ---------
+    X | X | O
+    ---------
+    X | O | X
+    21 12 12 12 12 21 12 127
+
+    Draw.
+
+     Do you want to play again (Y/N)
+
+There are some odd things here, like the string of numbers below the second grid, which I have no idea why it is there, or even where in the code prints it out. But it is better than nothing, so for now, lets not worry about that at all, instead, lets focus on reproducing this general interface without the windows specific API.
+
+First, I feel like identifying the structure of the ideal code, because it is fairly simple:
+
+    state: state of the tick tack toe game
+    while game continues:
+        clear screen
+        print game state
+        prompt for user input, calculate computer input, update game state
+
+
+The next step is identifying the structure of the existing code
+
+
 
 So lets zoom out a little and see if we can rep
 
