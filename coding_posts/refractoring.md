@@ -28,6 +28,8 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 {% endhighlight %}
 </div>
 
+[link to code](raw_code/refractoring/full-code)
+
 code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
 
 ### Process
@@ -151,7 +153,17 @@ The sane thing to do is to print out this whole thing using the game data. Prefe
 
 On the other hand, lets look try to decipher the structure of what it is actually doing.
 
-If you [look back](coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. Looking at the `box#` variables, it is being used to calculate the `num#` variables, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data. And since we know that place is updating the console, we can see the structure of what is going on here.
+If you [look back](coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. For example, when user input is used on line 89-93:
+
+```c++
+if (entry == 1 and box1 == 0)
+{
+    box1 = 1;
+    place(1, playchoice);
+}
+```
+
+Looking at the `box#` variables, it is being used to calculate the `num#` variables on line 326, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data. And since we know that place is updating the console, we can see the structure of what is going on here.
 
 This is an abstraction of the pattern I keep on seeing:
 
@@ -159,7 +171,6 @@ This is an abstraction of the pattern I keep on seeing:
         input = make_choice(data)
         update_data(input)
         update_console(input)
-
 
 
 First, I feel like identifying the structure of the ideal code, because it is fairly simple:
