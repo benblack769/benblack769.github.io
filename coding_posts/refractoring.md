@@ -28,7 +28,7 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 {% endhighlight %}
 </div>
 
-full code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
+code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
 
 ### Process
 
@@ -120,9 +120,9 @@ void gotoxy( int x, int y )
 
 Wow, this is ugly. And not only is it ugly, we still haven't finished making it truly portable, because it needs to link with different libraries depending on the Unix system. And if we are using some weird operating system, like a really old DOS OS, then even this code won't work.
 
-So, if that is the best we can do to replace the specific API call with a cross-platform one, then I consider this a really poor solution. So lets try to find something better.
+So, if that is the best we can do to replace the specific API call with a cross-platform one, then I consider this a really poor solution. Lets try to find something better.
 
-So what can we do if we cannot make a call like that? Since the exact mechanisms of the code cannot be matched, lets try to see what sort of functionality it creates, and see if we can copy that in a different way.
+What can we do if we cannot make a call like that? Since the exact mechanics of the code cannot be matched, lets try to see what sort of functionality it creates, and see if we can implement that in a different way.
 
 Here is the output of the program in a normal play through:
 
@@ -139,16 +139,28 @@ Here is the output of the program in a normal play through:
     You go first
     O | X | O
     ---------
-    X | X | O
+      | X |
     ---------
-    X | O | X
-    21 12 12 12 12 21 12 127
-
-    Draw.
-
-     Do you want to play again (Y/N)
+      | O | X
+    21 1 11 10 12 11 12 11
 
 There are some odd things here, like the string of numbers below the second grid, which I have no idea why it is there, or even where in the code prints it out. But it is better than nothing, so for now, lets not worry about that at all, instead, lets focus on reproducing this general interface without the windows specific API.
+
+
+The sane thing to do is to print out this whole thing using the game data. Preferably something like this `print_game(data)`. So that is the structure we want to move to.
+
+On the other hand, lets look try to decipher the structure of what it is actually doing.
+
+If you [look back](coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. Looking at the `box#` variables, it is being used to calculate the `num#` variables, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data. And since we know that place is updating the console, we can see the structure of what is going on here.
+
+This is an abstraction of the pattern I keep on seeing:
+
+    user-turn and computer-turn:
+        input = make_choice(data)
+        update_data(input)
+        update_console(input)
+
+
 
 First, I feel like identifying the structure of the ideal code, because it is fairly simple:
 
