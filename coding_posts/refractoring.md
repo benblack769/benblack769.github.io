@@ -22,19 +22,21 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 
 ### Full code
 
-<div style="height: 1000px; overflow-y: auto;" >
+<div style="height: 700px; overflow-y: auto;" >
 {% highlight c++ linenos %}
 {% include sources/refactoring/tick_tack.cpp%}
 {% endhighlight %}
 </div>
 
-[link to code](raw_code/refractoring/full-code)
+[link to code](/raw_code/refractoring/full-code). You might want to open this up in another tab, as I'll be referencing line numbers, and you will want to look at it quite a bit.
+
+[raw code](/raw_code/refractoring/code-no-formatting)
 
 code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
 
 ### Process
 
-Cleary, there are a bunch of problems with this code. But hopefully it looks complicated enough that you don't want to try to fix it all at once, which is why it makes a good example. I will walk you through the following steps of fixing this code:
+Clearly, there are a bunch of problems with this code. But hopefully it looks complicated enough that you don't want to try to fix it all at once, which is why it makes a good example. I will walk you through the following steps of fixing this code:
 
 1. Cross-Platform Support
 2. Data structure cleanup
@@ -151,9 +153,9 @@ There are some odd things here, like the string of numbers below the second grid
 
 The sane thing to do is to print out this whole thing using the game data. Preferably something like this `print_game(data)`. So that is the structure we want to move to.
 
-On the other hand, lets look try to decipher the structure of what it is actually doing.
+On the other hand, lets look try to decipher the structure of what it is actually doing. This is the hardest part, so I'll take it slowly this time.
 
-If you [look back](coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. For example, when user input is used on line 89-93:
+If you [look back](/coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. For example, when user input is used on line 89-93:
 
 ```c++
 if (entry == 1 and box1 == 0)
@@ -163,7 +165,7 @@ if (entry == 1 and box1 == 0)
 }
 ```
 
-Looking at the `box#` variables, it is being used to calculate the `num#` variables on line 326, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data. And since we know that place is updating the console, we can see the structure of what is going on here.
+Looking at the `box#` variables, it is being used to calculate the `num#` variables on line 326, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data. And since we know that place is updating the console (since it it talking about setting cursor position, and printing Xs or Os), we can see the structure of what is going on here.
 
 This is an abstraction of the pattern I keep on seeing:
 
@@ -192,6 +194,10 @@ Nicely for us, this part is separated from the rest of the code in a function. H
 
 
 ### Data-structure cleanup
+
+As I mentioned in my [post about structure](/coding_posts/intuition-structure), data structures are the most important thing to get right. Hopefully you can see how incredibly shitty the current data structures are, and start to see just how seriously they foil our attempts at making clear code. In the above argument, I kept on having to refer to `box#` variables, instead of a single variable. There were all these cases made necessary by the fact that I had not method to programmatically access different box numbers (e.g., the 9 different cases for user input). Pretty much any more changes to the code (most critically adding testing) will be made far easier by cleaning up these data structures, so lets just get it over with now.
+
+First, lets identify what sort of data structures there should be. 
 
 It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty
 
