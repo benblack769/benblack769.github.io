@@ -172,8 +172,82 @@ This is an abstraction of the pattern I keep on seeing:
     user-turn and computer-turn:
         input = make_choice(data)
         update_data(input)
-        update_console(input)
+        place(input)
 
+Now, how do we achieve our goals of removing the commands while moving towards a better structure, while also not rewriting tons of code? This triple standard will be hard to reason about at first, but you will get faster with practice.
+
+To meet the "don't rewrite code" requirement, lets go ahead and give ourselves a more specific requirement: don't change interface of the `place` function. It is being used in way too many places, any change to that will result in huge code changes.
+
+So instead of changing the interface, lets change what it does. To meet the requirement of moving to a new kin d of structure, lets create a function which takes in data, and prints out the board (note that this structure trivially solves the final goal, as we can easily print out the board using the game data if we have it all at the same time).
+
+So with these specifics, we have the following rough structure pressed upon us:
+
+    user-turn and computer-turn:
+        input = make_choice(data)
+        update_data(input)
+        place(input)
+
+    draw_board(data)
+
+At this point, we can realize that we can simply delete `place`. So we end up with a structure that doesn't really look all that diffrent from the ideal.
+
+    user-turn and computer-turn:
+        input = make_choice(data)
+        update_data(input)
+
+    draw_board(data)
+
+Now, we can easily write draw_board like this:
+
+```c++
+//sqr_rep is a function that takes in the number frm the box, and outputs 'X', '_' or ' '
+void draw_board(int box1, int box2, int box3, int box4, int box5, int box6, int box7, int box8, int box9){
+    cout << sqr_rep(box1) << "|" << sqr_rep(box2) << "|" << sqr_rep(box3) << endl;
+    cout << sqr_rep(box4) << "|" << sqr_rep(box5) << "|" << sqr_rep(box6) << endl;
+    cout << sqr_rep(box7) << "|" << sqr_rep(box8) << "|" << sqr_rep(box9) << endl;
+}
+```
+
+This is great, but we run into a little bit of a problem when trying to write `sqr_rep`. Note that the following does not quite work.
+
+```c++
+char sqr_rep(int box_num){
+    switch(box_num){
+        case 0: return ' ';
+        case 1: return 'X';
+        case 10: return 'O';
+        default: assert(false && "box_num not a valid quantity");
+    }
+}
+```
+
+It sure seems to work. We know that 10 means computer, 1 means person, and 0 mean empty. But remember that we assigned X or O to the player or computer based on user input at the beginning of the game (stored in the `playerchoice` variable). This allows X to go first, whether it is the computer or the player, so that our game matches with common standards in tick tack toe.
+
+Fixing this requires `sqr_rep` to know the `playerchoice` variable. Lets try rewriting `sqr_rep` to take this into account.
+
+```c++
+char sqr_rep(int box_num, char playerchoice){
+    switch(box_num){
+        case 0: return ' ';
+        case 1: return 'X' == playerchoice ? 'X' : 'O';
+        case 10: return 'X' == playerchoice ? 'O' : 'X';
+        default: assert(false && "box_num not a valid quantity");
+    }
+}
+```
+
+and now we have to go back and rewrite  `draw_board`:
+
+```c++
+void draw_board(char playerchoice, int box1, int box2, int box3, int box4, int box5, int box6, int box7, int box8, int box9){
+    char pc = playerchoice;
+    cout << sqr_rep(box1,pc) << "|" << sqr_rep(box2,pc) << "|" << sqr_rep(box3,pc) << endl;
+    cout << sqr_rep(box4,pc) << "|" << sqr_rep(box5,pc) << "|" << sqr_rep(box6,pc) << endl;
+    cout << sqr_rep(box7,pc) << "|" << sqr_rep(box8,pc) << "|" << sqr_rep(box9,pc) << endl;
+}
+```
+
+Now things are falling into place. We just need to fit everything in together.
 
 First, I feel like identifying the structure of the ideal code, because it is fairly simple:
 
@@ -197,7 +271,7 @@ Nicely for us, this part is separated from the rest of the code in a function. H
 
 As I mentioned in my [post about structure](/coding_posts/intuition-structure), data structures are the most important thing to get right. Hopefully you can see how incredibly shitty the current data structures are, and start to see just how seriously they foil our attempts at making clear code. In the above argument, I kept on having to refer to `box#` variables, instead of a single variable. There were all these cases made necessary by the fact that I had not method to programmatically access different box numbers (e.g., the 9 different cases for user input). Pretty much any more changes to the code (most critically adding testing) will be made far easier by cleaning up these data structures, so lets just get it over with now.
 
-First, lets identify what sort of data structures there should be. 
+First, lets identify what sort of data structures there should be.
 
 It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty
 
