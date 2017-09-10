@@ -20,21 +20,39 @@ So what I will be doing to figure out how to implement general intelligence is l
 
 talk about how I thought of my how my own ideas formed, how I learned, etc. Talk about how I noticed headaches caused by continued muscle extension caused by overexertion, emotional change causing emotional exhaustion rather than the emotions themselves.
 
-How do thoughts form? This is a huge question that is almost certainly impossible to answer completely without advanced technology. None the less, I have been asking myself this question for years. And I found is that *there is a physical, tangible, change in my body when complicated thoughts form.* Usually this involves muscles in the head moving around, although there are often more obvious changes, such as bobbing heads when listening to music, fidgeting when doing math, etc.
+How do thoughts form? This is a huge question that is almost certainly impossible to answer completely without futuristic technology. None the less, I have been asking myself this question for years. And I found is that *there is a physical, tangible, change in my body when complicated thoughts form.* Usually this involves muscles in the head moving around, although there are often more obvious changes, such as bobbing heads when listening to music, fidgeting when doing math, etc.
+
+My insight: *human intelligence relies on sifting state to handle time series*. Wow, that statement was packed with all sorts of nonsense. Lets unpack it.
+
+Shifting state: The inspiration here is music and dance. In good music, feelings are constantly moving around, introducing
+
+Handling time series: Time data is one of the great difficulties of machine learning. In particular, what things to remember from the past is an unsolved problem. Even LSTMs and attentional networks, which are great attempts at introducing different kinds of state, do not handle large amounts of varying state particularly well. You can see some of my thoughts about LSTMs and how they handle time data [here](/neural_posts/neural_paper) (will update eventually to a more relevant paper). Both are very slow learners that struggle with longer time series. However, humans seem to be able to handle this problem amazingly well. We are extremely good at remembering the things that we think will be valuable to us later. We look at tons of things every day: signs, walls, floors. But we tend to remember the people we look at much better than any fo those things, despite not looking at them much more. This operates at a higher level too. One great example is advertisements, slogans, and mascots. These things engage our memory in ways that can easily dominate the interactions in our life. While this seems to be a degenerate example, it really isn't as it points to a interesting social nature of handling time series: we can often make other remember things we want them to remember, by showing emotion, by getting them excited.
+
+
+
+What does this mean? It means that somehow, Basically, it means that in order for things to be intelligent, they need to be able to handle learning in an environment with state shifting around in reliable patterns. The innovation is that unlike most standard neural networks.
+
+To give a more relatable example of this, take music. You can hum along some song that you know. If you start hearing it, you can pick it up, or if you hear elements of it
 
 After I noticed this, I
 
 talk about how thoughts "travel backwards", linking memories back in time.
 
-
+Another idea is backpropagation of memories. When you run into an issue with life, i.e., a high cost is inflicted on you for some reason, you try to figure out how it worked. For example, you break up with your partner, the first thought is, what went wrong? When you don't know the answer, you go memories you think are relevant, and try to pick out signs of detachment. Then you go to earlier memories to try to figure out why that detachment occured. And then earlier memories to see why those eventos occured. And so you can see that we are really performing a very slow kind of backpropogation. I belive that backprogogation of some sort is esencially for any sort of intelligence that follows my general model. The example int hte setting of concious thought is good though, becuase it suggests that there are differnet kinds that are not completely dependnt fon the mechanics of gradient descent.
 
 Mention how this is very difficult to formalize. make sure to link the ideas laid out here in the constructions in the later part of the post.
+
+This sort of intuition is extrememly difificult to formalize. THe following formalization work took me several years. There were times when I thought certain parts woudl be too difficult to figure out, and time swhen I almost gave up hope figureing out parts myself.
 
 ### Formal approach
 
 #### Abstracting state
 
 talk about how internal state is the only state we can consider (because we don't know exactly how external state affects internal state, only that it does).
+
+State. What is this, what does it mean in the context of a machine. There are two different states we can consider. There is external state: the physical makeup of the world around the intelligence. This is things like you are sitting on a chair, there is a computer in front of you, etc. Then there is internal state: This is your mental state, what you are thinking at a given time (concious), neurons firing in your brain (unconcious), and a person's thoughts about another (social). When formalizing intelligence, we can only consider intenernal state. Why? Because we cannot assume that we know how external state relates to internal state. We need to learn these things. We learn a computer is in front of us by the neurons in our eyes, people telling us that that things are computers when seeing these things, etc.
+
+Intenral state and external state sometimes seems ambigous. Our arm is in front of us, not behind us. This seems like it is part of our concious intelligence, as we probably cannot remmeber any time when this is not obvious. I mean, our arm is poar of our body. How can we not know where it is? And honestly, for concious intelligence, I am not quite sure. I am somewhat inclined to consider this internal. However, for unconcious intelligence, this is definitely external knowledge. All we see, as an unconous intelligence, is that some neurons are firing. The values of some other neurons can cause a change in 
 
 talk about how we need a way to group external states into higher level states (and how this is absolutely key to high level intelligence, and possibly mention that that is what multilayer NNs try to accomplish). Example: standing up is a hugely complex state, we need to abstract it to a single state, or a small number of states. talk about how we shouldn't really know which states are higher level consolidations and which ones are original states.
 
