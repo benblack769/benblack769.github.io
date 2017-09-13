@@ -151,51 +151,68 @@ Here is the output of the program in a normal play through:
 There are some odd things here, like the string of numbers below the second grid, which I have no idea why it is there, or even where in the code prints it out. But it is better than nothing, so for now, lets not worry about that at all, instead, lets focus on reproducing this general interface without the windows specific API.
 
 
-The sane thing to do is to print out this whole thing using the game data. Preferably something like this `print_game(data)`. So that is the structure we want to move to.
+The sane thing to do is to print out this whole thing using the game data. Preferably something that literally looks like this `print_game(game_data)`. So that is the structure we want to move to.
 
 On the other hand, lets look try to decipher the structure of what it is actually doing. This is the hardest part, so I'll take it slowly this time.
 
-If you [look back](/coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. For example, when user input is used on line 89-93:
+If you [look back](/coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. For example, when user input is used on line 109-113:
 
 ```c++
-if (entry == 1 and box1 == 0)
+else if (entry == 5 and box5 == 0)
 {
-    box1 = 1;
-    place(1, playchoice);
+    box5 = 1;
+    place(5, playchoice);
 }
 ```
 
-Looking at the `box#` variables, it is being used to calculate the `num#` variables on line 326, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data. And since we know that place is updating the console (since it it talking about setting cursor position, and printing Xs or Os), we can see the structure of what is going on here.
+Now we need to make a few leaps of inference to figure out what is going on here. This is quite difficult, and does not come naturally (yes, for me too). What is important is too explore the code freely and to not be too afraid of being wrong. Just try it and see if it works!
+
+Now I will just explore the code, and write down what I see.
+
+Looking at the `box#` variables, it is being used to calculate the `num#` variables on line 326, which is used to calculate the strategy and who wins. Making a little leap of inference, the `box#` variables seem to be a significant portion of the game data, i.e., they are a part of the conceptual `game_data` structure.
+
+Looking closer at the `place` function, the variables are talking about setting cursor position, and then it prints Xs or Os based on `playchoice`. Looking at the output, this tips me off that `place` is simply editing the screen to match the game data.
 
 This is an abstraction of the pattern I keep on seeing:
 
     user-turn and computer-turn:
-        input = make_choice(data)
-        update_data(input)
+        input = make_choice(game_data)
+        game_data = update_data(game_data, input)
         place(input)
 
-Now, how do we achieve our goals of removing the commands while moving towards a better structure, while also not rewriting tons of code? This triple standard will be hard to reason about at first, but you will get faster with practice.
+I will call this a "dual update" structure, as there are two different locations of data, both of which are always updated when the state changes. Ideally, we will change this to a ordinary update structure, which has single source of truth, and fits nicely with our goal of creating a "pure output" structure.
+
+Now, how do we achieve our goals of:
+
+1. removing the windows specific functions
+2. moving towards a better structure
+3. not rewriting tons of code
+4. not taking forever to achieve the above 3 goals
+
+This quadruple standard is a little bit daunting, but the bottom 3 goals do not need to be met perfectly, it is perfectly fine to take a little bit too much time, or not really move to a great structure.
 
 To meet the "don't rewrite code" requirement, lets go ahead and give ourselves a more specific requirement: don't change interface of the `place` function. It is being used in way too many places, any change to that will result in huge code changes.
 
-So instead of changing the interface, lets change what it does. To meet the requirement of moving to a new kin d of structure, lets create a function which takes in data, and prints out the board (note that this structure trivially solves the final goal, as we can easily print out the board using the game data if we have it all at the same time).
+To meet the goal of moving to a better structure, lets think about how our `draw_board(game_data)` function will work. It will probably take in the `#box` variables, which we identified as part of the `game_data`, and then print out the board, right? 
 
-So with these specifics, we have the following rough structure pressed upon us:
+Lets look at this conceptually for a bit. We will end up with something like this:
 
     user-turn and computer-turn:
-        input = make_choice(data)
-        update_data(input)
+        input = make_choice(game_data)
+        game_data = update_data(game_data, input)
         place(input)
 
-    draw_board(data)
+    draw_board(game_data)
 
-At this point, we can realize that we can simply delete `place`. So we end up with a structure that doesn't really look all that diffrent from the ideal.
+But changing the board is what the `place` function is doing, right? So why do we need the `place` function if we have `draw_board`? The answer: we probably don't. Lets try running with that idea for awhile.
 
     user-turn and computer-turn:
         input = make_choice(data)
         update_data(input)
 
     draw_board(data)
+
+Looking at this concept without place, we end up with a structure that doesn't really look all that diffrent from the ideal. So now , we can focus on implementing this.
 
 Now, we can easily write draw_board like this:
 
@@ -247,7 +264,9 @@ void draw_board(char playerchoice, int box1, int box2, int box3, int box4, int b
 }
 ```
 
-Now things are falling into place. We just need to fit everything in together.
+Now things are falling into place. We just need to fit everything in together (the hard part of implementation).The easiest way to do this is to simply try things until they work. But I don't feel like boring you with that process, so I'll just give you the finished code. 
+
+
 
 First, I feel like identifying the structure of the ideal code, because it is fairly simple:
 

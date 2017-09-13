@@ -9,3 +9,4 @@ vendor
 _asset_bundler_cache
 Gemfile.lock
 a.exe
+*.swp
