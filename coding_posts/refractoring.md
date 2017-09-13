@@ -24,15 +24,25 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 
 <div style="height: 700px; overflow-y: auto;" >
 {% highlight c++ linenos %}
+{% include sources/refactoring/tick_tack_no_formatting.cpp%}
+{% endhighlight %}
+</div>
+
+code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
+
+Wow, this is super ugly. And there is an easy fix for this: automatic code formatters. The standard code formatter for c and c++ is called clang-format. If you don't feel like installing it, then [there is a website](http://format.krzaq.cc/) which allows you to use it.
+
+Here is the formatted version. I am using the WebKit formatting, because it is closest to my own preferences.
+
+<div style="height: 700px; overflow-y: auto;" >
+{% highlight c++ linenos %}
 {% include sources/refactoring/tick_tack.cpp%}
 {% endhighlight %}
 </div>
 
 [link to code](/raw_code/refractoring/full-code). You might want to open this up in another tab, as I'll be referencing line numbers, and you will want to look at it quite a bit.
 
-[raw code](/raw_code/refractoring/code-no-formatting)
-
-code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
+Or [raw code](/raw_code/refractoring/code-no-formatting) if you want to copy it into an editor.
 
 ### Process
 
@@ -54,32 +64,31 @@ COORD coord = {0,0};
 void place(int entry, char playchoice)
 {
     int x, y;
-       if(entry % 3 == 1)
+    if (entry % 3 == 1)
         x = 0;
-       if (entry % 3 == 2)
+    if (entry % 3 == 2)
         x = 4;
-       if (entry % 3 == 0)
+    if (entry % 3 == 0)
         x = 8;
 
-       if ((entry - 1) / 3 == 0)
+    if ((entry - 1) / 3 == 0)
         y = 11;
-       else if ((entry - 1) /3 == 1)
+    else if ((entry - 1) / 3 == 1)
         y = 13;
-       if ((entry - 1) / 3 == 2)
+    if ((entry - 1) / 3 == 2)
         y = 15;
     COORD coord;
     coord.X = x;
     coord.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-if (playchoice == 'X')
-cout << "X";
-else
-cout << "O";
+    if (playchoice == 'X')
+        cout << "X";
+    else
+        cout << "O";
 
     coord.X = 0;
     coord.Y = 16;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-
 }
 ```
 
@@ -158,8 +167,7 @@ On the other hand, lets look try to decipher the structure of what it is actuall
 If you [look back](/coding_posts/refractoring/#full-code) at the bits of code where the `place` function is being called, note that a `box#` variable is usually updated when place is called. For example, when user input is used on line 109-113:
 
 ```c++
-else if (entry == 5 and box5 == 0)
-{
+else if (entry == 5 and box5 == 0) {
     box5 = 1;
     place(5, playchoice);
 }
@@ -193,7 +201,7 @@ This quadruple standard is a little bit daunting, but the bottom 3 goals do not 
 
 To meet the "don't rewrite code" requirement, lets go ahead and give ourselves a more specific requirement: don't change interface of the `place` function. It is being used in way too many places, any change to that will result in huge code changes.
 
-To meet the goal of moving to a better structure, lets think about how our `draw_board(game_data)` function will work. It will probably take in the `#box` variables, which we identified as part of the `game_data`, and then print out the board, right? 
+To meet the goal of moving to a better structure, lets think about how our `draw_board(game_data)` function will work. It will probably take in the `#box` variables, which we identified as part of the `game_data`, and then print out the board, right?
 
 Lets look at this conceptually for a bit. We will end up with something like this:
 
@@ -264,7 +272,7 @@ void draw_board(char playerchoice, int box1, int box2, int box3, int box4, int b
 }
 ```
 
-Now things are falling into place. We just need to fit everything in together (the hard part of implementation).The easiest way to do this is to simply try things until they work. But I don't feel like boring you with that process, so I'll just give you the finished code. 
+Now things are falling into place. We just need to fit everything in together (the hard part of implementation). The easiest way to do this is to simply try things until they work. But I don't feel like boring you with that process, so I'll just give you the finished code.
 
 
 
