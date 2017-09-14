@@ -7,28 +7,26 @@ The answer lies in the flexibility and configurability of the core algorithms: g
 
 ### Vanishing gradient problem
 
+Vanishing gradients are the real bane of neural networks, causing trouble with deeper networks, including recurrent networks, which are used for time series data. The cause is quite simple, if you look a the variance of the outputs, given some distribution of inputs.
+
 A standard neural network
 
 Lets look at NNs very carefully.
 
 Look at a 2 layer network
 
-Let $$x$$ be the vector of input elements, and $$y$$ be the vector of output elements, and construct matrix $$A$$ such that {% raw %}$$ A_{ij} \sim N(\mu, \sigma)$$ {% endraw %}.
+Let $$x$$ be the vector of input elements, and $$y$$ be the vector of output elements, and construct matrix $$A$$ such that $$ A_{ij} \sim N(\mu, \sigma)$$.
 
-{% raw %}
-$$ y = f(x*A) $$
-{% endraw %}
+$$ \hat{y} = f(x*A) $$
 
 Now, going to three layer network (two matrix network). Call the second matrix $$B$$.
 
-{% raw %}
-$$ y = f(f(x*A)*B)* $$
-{% endraw %}
+$$ \hat{y} = f(f(x*A)*B)* $$
 
 From this view, I hope to demonstrate the vanishing gradient problem.
 
-Vanishing gradients are the real bane of neural networks, causing trouble deeper networks, including recurrent networks, which are used for time series data. The cause is quite simple.
 
+Lets say that {% raw %}$$y(x) = x + \epsilon$${% endraw %}, where {% raw %}$$\epsilon$${% endraw %} is some  the identity function. This is an extremely simple function that should be
 
 
 ### Backpropagation
