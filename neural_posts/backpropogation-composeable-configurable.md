@@ -25,33 +25,43 @@ $$ \hat{y} = f(f(x*A)*B)* $$
 
 From this view, I hope to demonstrate the vanishing gradient problem.
 
+Lets say that $$y(x) = x + \epsilon$$, where $$\epsilon$$ is some random error. The identity function is an extremely simple function that should be easy to learn. However,
 
-Lets say that {% raw %}$$y(x) = x + \epsilon$${% endraw %}, where {% raw %}$$\epsilon$${% endraw %} is some  the identity function. This is an extremely simple function that should be
+*show how noise increases relative to the size of the internal vectors, and also the size of the matrices*
 
+### Power of neural networks
+
+*give an indication to how depth and size of neural networks increase the types and complexity of functions that NNs seem to tend to solve*
 
 ### Backpropagation
+
+*explain how backpropagation allows you to treat different layers of the network as independent learning problems (taking into account the noise problem above)*
 
 At its core, backpropagation is simply the chain rule from calculus.
 
 So why is this important?
 
 
+*Overview of chain rule.*
 
-Overview of chain rule.
+*Draw a diagram about composition of matrices.*
 
-DiagraDraTalk about composition of matrices.
+*Talk about how you can compose matrices naturally in trivial ways. Bring up deep networks, m.*
 
-Talk about how you can compose matrices naturally in trivial ways. Bring up Depp networks, m. Then talk about how convolutional networks are the a nontrivial version of this.
+*Bring up the conflict between model flexibility and model noise. Then talk about how convolutional networks are a great example of a nontrivial version of this tradeoff.*
 
-Another possible one is sintane decomposition, ie.e the function applied to each wor,d and the the binary output as a function of that concatenation of outputs.  Is a more trivial example.
+*Another possible one is sentance decomposition, ie.e the function applied to each word and the the binary output as a function of that concatenation of outputs.  Is a more trivial example.*
 
 
+*Then talk about LSTMs. Talk about how they are a non-trivial one, but rely on the same basic intuitions. Show how LSTMs operate in much the same level as single matrices blocks.*
 
-The talk about LSTMs. Talk about how they are a non-trivial one, but rely on the same basic intuitions. Show how LSTMs operate in much the same level as single matrices blocks.
-
-Talk about how now people use LSTMS as building blocks for more on nontrivial things like the google translate algorithm
+*Talk about how now people use LSTMS as building blocks for more on nontrivial things like the google translate algorithm*
 
 ### Gradient Descent
+
+*Explain how gradient descent can be improved through low dimensional examples*
+
+*show how it can solve some of the problems with magnitude reduction associated with deep layers*
 
 Now lets look at gradient descent, and how we might hope to solve some of the problems in backpropagation with techniques here.
 
