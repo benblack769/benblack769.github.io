@@ -5,6 +5,31 @@ Neural networks have been praised as one of the most flexible machine learning t
 The answer lies in the flexibility and configurability of the core algorithms: gradient descent and backpropagation of error.
 
 
+### Vanishing gradient problem
+
+A standard neural network
+
+Lets look at NNs very carefully.
+
+Look at a 2 layer network
+
+Let $$x$$ be the vector of input elements, and $$y$$ be the vector of output elements, and construct matrix $$A$$ such that {% raw %}$$ A_{ij} \sim N(\mu, \sigma)$$ {% endraw %}.
+
+{% raw %}
+$$ y = f(x*A) $$
+{% endraw %}
+
+Now, going to three layer network (two matrix network). Call the second matrix $$B$$.
+
+{% raw %}
+$$ y = f(f(x*A)*B)* $$
+{% endraw %}
+
+From this view, I hope to demonstrate the vanishing gradient problem.
+
+Vanishing gradients are the real bane of neural networks, causing trouble deeper networks, including recurrent networks, which are used for time series data. The cause is quite simple.
+
+
 
 ### Backpropagation
 
@@ -13,18 +38,6 @@ At its core, backpropagation is simply the chain rule from calculus.
 So why is this important?
 
 
-
-A standard neural network
-
-Lets look at NNs very carefully.
-
-Look at a 2 layer network
-
-Let $$x$$ be the vector of input elements, and $$y$$ be a particular output element, {% raw %}$$r \sim N(\mu, \sigma)$$ {% endraw %}.
-
-{% raw %}
-$$ y = r(x*) $$
-{% endraw %}
 
 Overview of chain rule.
 
