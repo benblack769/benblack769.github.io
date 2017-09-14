@@ -1,5 +1,15 @@
 ## Backpropagation
 
+### Inspration 1
+
+I know a few people knowledgeable about machine learning who tend to disregard neural networks as one technique among many, and who think that they will soon be obsolete, just as the things before neural networks were obsoleted by them.
+
+However, I feel that neural networks are fundamentally different than other machine learning techniques, that they are far more configurable to specific problems.
+
+I hope to convince you that neural networks can handle just about any learning problem thrown at them, and that they will be able to be incorporated into just about any new AI techniques that come out in the future.
+
+### Inspiration/goal 2
+
 Neural networks have been praised as one of the most flexible machine learning tool, and indeed algorithm of all time. However, if you look more closely, neural networks for different problem domains have significantly different structure. So why do people think they are flexible? What makes people think that they are so powerful?
 
 The answer lies in the flexibility and configurability of the core algorithms: gradient descent and backpropagation of error.
