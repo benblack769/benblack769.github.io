@@ -1,6 +1,8 @@
 Backpropagation
 
+{% raw %}
 $$x + y = z$$
+{% endraw %}
 
 Neural networks have been praised as one of the most flexible machine learning tool, and indeed algorithm of all time. However, if you look more closely, neural networks for different problem domains have significantly different structure. So why  do people think they are flexible? What makes people think that they are so powerful?
 
