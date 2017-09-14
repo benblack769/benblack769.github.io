@@ -1,10 +1,12 @@
 Backpropagation
 
-Neural networks have been praised as one of the most flexible machine learning tool, and indeed algorithm of all time. However, if you look more closely, neural networks for different problem domains have significantly differnt structure. So why  do people think they are flexible? What makes people think that they are so powerful?
+$$x + y = z$$
 
-The nswer lies in the flexibility of the core algorithm: backpropogation of error.
+Neural networks have been praised as one of the most flexible machine learning tool, and indeed algorithm of all time. However, if you look more closely, neural networks for different problem domains have significantly different structure. So why  do people think they are flexible? What makes people think that they are so powerful?
 
-At its core, backpropogation is simply the chain rule from calculus.
+The answer lies in the flexibility of the core algorithm: backpropagation of error.
+
+At its core, backpropagation is simply the chain rule from calculus.
 
 A standard neural network
 
