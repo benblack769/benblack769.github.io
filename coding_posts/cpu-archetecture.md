@@ -65,7 +65,7 @@ Here is a diagram from a really old presentation that shows this concept at a hi
 Here is some very simple c++ code that multiplies a scalar by a vector of doubles.
 
 {% highlight c++ linenos %}
-{% include sources/refactoring/pipelined_floats.cpp%}
+{% include sources/cpu-archetecture/pipelined_floats.cpp%}
 {% endhighlight %}
 
 But this tells me very little on how it is actually executing on the machine. In order to learn more about that, I want to see the how the computer sees that code. It turns out that I am looking for the assembly code that the c++ code compiles to.
@@ -74,6 +74,10 @@ Luckily, gcc allows us to do this easily with a simple command:
 
     g++ -S <file>
 
+I want efficient code, so I ran it with
+
+    g++ -S -O2 <file>
+
 You can try this out by going to [this cool website](https://godbolt.org/) (you might also want to click the "Intel" button to change the syntax to the same form that I am using here).
 
 Here is a screenshot of this website:
@@ -81,13 +85,27 @@ Here is a screenshot of this website:
 
 The generated assembly code is kind of messy, so I cleaned it up a little.
 
-<code>
-{% include sources/refactoring/pipelined_floats_clean.s%}
-</code>
+The important part is just the inner loop, which the online tool highlights.
 
-The important part is just the inner loop
+    mulsd	(%rax), %xmm1, %xmm0
+    addq	$8, %rax
+    movsd	%xmm0, -8(%rax)
+    cmpq	%rdx, %rax
+    jne	.L4
 
+Now, this is how it looks to the machine. In order to get an evidence for how this is actually runs, though, we will need to actually run it, and measure how fast it runs.
 
+In order to do that we need a little boilerplate code to run it a whole bunch of times.
+
+{% highlight c++ linenos %}
+{% include sources/cpu-archetecture/pipelined_floats_exec.cpp%}
+{% endhighlight %}
+
+The only important thing to note about this code is that it runs the 6 instructions of the inner loop described above 1,000*1,000,000 times, or 1 billion times.
+
+Now, how long should we expect this to take?
+
+My computer runs at around 3ghz.
 
 
 
