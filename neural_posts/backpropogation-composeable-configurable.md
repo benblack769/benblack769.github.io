@@ -1,6 +1,6 @@
 ## Backpropagation
 
-### Inspration 1
+### Inspiration 1
 
 I know a few people knowledgeable about machine learning who tend to disregard neural networks as one technique among many, and who think that they will soon be obsolete, just as the things before neural networks were obsoleted by them.
 

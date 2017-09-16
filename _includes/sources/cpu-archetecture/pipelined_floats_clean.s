@@ -1,0 +1,17 @@
+.LFB780:
+	movq	(%rcx), %rax
+	movq	8(%rcx), %rdx
+	subq	%rax, %rdx
+	sarq	$3, %rdx
+	testl	%edx, %edx
+	jle	.L5
+	subl	$1, %edx
+	leaq	8(%rax,%rdx,8), %rdx
+.L4: // Main loop of vector_scalar_mul function
+	vmulsd	(%rax), %xmm1, %xmm0
+	addq	$8, %rax
+	vmovsd	%xmm0, -8(%rax)
+	cmpq	%rdx, %rax
+	jne	.L4
+.L5:
+	ret
