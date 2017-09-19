@@ -1,4 +1,112 @@
-# Using C to accelerate code
+# Kernel Optimization
+
+## Brief introduction to assembly
+
+Hardware is essentially an interpreter. Conceptually, it reads the code 1 line at a time, and processes it, and moves on to the next line.
+
+So, as you might expect, the way computers look at code is as a sequence of commands. The syntax reflects this concept.
+
+As I also want some real world examples, I will introduce you to the basics surrounding x86 assembly, which is ubiquitous in desktop and laptop CPUs. Not of any fondness of the language, but because you can actually execute it on your machine.
+
+x86 in GAS (GNU Assembly syntax) looks more or less like the following:
+
+    <command> <src> <dest>
+
+The src and dest can either be registers, or references to memory specified by registers. You can think of registers as a hardware form of local variables.
+
+    `%rax` is a register.
+    `(%rax)` is a reference to a memory location specified by `%rax`. This is equivalent to `*(ptr)` in C.  
+    `4(%rax)` is an offset of 4 bytes from the pointer, equivalent to `*(4+char_ptr)` in C.
+
+There are a set of common commands you will always see:
+
+    add/sub/mul:    basic arithmetic
+    lea:            pointer arithmetic
+    sar/sal:        bit shifting (pos/neg powers of two)
+    cmp/test:       ordinary and logical and based comparison.
+    je/jne/jle <LOCATION>:  If the comparison is equal/not equal/less than or
+                equal, "jump" to LOCATION (next instruction will be executed there)
+
+Floating point arithmetic is a little different. The registers are called `xmm0` for 128 bit registers, and `ymm0` for 256 bit registers (yes, the first 128 bits of `ymm0` are exactly `xmm0`). The idea is that each float in them is only 32 or 64 bits, but there can be several in a single register. You can also do computations on lots of integers in them, but that is less common.
+
+Basic command format is
+
+    <cmd><p/s packed/single><s/d single/double>
+
+Packed means you move the whole vector, single means you move the first element.
+
+The `float` type in C is 32 bits, the `double` type is 64 bits.
+
+Some examples
+
+    movps 16(%rcx), %xmm0 //move packed
+    addss %xmm0, %xmm1
+    movss %xmm0, 16(%rcx)
+
+
+There is also some archaic floating point arithmetic which is horribly slow, but it can work on 80 bit floats. If you ever see anything like Check ou
+
+### References
+
+Scraped from official docs: http://www.felixcloutier.com/x86/
+
+Oracle docs. Fairly well organized. https://docs.oracle.com/cd/E18752_01/html/817-5477/ennbz.html
+
+Official intel docs, many pdf volumes: https://software.intel.com/en-us/articles/intel-sdm
+
+### x86 Example
+
+How do you get assembly? One way is
+
+    gcc -S <file>
+
+You can also plug in your code [at this cool website](https://godbolt.org/) which outputs assembly.
+
+Here is some very simple c++ code that multiplies a scalar by a vector of doubles.
+
+{% highlight c++ %}
+{% include sources/cpu-archetecture/pipelined_floats.cpp%}
+{% endhighlight %}
+
+Here is the generated assembly.
+
+<code>
+{% include sources/cpu-archetecture/pipelined_floats_clean.s%}
+</code>
+
+Lets go through this quickly. Because we are only concerned about performance, we can ignore large parts of it.
+
+This is mostly crap that deals with how functions are called. The first few commands of any function will probably involve stuff like this, moving things to or from memory, and subtracting pointers.
+
+    movq	(%rcx), %rax 	//load argument 1
+    movq	8(%rcx), %rdx	//load argument 2
+
+A early exit condition. Basically, this is a trick to get it to exit faster if the function isn't actually doing any work. It can also can make the inner loop faster. You can usually spot these things because they always involves some conditional branch, and often lots of shifting and subtraction.
+
+    subq	%rax, %rdx		//???
+    sarq	$3, %rdx   //rdx /= 8
+    testl	%edx, %edx //%edx == 0
+    jle	.L5            //if the above condition is true, return
+
+Setting up the pointers in the inner loop so that there is less arithmetic that needs to happen to access arrays. This is fairly critical in fast code, there is some reason for concern if you don't see something similar to this before your loops. You can spot this from the `lea` command, and also that it is operating on pointers that are changed in the main loop.
+
+    subl	$1, %edx
+    leaq	8(%rax,%rdx,8), %rdx
+
+
+One thing to note is that all of the above code can run crazily fast. It will make virtually no difference in kernel code.
+
+This next part is the important part, and the part that can be slow: our inner loop.
+
+    .L4:
+    	movsd	(%rax), %xmm0   
+    	addq	$8, %rax
+    	mulsd	%xmm1, %xmm0
+    	movsd	%xmm0, -8(%rax)
+    	cmpq	%rdx, %rax
+    	jne	.L4
+
+###
 
 ### Types of parallelism
 
@@ -105,9 +213,11 @@ The only important thing to note about this code is that it runs the 6 instructi
 
 Now, how long should we expect this to take?
 
-My computer runs at around 3ghz.
+My computer runs at around 3ghz. According to intel's documentation [here](https://software.intel.com/sites/landingpage/IntrinsicsGuide/), `mulsd` takes 3 cycles, and the rest of them take 1 cycle. So if this was executing sequentially, then it would take 7 billion cycles, which should take at least 2 seconds.
 
+Timing the compiled code with -O2 using the unix `time` command, this actually takes a shocking 0.45s.
 
+This means it is running more than 4 times faster than you might expect.
 
 
 
