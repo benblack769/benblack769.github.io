@@ -1,4 +1,4 @@
-## Backpropagation
+## Neural Networks: Managing complexity in machine learning models
 
 ### Inspiration 1
 

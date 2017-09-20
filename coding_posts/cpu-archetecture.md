@@ -44,10 +44,30 @@ Here is some silly example code
 
 Here is a dependency graph of the code
 
-![basic-dependencies](images/cpu-archetecture/basic-data-dependencies.png)
+![basic-dependencies](/images/cpu-archetecture/basic-data-dependencies.png)
 
-For branching code, all of the code after the branch depends on the branch executing:
+You can also do this for arbitrarily long code. The idea of "reductions" (as in the MapReduce paradigm) is based on this.
 
+    sum = 0
+    sum += a[0]
+    sum += a[1]
+    sum += a[2]
+    sum += a[3]
+    sum += a[4]
+
+![sum dependencies](/images/cpu-archetecture/sum-data-dependencies.png)
+
+This has a circuit depth of 4. How can you lower that depth?
+
+Well, addition is associative, so what if we start adding from the other direction as well?
+
+![sum reduce dependencies](/images/cpu-archetecture/sum-reduce-data-dependencies.png)
+
+This has a depth of 3, so we made it faster. You can generalize this process to *n* associative operations, resulting in depth of log(*n*).
+
+Hopefully you can believe that this is a general and powerful method of identifying parallelism. In fact, we are very close to an idea of optimal parallelism.
+
+So now that we know what to look for when trying to parallelize things, lets go back to the hardware.
 
 
 ## Brief introduction to assembly
