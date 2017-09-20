@@ -164,7 +164,7 @@ Setting up the pointers in the inner loop so that there is less arithmetic that 
     leaq	8(%rax,%rdx,8), %rdx
 
 
-One thing to note is that all of the above code can run crazily fast. It will make virtually no difference in kernel code.
+One thing to note is that all of the above code can run crazily fast. It will usually not make a noticable differnece in code performance.
 
 This next part is the important part, and the part that can be slow: our inner loop.
 
@@ -176,7 +176,14 @@ This next part is the important part, and the part that can be slow: our inner l
     	cmpq	%rdx, %rax
     	jne	.L4
 
-###
+## Crash course in compiler optimization
+
+For most purposes, people just treat assembly generation as a black box. You simply give gcc the `-O2` or `-O3` option, and trust that it makes your code faster. Unfortunately, for our purposes, we cannot treat the compiler optimizations as a black box. Compilers really are amazing, yet they are not yet perfect. Understanding how to guess, observe, and measure the level to which they are not perfect is key to understanding how your code executes on hardware.
+
+### How your compiler sees code
+
+To understand our compiler, we need to get inside its head. How does it see code, how does it work with it?
+
 
 ### Types of parallelism
 
