@@ -1,4 +1,54 @@
-# Kernel Optimization
+# Instruction level parallelism: An introduction to computer architecture
+
+## Purpose
+
+* Convince you that software developers should care about architecture
+* Show you how to exploring how code runs on hardware
+    * Highly advanced technology. In physics or chemistry, the most advanced technology is very expensive, only available in hard to access certain labs. In computer architecture, the most advanced technology is on your laptops.
+* Show you some really fun stuff
+
+## Why instruction level parallelism?
+
+Basic circuits are inherently sequential: one transistors needs to switch before the next one can, and that switch is a physical change that takes time.
+
+![clock-speed](/images/cpu-archetecture/transitor-diagram.png)
+
+You can make the transistors change faster by increasing voltages. Unfortunately, using this technique there is a rather unfortunate physical property where $$\text{Power} = \text{Clock speed}^2$$, so quite quickly, your silicon chip will simply melt if you increase the voltage to increase clock speed.
+
+What this means in practice is that there is a limit to how much you can increase speed by increasing voltage. In fact, that point was reached a long time ago.
+
+![clock-speed](/images/cpu-archetecture/clock_speed.png)
+
+Meanwhile, More's law continues:
+
+![clock-speed](/images/cpu-archetecture/Transistor-Count-over-time.png)
+
+So how can we use those extra transistors?
+
+Here is an idea: instead of trying to use 1 circuit faster, lets try to use a bunch of circuits at the same time. In other words, lets try running our computations in parallel.
+
+## What is parallelism?
+
+Before running a computation, you often need other computations to be run first.
+
+From a hardware perspective, you can view this as circuit depth. From a software perspective, you can see this as data dependency chain.
+
+Here is some silly example code
+
+    a = 3
+    b = 1
+    d = a + b
+    c = a - b
+    x = 1
+    r = d * x
+
+Here is a dependency graph of the code
+
+![basic-dependencies](images/cpu-archetecture/basic-data-dependencies.png)
+
+For branching code, all of the code after the branch depends on the branch executing:
+
+
 
 ## Brief introduction to assembly
 
