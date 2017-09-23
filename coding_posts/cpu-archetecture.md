@@ -65,10 +65,15 @@ Well, addition is associative, so what if we start adding from the other directi
 
 This has a depth of 3, so we made it faster. You can generalize this process to *n* associative operations, resulting in depth of log(*n*).
 
-Hopefully you can believe that this is a general and powerful method of identifying parallelism. In fact, we are very close to an idea of optimal parallelism.
+Hopefully you can believe that this is a general and powerful method of identifying parallelism. In fact, we are very close to an nice theory of optimal parallelism.
+
+Definition of degree of parallelism in a dependency graph:
+
+$$\frac{\text{size}}{\text{depth}}$$
+
+This means that in theory, exercising parallelism can result in a speedup of that amount.
 
 So now that we know what to look for when trying to parallelize things, lets go back to the hardware.
-
 
 ## Brief introduction to assembly
 
@@ -82,12 +87,6 @@ x86 in GAS (GNU Assembly syntax) looks more or less like the following:
 
     <command> <src> <dest>
 
-The src and dest can either be registers, or references to memory specified by registers. You can think of registers as a hardware form of local variables.
-
-    `%rax` is a register.
-    `(%rax)` is a reference to a memory location specified by `%rax`. This is equivalent to `*(ptr)` in C.  
-    `4(%rax)` is an offset of 4 bytes from the pointer, equivalent to `*(4+char_ptr)` in C.
-
 There are a set of common commands you will always see:
 
     add/sub/mul:    basic arithmetic
@@ -96,6 +95,12 @@ There are a set of common commands you will always see:
     cmp/test:       ordinary and logical and based comparison.
     je/jne/jle <LOCATION>:  If the comparison is equal/not equal/less than or
                 equal, "jump" to LOCATION (next instruction will be executed there)
+
+The src and dest can either be registers, or references to memory specified by registers. You can think of registers as a hardware form of local variables.
+
+    `%rax` is a register.
+    `(%rax)` is a reference to a memory location specified by `%rax`. This is equivalent to `*(ptr)` in C.  
+    `4(%rax)` is an offset of 4 bytes from the pointer, equivalent to `*(4+char_ptr)` in C.
 
 Floating point arithmetic is a little different. The registers are called `xmm0` for 128 bit registers, and `ymm0` for 256 bit registers (yes, the first 128 bits of `ymm0` are exactly `xmm0`). The idea is that each float in them is only 32 or 64 bits, but there can be several in a single register. You can also do computations on lots of integers in them, but that is less common.
 
@@ -118,19 +123,27 @@ There is also some archaic floating point arithmetic which is horribly slow, but
 
 ### References
 
-Scraped from official docs: http://www.felixcloutier.com/x86/
+I don't recommend spending lots of time learning assembly. You can do almost everything you can with assembly with compiler intrinsics ([decent overview on microsoft's site](https://msdn.microsoft.com/en-us/library/26td21ds.aspx)).
+
+Here is a good and complete reference on intel's intrinsics, which are implemented on gcc, clang, vcc, and icc: https://software.intel.com/sites/landingpage/IntrinsicsGuide/
+
+On the other hand, if you really do want to write x86 assembly, then you will need good references. Here are some of the more complete ones.
 
 Oracle docs. Fairly well organized. https://docs.oracle.com/cd/E18752_01/html/817-5477/ennbz.html
+
+Scraped from official docs: http://www.felixcloutier.com/x86/
 
 Official intel docs, many pdf volumes: https://software.intel.com/en-us/articles/intel-sdm
 
 ### x86 Example
 
-How do you get assembly? One way is
+How do you get assembly? You can write it yourself, of course. But people rarely feel the need to these days, because the compiler generates it for them. But sometimes the compiler isn't perfect, and so it is nice to see what it is actually generating, in case it screws up.
+
+To get gcc to generate assembly, you call
 
     gcc -S <file>
 
-You can also plug in your code [at this cool website](https://godbolt.org/) which outputs assembly.
+You can also plug in your code [at this cool website](https://godbolt.org/) which outputs assembly. This is especially cool as you get to see the difference in output between many different compilers.
 
 Here is some very simple c++ code that multiplies a scalar by a vector of doubles.
 
@@ -164,7 +177,7 @@ Setting up the pointers in the inner loop so that there is less arithmetic that 
     leaq	8(%rax,%rdx,8), %rdx
 
 
-One thing to note is that all of the above code can run crazily fast. It will usually not make a noticable differnece in code performance.
+One thing to note is that all of the above code can run crazily fast. It will usually not make a noticeable difference in code performance.
 
 This next part is the important part, and the part that can be slow: our inner loop.
 
@@ -175,6 +188,12 @@ This next part is the important part, and the part that can be slow: our inner l
     	movsd	%xmm0, -8(%rax)
     	cmpq	%rdx, %rax
     	jne	.L4
+
+Why is this slower? Well, because it is looping with the size of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle.
+
+But remember that the point of this paper is about  dependency graphs and parallelism. So what is the dependency graph of this loop? 
+
+Now that we can identify what is slow in our program and differentiate it betwe
 
 ## Crash course in compiler optimization
 

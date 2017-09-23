@@ -2,18 +2,34 @@
 
 ### Inspiration 1
 
+
 I know a few people knowledgeable about machine learning who tend to disregard neural networks as one technique among many, and who think that they will soon be obsolete, just as the things before neural networks were obsoleted by them.
 
 However, I feel that neural networks are fundamentally different than other machine learning techniques, that they are far more configurable to specific problems.
 
-I hope to convince you that neural networks can handle just about any learning problem thrown at them, and that they will be able to be incorporated into just about any new AI techniques that come out in the future.
+In particular, I believe that the algebraic structure of Neural network's can be adapted handle just about any learning problem thrown at them.
 
-### Inspiration/goal 2
+### Inspiration 2
+
+When looking at machine learning tasks that neural networks have been applied to there is a pattern.
+
+1. Neural networks are successfully applied for the first time. Are close to as good as state of the art models.
+2. State of the art models are inspired by neural networks to get better
+3. Neural networks are more carefully tuned for the model, beat state of the art models soundly.
+4. Neural networks are adapted in many non-trivial ways to incorporate ideas from old models, beat previous NN models.
+5. Standard neural networks mature, dominating all clever tweaks and twists.
+
+What I am most interested in is that last step. Why do standard NNs completely end up completely dominating in the end?
+
+Another way of putting this is:
+
+What barrier is there that standard NNs can break, and other methods are held back by? And how do NNs break this barrier?
+
+### Inspiration/goal 3
 
 Neural networks have been praised as one of the most flexible machine learning tool, and indeed algorithm of all time. However, if you look more closely, neural networks for different problem domains have significantly different structure. So why do people think they are flexible? What makes people think that they are so powerful?
 
 The answer lies in the flexibility and configurability of the core algorithms: gradient descent and backpropagation of error.
-
 
 ### Vanishing gradient problem
 
@@ -47,6 +63,8 @@ Lets say that $$y(x) = x + \epsilon$$, where $$\epsilon$$ is some random error. 
 
 *explain how backpropagation allows you to treat different layers of the network as independent learning problems (taking into account the noise problem above)*
 
+
+
 At its core, backpropagation is simply the chain rule from calculus.
 
 So why is this important?
@@ -54,13 +72,15 @@ So why is this important?
 
 *Overview of chain rule.*
 
+Chain rule is simply when given two functions $$F$$,$$G$$, the derivative of $$(F(G(x)))^\prime = $F^\prime(G(x))G^\prime(x)$$.
+
 *Draw a diagram about composition of matrices.*
 
 *Talk about how you can compose matrices naturally in trivial ways. Bring up deep networks, m.*
 
 *Bring up the conflict between model flexibility and model noise. Then talk about how convolutional networks are a great example of a nontrivial version of this tradeoff.*
 
-*Another possible one is sentance decomposition, ie.e the function applied to each word and the the binary output as a function of that concatenation of outputs.  Is a more trivial example.*
+*Another possible one is sentence decomposition, ie.e the function applied to each word and the the binary output as a function of that concatenation of outputs.  Is a more trivial example.*
 
 
 *Then talk about LSTMs. Talk about how they are a non-trivial one, but rely on the same basic intuitions. Show how LSTMs operate in much the same level as single matrices blocks.*
