@@ -5,9 +5,25 @@
 
 I know a few people knowledgeable about machine learning who tend to disregard neural networks as one technique among many, and who think that they will soon be obsolete, just as the things before neural networks were obsoleted by them.
 
-However, I feel that neural networks are fundamentally different than other machine learning techniques, that they are far more configurable to specific problems.
+However, I feel that neural networks are fundamentally different than other machine learning techniques.
 
-In particular, I believe that the algebraic structure of Neural network's can be adapted handle just about any learning problem thrown at them.
+They seem to have fundamentally lifted barriers that have been there before in image and speech recognition, and brought these problems to new levels of capability, which you can see transforming our technology and our world.
+
+New areas of application, such as translation, robotics, and music generation, are seeing the same trend we saw in image and speech recognition 5 years ago, and I think they have similar levels of promise, even if it may take longer for them to develop (since there is less money in those areas).
+
+So why does this approach seem so much more promising than other approaches? Why is it breaking barriers in areas many experts never imagined it could be applied to?
+
+Some of the reasons are fairly mundane ways that allow people to work with and exploit the extreme complexity of modern neural networks.
+
+* There are now sophisticated software tools specifically built to help research in neural nets (tensorflow, theano, torch).
+* There are a great number of tunable hyperparameters, which have decent level of independence, allowing for effective tuning.
+* There is a great deal of research trying to improve many different parts of neural networks
+
+But these feature are also more or less true for other methods, like Support Vector Machines.
+
+So looking deeper into neural networks, and what has succeeded, and what has failed, I am led to believe that there is a much more fundamental reason for their success: *Backpropagation can work with any differentiable functional form*
+
+There is a lot there, and the power of that statement is not obvious. Lets look deeper into why allowing arbitrary functions is extraordinarily powerful. 
 
 ### Inspiration 2
 
