@@ -1,5 +1,6 @@
 ---
 title: Neural nets intro
+under_construction: false
 ---
 
 Neural nets are now in so many apps and devices, they are quickly becoming a backbone of information technology. Every day, we depend on them to process our voice, to translate documents, and to label our friends in Facebook images. Technology firms are constantly testing the latest techniques in new areas. News articles spew out about the latest and greatest successes. AlphaGo stretches the concept of what what a computer can do.

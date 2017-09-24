@@ -48,7 +48,7 @@ baseurl                  : "/" # the subpath of your site, e.g. "/blog"
 repository               : "weepingwillowben/weepingwillowben.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
-words_per_minute         : 200
+words_per_minute         : 150
 comments:
   provider               : "staticman" # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
@@ -276,3 +276,4 @@ defaults:
       comments: true
       share: true
       related: true
+      under_construction: true
