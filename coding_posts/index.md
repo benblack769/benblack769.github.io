@@ -1,12 +1,9 @@
 ---
 title: "Coding Blog"
 comments: false
+under_construction: false
 ---
 
 This is
-
-posts:
-
-post name: {{ page.slug }}
 
 {% include index_menu.md %}

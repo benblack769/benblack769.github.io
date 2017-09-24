@@ -1,3 +1,8 @@
+---
+title: Instruction Level Parrellelism
+under_construction: false
+---
+
 # Instruction level parallelism: An introduction to computer architecture
 
 ## Purpose
@@ -191,7 +196,7 @@ This next part is the important part, and the part that can be slow: our inner l
 
 Why is this slower? Well, because it is looping with the size of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle.
 
-But remember that the point of this paper is about  dependency graphs and parallelism. So what is the dependency graph of this loop? 
+But remember that the point of this paper is about  dependency graphs and parallelism. So what is the dependency graph of this loop?
 
 Now that we can identify what is slow in our program and differentiate it betwe
 

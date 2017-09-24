@@ -1,5 +1,6 @@
 ---
 title: Neural Network Paper
+under_construction: false
 ---
 
 # Creating long term memory for a neural network

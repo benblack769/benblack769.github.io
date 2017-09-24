@@ -1,3 +1,9 @@
+---
+title: Intelligence as a Definable Problem
+under_construction: false
+slug: basic-intelegence-problem
+---
+
 # Formalizing Intelligence
 
 What is intelligence? Why is the student who answered the professor's hard impromptu question smart? What makes a beehive smarter than an individual bee? Why do we appreciate child geniuses more than adults who are just as capable?

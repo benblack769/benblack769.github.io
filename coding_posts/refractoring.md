@@ -1,6 +1,7 @@
 ---
 title: "Refactoring and reading"
 slug: refractoring
+under_construction: false
 ---
 
 My [Intuition and Structure](coding_posts/intuition-structure) page describes how to build decent code from scratch. However, what happens when you are given a awful codebase, and expected to do things with it quickly?

@@ -1,18 +1,19 @@
 ---
-title: "Splash Page"
+title: "Imagnative Coding"
 layout: splash
+under_construction: false
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
   overlay_image: /assets/images/unsplash-image-1.jpg
-excerpt: "hi there."
+excerpt: "Thoughts of a budding computer scientist"
 intro:
-  - excerpt: 'hi there again'
+  - excerpt: ''#'hi there again'
 feature_row1:
   - image_path: images/home/code_screen.png
     alt: "code pic"
     title: "Coding posts"
-    excerpt: 'Posts that walk through intermediate coders of how to think through more complex problems'
+    excerpt: 'Posts for intermediate level coders that explain the principles of code, and how to work with complex problems.'
     url: "coding_posts"
     btn_label: "Read More"
     btn_class: "btn--inverse"
