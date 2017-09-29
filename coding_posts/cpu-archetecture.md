@@ -1,5 +1,5 @@
 ---
-title: Instruction Level Parrellelism
+title: Instruction Level Parallelism
 under_construction: false
 ---
 
@@ -123,8 +123,7 @@ Some examples
     addss %xmm0, %xmm1
     movss %xmm0, 16(%rcx)
 
-
-There is also some archaic floating point arithmetic which is horribly slow, but it can work on 80 bit floats. If you ever see anything like Check ou
+There is also some archaic floating point arithmetic which is horribly slow, but it can work on 80 bit floats. If you ever see anything like `fld` or `fadd`, then you can check it out [here](https://docs.oracle.com/cd/E18752_01/html/817-5477/eoizy.html).
 
 ### References
 
@@ -142,13 +141,13 @@ Official intel docs, many pdf volumes: https://software.intel.com/en-us/articles
 
 ### x86 Example
 
-How do you get assembly? You can write it yourself, of course. But people rarely feel the need to these days, because the compiler generates it for them. But sometimes the compiler isn't perfect, and so it is nice to see what it is actually generating, in case it screws up.
+How do you get assembly? You can write it yourself, of course. But people rarely feel the need to these days, because the compiler generates it for them. But c and c++ programmers often look at what their compiler is generating. After all, sometimes the compiler isn't perfect, and so it is nice to see what it is actually generating, in case it screws up.
 
 To get gcc to generate assembly, you call
 
     gcc -S <file>
 
-You can also plug in your code [at this cool website](https://godbolt.org/) which outputs assembly. This is especially cool as you get to see the difference in output between many different compilers.
+You can also plug in your code [at this cool website](https://godbolt.org/) which outputs assembly. This is especially cool as you get to see the difference in output between several different compilers.
 
 Here is some very simple c++ code that multiplies a scalar by a vector of doubles.
 
@@ -194,11 +193,56 @@ This next part is the important part, and the part that can be slow: our inner l
     	cmpq	%rdx, %rax
     	jne	.L4
 
-Why is this slower? Well, because it is looping with the size of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle.
+Why is this slower? Well, because it is looping with the size of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
 
 But remember that the point of this paper is about  dependency graphs and parallelism. So what is the dependency graph of this loop?
 
-Now that we can identify what is slow in our program and differentiate it betwe
+Well, exploring this really requires us to go back to the hardware again.
+
+## Instruction level parallelism
+
+In a conceptual perspective, when designing circuits and software, there is only kind of one dependency: data dependencies (as talked about in the beginning).
+
+But when making programmable machines in the Von Neumann  architecture, there are a lot more dependencies and everything becomes much more complicated.
+
+Lets look at an example of some code, and the dependencies it has.
+
+![arch-dep-bad](/images/cpu-archetecture/arch-dep-bad.png)
+
+### Instruction dependencies
+
+Machine code is simply 0s and 1s in memory. There are pointers to the current instruction, and code is fetched rather similarly to data. The problem is, that like data, each instruction can change the pointer to the next instruction arbitrarily. Function calls and branches do this. The worse case is a call to a function pointer, which cannot be determined before the pointer is calculated, so there is really no hope of ever completely fixing this dependency.
+
+But even in simple examples, it is tricky. In a really naïve implementation, we cannot remove the circled dependence below because we simply do not know if the instruction will change that pointer until we have already loaded and executed it.
+
+![arch-dep-bad-inst-dep](/images/cpu-archetecture/arch-dep-bad-inst-dep.png)
+
+But luckily for us, modern hardware is not naive, and contains lots of sophisticated techniques to handling this problem.
+
+The main one is called branch prediction, and we can get to that later.
+
+### Memory dependencies
+
+These are the closest to data dependencies. We simply need to be able to access data that we have stored at some point.
+
+Unfortunately, accessing data is really, really slow. These days, a single access to data on global RAM usually takes around 100 clock cycles.
+
+We are getting data all the time, so really, we could be spending >99% of the time just fetching data. 
+
+The problem here is the Von Neumann architecture describes a shared, randomly accessible memory. And people have decided that they want removable RAM. And for security reasons,  So in the worst case, the message to request the data has to leave the CPU, go through the motherboard, into the ram chip, get processed,
+
+Fortunately, for fast software, and unfortunately for those of us trying to study it, we have come up with very clever ways of decreasing memory latency and throughput.
+
+
+### Circuit dependencies
+
+Conceptually, we can just add more circuits onto a piece of paper. However, in reality hardware has a fixed number of circuits, each can only be calculating one value at a time.
+
+Pipelining
+
+Superscalar dispatch
+
+
 
 ## Crash course in compiler optimization
 
