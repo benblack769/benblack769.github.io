@@ -72,11 +72,19 @@ This has a depth of 3, so we made it faster. You can generalize this process to 
 
 Hopefully you can believe that this is a general and powerful method of identifying parallelism. In fact, we are very close to an nice theory of optimal parallelism.
 
-Definition of degree of parallelism in a dependency graph:
+The famous complexity textbook *Introduction to the Theory of Computation* by Michael Sipser uses the following definition of parallel complexity.
+
+> __Parrelell time complexity__ of a boolean circuit is its depth, or the longest distance from an input variable to the output gates
+
+All sorts of nice things arise out of this definition. You can define optimal speedup with a parallel processor to be:
 
 $$\frac{\text{size}}{\text{depth}}$$
 
-This means that in theory, exercising parallelism can result in a speedup of that amount.
+Which is easy to analyses with napkin based calculations.
+
+You can also get some nice theoretical results out of this (Sipser focuses on this).
+
+So I think we are on to something really core to what we mean by parallelism.
 
 So now that we know what to look for when trying to parallelize things, lets go back to the hardware.
 
@@ -86,7 +94,9 @@ Hardware is essentially an interpreter. Conceptually, it reads the code 1 line a
 
 So, as you might expect, the way computers look at code is as a sequence of commands. The syntax reflects this concept.
 
-As I also want some real world examples, I will introduce you to the basics surrounding x86 assembly, which is ubiquitous in desktop and laptop CPUs. Not of any fondness of the language, but because you can actually execute it on your machine.
+As I also want some real world examples, I will introduce you to the basics surrounding x86 assembly, which is ubiquitous in desktop and laptop CPUs. Not of any fondness of the language (it is unnecessarily complex), but because you can actually execute it on your machine.
+
+I do have a warning: x86 is complicated, and there aren't good tutorials like there are with C. You won't be able to learn everything without much months of effort. Hopefully I can convince you to try to reason about assembly at a higher level, and not really worry about the details for now (your compiler can take care of that). So when reading the next couple sections, try to take it lightly, and get a feel for how it looks.
 
 x86 in GAS (GNU Assembly syntax) looks more or less like the following:
 
@@ -119,17 +129,19 @@ The `float` type in C is 32 bits, the `double` type is 64 bits.
 
 Some examples
 
-    movps 16(%rcx), %xmm0 //move packed
-    addss %xmm0, %xmm1
-    movss %xmm0, 16(%rcx)
+    movps 16(%rcx), %xmm0   //move packed (128 bits of) data starting from 16 bytes off %rcx to %xmm0
+    addss %xmm0, %xmm1      //add first single precision float (32 bits) of %xmm0 to first one in %xmm1
+    movss %xmm0, 16(%rcx)   //move first 32 bits of %xmm0 to 16 byes off %rcx
 
 There is also some archaic floating point arithmetic which is horribly slow, but it can work on 80 bit floats. If you ever see anything like `fld` or `fadd`, then you can check it out [here](https://docs.oracle.com/cd/E18752_01/html/817-5477/eoizy.html).
 
+There is a lot of other things you can learn, which may be important. There are integer vector instructions as well. And vector instructions are not the only important ones: `mulx` is a recently added instruction for cryptography, and it operates on regular registers.
+
 ### References
 
-I don't recommend spending lots of time learning assembly. You can do almost everything you can with assembly with compiler intrinsics ([decent overview on microsoft's site](https://msdn.microsoft.com/en-us/library/26td21ds.aspx)).
+You can do almost everything you can with assembly with compiler intrinsics ([decent overview on microsoft's site](https://msdn.microsoft.com/en-us/library/26td21ds.aspx)).
 
-Here is a good and complete reference on intel's intrinsics, which are implemented on gcc, clang, vcc, and icc: https://software.intel.com/sites/landingpage/IntrinsicsGuide/
+Here is an amazing reference on intel's intrinsics. I have learned more about x86 from this site than from any assembly reference: https://software.intel.com/sites/landingpage/IntrinsicsGuide/. This is implemented on gcc, clang, vcc, and icc.
 
 On the other hand, if you really do want to write x86 assembly, then you will need good references. Here are some of the more complete ones.
 
@@ -139,9 +151,9 @@ Scraped from official docs: http://www.felixcloutier.com/x86/
 
 Official intel docs, many pdf volumes: https://software.intel.com/en-us/articles/intel-sdm
 
-### x86 Example
+## x86 Example
 
-How do you get assembly? You can write it yourself, of course. But people rarely feel the need to these days, because the compiler generates it for them. But c and c++ programmers often look at what their compiler is generating. After all, sometimes the compiler isn't perfect, and so it is nice to see what it is actually generating, in case it screws up.
+How do you get assembly? You can write it yourself, of course. But people rarely feel the need to these days, because the compiler generates it for them. However, c and c++ programmers often look at what their compiler is generating. After all, sometimes the compiler isn't perfect, and so it is nice to see what it is actually generating, in case you think it might be screwing up.
 
 To get gcc to generate assembly, you call
 
@@ -197,13 +209,13 @@ Why is this slower? Well, because it is looping with the size of the vector. So 
 
 But remember that the point of this paper is about  dependency graphs and parallelism. So what is the dependency graph of this loop?
 
-Well, exploring this really requires us to go back to the hardware again.
+Well, exploring this requires us to go back to the hardware again.
 
 ## Instruction level parallelism
 
 In a conceptual perspective, when designing circuits and software, there is only kind of one dependency: data dependencies (as talked about in the beginning).
 
-But when making programmable machines in the Von Neumann  architecture, there are a lot more dependencies and everything becomes much more complicated.
+But when making programmable machines in the Von Neumann architecture, there are a lot more dependencies and everything becomes much more complicated.
 
 Lets look at an example of some code, and the dependencies it has.
 
@@ -225,14 +237,9 @@ The main one is called branch prediction, and we can get to that later.
 
 These are the closest to data dependencies. We simply need to be able to access data that we have stored at some point.
 
-Unfortunately, accessing data is really, really slow. These days, a single access to data on global RAM usually takes around 100 clock cycles.
+Unfortunately, accessing data is really, really slow. These days, a single access to data on global RAM usually takes around 100 clock cycles. We are getting data all the time, so really, we could be spending ~99% of the time just fetching data.
 
-We are getting data all the time, so really, we could be spending >99% of the time just fetching data. 
-
-The problem here is the Von Neumann architecture describes a shared, randomly accessible memory. And people have decided that they want removable RAM. And for security reasons,  So in the worst case, the message to request the data has to leave the CPU, go through the motherboard, into the ram chip, get processed,
-
-Fortunately, for fast software, and unfortunately for those of us trying to study it, we have come up with very clever ways of decreasing memory latency and throughput.
-
+And that is only the start of the massive performance problems with memory. The details are out of the scope of this paper, but I think it is a really fun and cool field that is at least as important as parallelism and dependency analysis. Ulrich Drepper wrote a free online book describing in detail everything you could ever want to know about memory https://www.akkadia.org/drepper/cpumemory.pdf.
 
 ### Circuit dependencies
 

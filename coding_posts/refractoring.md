@@ -41,9 +41,9 @@ Here is the formatted version. I am using the WebKit formatting, because it is c
 {% endhighlight %}
 </div>
 
-[link to code](/raw_code/refractoring/full-code). You might want to open this up in another tab, as I'll be referencing line numbers, and you will want to look at it quite a bit.
+[link to code](/link_only/refractoring/full-code). You might want to open this up in another tab, as I'll be referencing line numbers, and you will want to look at it quite a bit.
 
-Or [raw code](/raw_code/refractoring/code-no-formatting) if you want to copy it into an editor.
+Or [raw code](/link_only/refractoring/code-no-formatting) if you want to copy it into an editor.
 
 ### Process
 
