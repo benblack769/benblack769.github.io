@@ -192,7 +192,6 @@ Setting up the pointers in the inner loop so that there is less arithmetic that 
     subl	$1, %edx
     leaq	8(%rax,%rdx,8), %rdx
 
-
 One thing to note is that all of the above code can run crazily fast. It will usually not make a noticeable difference in code performance.
 
 This next part is the important part, and the part that can be slow: our inner loop.
@@ -205,9 +204,9 @@ This next part is the important part, and the part that can be slow: our inner l
     	cmpq	%rdx, %rax
     	jne	.L4
 
-Why is this slower? Well, because it is looping with the size of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
+Why is this slower? Well, because it is run on each element of the the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
 
-But remember that the point of this paper is about  dependency graphs and parallelism. So what is the dependency graph of this loop?
+But remember that the point of this paper is about dependency graphs and parallelism. So what is the dependency graph of this loop?
 
 Well, exploring this requires us to go back to the hardware again.
 
@@ -250,14 +249,36 @@ Pipelining
 Superscalar dispatch
 
 
-
 ## Crash course in compiler optimization
 
-For most purposes, people just treat assembly generation as a black box. You simply give gcc the `-O2` or `-O3` option, and trust that it makes your code faster. Unfortunately, for our purposes, we cannot treat the compiler optimizations as a black box. Compilers really are amazing, yet they are not yet perfect. Understanding how to guess, observe, and measure the level to which they are not perfect is key to understanding how your code executes on hardware.
+For most purposes, people just treat assembly generation as a black box. You simply give gcc the `-O2` or `-O3` option, and trust that it makes your code faster. Unfortunately, for our purposes, we cannot treat the compiler optimizations as a black box. Modern compilers really are amazing, but they are not yet perfect. Understanding how to guess, observe, and measure the level to which they are not perfect is key to understanding how your code executes on hardware.
 
 ### How your compiler sees code
 
 To understand our compiler, we need to get inside its head. How does it see code, how does it work with it?
+
+```javascript
+function addA(d) {
+    var a = 42;
+    return a + d;
+}
+var c = addA(2) + 3;
+```
+
+Here is a basic parse tree of the code.
+
+![ast of code](/images/cpu-archetecture/js-ast2.PNG)
+
+This is the first representation of code, the parse tree.
+
+Note that the details of how things are parsed changes from compiler to compiler. But the idea is the same. Expressions are nodes of
+
+Then you go into the intermediate representation. This can be very simple (10 kinds of statements in [Haskell Intermediate language](http://www.felienne.com/archives/721)), or very complex (hundreds of operators and annotations in [LLVM IR](http://llvm.org/docs/LangRef.html)).
+
+### Static dependency analysis
+
+#### Simple static assignment
+
 
 
 ### Types of parallelism
