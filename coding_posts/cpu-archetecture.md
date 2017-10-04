@@ -169,9 +169,9 @@ Here is some very simple c++ code that multiplies a scalar by a vector of double
 
 Here is the generated assembly.
 
-<code>
+{% highlight %}
 {% include sources/cpu-archetecture/pipelined_floats_clean.s%}
-</code>
+{% endhighlight %}
 
 Lets go through this quickly. Because we are only concerned about performance, we can ignore large parts of it.
 
@@ -204,11 +204,28 @@ This next part is the important part, and the part that can be slow: our inner l
     	cmpq	%rdx, %rax
     	jne	.L4
 
-Why is this slower? Well, because it is run on each element of the the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
+Why is this slower? Well, because it is run on each element of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
 
-But remember that the point of this paper is about dependency graphs and parallelism. So what is the dependency graph of this loop?
+### Timing code
 
-Well, exploring this requires us to go back to the hardware again.
+How many clock cycles does this inner loop actually take? Timing the time it takes to run one has a great deal of variance, so lets just run it a bunch of times, and average.
+
+So I wrote a fairly simple loop [code](/link_only/cpu-archtecture/run-code) that runs the `vector_scalar_mul` function a bunch of times. Then, we can easily see exactly how fast the function runs by simply looking at the time spent running the code.
+
+    g++ -O2 pipelined_floats_exec.cpp
+    time ./a.exe
+
+        real    0m0.477s    # (this is the one we usually care about)
+        user    0m0.000s
+        sys     0m0.015s
+
+My loop runs the function 1,000,000 times on vectors of length 1000.  this means the inner loop is running about 2 billion times per second.
+
+Since my machine usually runs at roughly 3ghz, this means the inner loop takes at most 3/2 of a clock cycle. How it is possible to run 5 instructions, including one that takes 3 cycles to complete, in less than 3/2 of a cycle?
+
+It turns out that amazingly enough, the hardware analyzes the sequential instructions and builds data dependency graphs to see which instructions can be run in parallel, and then runs them in parallel.
+
+But this is highly non-trivial, and is worth exploring in more detail.
 
 ## Instruction level parallelism
 
@@ -249,7 +266,18 @@ Pipelining
 Superscalar dispatch
 
 
-## Crash course in compiler optimization
+## Compiler optimizations
+
+
+
+    g++ -O3 -march=haswell pipelined_floats_exec.cpp
+    time ./a.exe
+
+        real    0m0.169s
+        user    0m0.000s
+        sys     0m0.015s
+
+
 
 For most purposes, people just treat assembly generation as a black box. You simply give gcc the `-O2` or `-O3` option, and trust that it makes your code faster. Unfortunately, for our purposes, we cannot treat the compiler optimizations as a black box. Modern compilers really are amazing, but they are not yet perfect. Understanding how to guess, observe, and measure the level to which they are not perfect is key to understanding how your code executes on hardware.
 
