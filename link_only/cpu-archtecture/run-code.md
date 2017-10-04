@@ -2,5 +2,5 @@
 layout: default
 ---
 {% highlight c++ linenos %}
-{% include cpu-archetecture/pipelined_floats_exec.cpp%}
+{% include sources/cpu-archetecture/pipelined_floats_exec.cpp%}
 {% endhighlight %}
