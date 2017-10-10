@@ -6,13 +6,12 @@
 using namespace std;
 
 float vector_norm(vector<float> & vec){
-    constexpr int num_vecs=2;
+    constexpr int num_vecs=1;
     constexpr int size_vec = 8;
     constexpr int size_par = num_vecs*size_vec;
     constexpr int vec_bytes = size_vec*sizeof(float);
 
     __m256 * vec_aligned = (__m256 *)(vec.data());
-    vec[0] = 100;
     size_t vec_size = vec.size()/size_par;
 
     __m256 sums[num_vecs];

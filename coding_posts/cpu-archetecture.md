@@ -291,7 +291,9 @@ Superscalar dispatch
 
 ## Compiler optimizations
 
+One easy way people try to make things faster is enable compiler optimizations. The idea is that the compiler puts aditional transformations on your code to make it run faster. This allows the software to effectively exploit many of the hardware features we have discussed.
 
+Here is how to turn on optimizations for the `vector_scalar_mul` function.
 
     g++ -O3 -march=haswell pipelined_floats_exec.cpp
     time ./a.exe
@@ -300,7 +302,7 @@ Superscalar dispatch
         user    0m0.000s
         sys     0m0.015s
 
-
+Recall that with `-O2` level of optimization, we got 0.477s. So it got nearly 3 times faster. 
 
 For most purposes, people just treat assembly generation as a black box. You simply give gcc the `-O2` or `-O3` option, and trust that it makes your code faster. Unfortunately, for our purposes, we cannot treat the compiler optimizations as a black box. Modern compilers really are amazing, but they are not yet perfect. Understanding how to guess, observe, and measure the level to which they are not perfect is key to understanding how your code executes on hardware.
 
