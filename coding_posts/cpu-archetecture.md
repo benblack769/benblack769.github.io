@@ -302,7 +302,7 @@ Here is how to turn on optimizations for the `vector_scalar_mul` function.
         user    0m0.000s
         sys     0m0.015s
 
-Recall that with `-O2` level of optimization, we got 0.477s. So it got nearly 3 times faster. 
+Recall that with `-O2` level of optimization, we got 0.477s. So it got nearly 3 times faster.
 
 For most purposes, people just treat assembly generation as a black box. You simply give gcc the `-O2` or `-O3` option, and trust that it makes your code faster. Unfortunately, for our purposes, we cannot treat the compiler optimizations as a black box. Modern compilers really are amazing, but they are not yet perfect. Understanding how to guess, observe, and measure the level to which they are not perfect is key to understanding how your code executes on hardware.
 
@@ -318,7 +318,7 @@ function addA(d) {
 var c = addA(2) + 3;
 ```
 
-Here is a basic parse tree of the code.
+Here is a basic parse tree of the code, generated at [this cool page](https://resources.jointjs.com/demos/javascript-ast).
 
 ![ast of code](/images/cpu-archetecture/js-ast2.PNG)
 

@@ -1,6 +1,5 @@
 #include <vector>
 #include <cmath>
-#include <memory>
 #include "immintrin.h"
 
 using namespace std;
@@ -35,6 +34,5 @@ float vector_norm(vector<float> & vec){
     for(int i = 0; i < size_par; i++){
         full_sum += sum_data[i];
     }
-    cout << "full_sum: "<< full_sum << endl;
     return sqrt(full_sum);
 }

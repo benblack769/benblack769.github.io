@@ -1,6 +1,6 @@
 #include <vector>
 #include <iostream>
-#include "vector_mag16.cpp"
+#include "vector_norm_fast.cpp"
 
 using namespace std;
 
