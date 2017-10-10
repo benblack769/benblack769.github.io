@@ -11,9 +11,8 @@ float vector_norm(vector<float> & vec){
     constexpr int size_par = num_vecs*size_vec;
     constexpr int vec_bytes = size_vec*sizeof(float);
 
-    size_t bufsize = vec.size() * sizeof(float);
-    void * buff = vec.data();
-    __m256 * vec_aligned = (__m256 *)(vec_bytes+((uintptr_t)(buff)&(uintptr_t)(~(vec_bytes))));
+    __m256 * vec_aligned = (__m256 *)(vec.data());
+    vec[0] = 100;
     size_t vec_size = vec.size()/size_par;
 
     __m256 sums[num_vecs];
@@ -28,12 +27,8 @@ float vector_norm(vector<float> & vec){
         }
     }
     float full_sum = 0;
-    //sum stuff from beginning (before allignment)
-    for(float * p = vec.data(); p != (float *)(vec_aligned); p++){
-        full_sum += (*p)*(*p);
-    }
     //sum stuff from after allignment
-    for(int i = vec_size*size_par; i < vec.size(); i++){
+    for(int i = vec_size*size_par*x; i < vec.size(); i++){
         full_sum += vec[i] * vec[i];
     }
     //sum stuff from allignment
@@ -41,5 +36,6 @@ float vector_norm(vector<float> & vec){
     for(int i = 0; i < size_par; i++){
         full_sum += sum_data[i];
     }
+    cout << "full_sum: "<< full_sum << endl;
     return sqrt(full_sum);
 }

@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 #include "vector_mag16.cpp"
 
 using namespace std;

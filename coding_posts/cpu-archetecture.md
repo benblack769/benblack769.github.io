@@ -9,10 +9,10 @@ under_construction: false
 
 * Convince you that software developers should care about architecture
 * Show you how to exploring how code runs on hardware
-    * Highly advanced technology. In physics or chemistry, the most advanced technology is very expensive, only available in hard to access certain labs. In computer architecture, the most advanced technology is on your laptops.
+    * Highly advanced technology. In physics or chemistry, the most advanced technology is very expensive, only available in hard to access certain labs. In computer architecture, the most advanced technology is on your laptops, and in open source software.
 * Show you some really fun stuff
 
-## Why instruction level parallelism?
+## Parallelism
 
 Basic circuits are inherently sequential: one transistors needs to switch before the next one can, and that switch is a physical change that takes time.
 
@@ -58,13 +58,21 @@ You can also do this for arbitrarily long code. The idea of "reductions" (as in 
     sum += a[1]
     sum += a[2]
     sum += a[3]
-    sum += a[4]
 
 ![sum dependencies](/images/cpu-archetecture/sum-data-dependencies.png)
 
 This has a circuit depth of 4. How can you lower that depth?
 
-Well, addition is associative, so what if we start adding from the other direction as well?
+Well, addition is associative, so what if we start adding the middle?
+
+    sum1 = 0
+    sum1 += a[0]
+    sum1 += a[1]
+    sum1 += a[2]
+    sum2 = 0
+    sum2 += a[3]
+    sum2 += a[4]
+    sum = sum1 + sum2
 
 ![sum reduce dependencies](/images/cpu-archetecture/sum-reduce-data-dependencies.png)
 
@@ -219,7 +227,7 @@ This next part is the important part, and the part that can be slow: our inner l
     	cmpq	%rdx, %rax
     	jne	.L4
 
-Why is this slower? Well, because it is run on each element of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take several cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
+Why is this slower? Well, because it is run on each element of the vector. So this runs in O(*n*) time, while the rest of the function runs in O(1) time. Also, floating point multiplication operation `mulsd` has a higher latency than other instructions, i.e., it take 3 cycles to complete, where `addq`, `cmpq` only take a single cycle. This turns out to not be very important here, but in other cases, it can be critical.
 
 ### Timing code
 
@@ -321,6 +329,11 @@ Then you go into the intermediate representation. This can be very simple (10 ki
 ### Static dependency analysis
 
 #### Simple static assignment
+
+
+## More resources:
+
+[Instruction scheduling](http://www.lighterra.com/papers/basicinstructionscheduling/)
 
 
 
