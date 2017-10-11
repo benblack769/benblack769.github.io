@@ -273,31 +273,32 @@ void draw_board(char playerchoice, int box1, int box2, int box3, int box4, int b
 }
 ```
 
-Now things are falling into place. We just need to fit everything in together (the hard part of implementation). The easiest way to do this is to simply try things until they work. But I don't feel like boring you with that process, so I'll just give you the finished code.
+Now things are falling into place. We just need to fit everything in together (the hard part of implementation). The easiest way to do this is to simply try things until they work. This is not trivial, and can take a lot of time. If anything, it should take longer than the first part of identifying structure. But it is easier to brute force, and so it is basically the same process as debugging, so I'll just give you the finished code.
 
+<div style="height: 700px; overflow-y: auto;" >
+{% highlight c++ linenos %}
+{% include sources/refactoring/windows_gone.cpp%}
+{% endhighlight %}
+</div>
 
-
-First, I feel like identifying the structure of the ideal code, because it is fairly simple:
-
-    state: state of the tick tack toe game
-    while game continues:
-        clear screen
-        print game state
-        prompt for user input, calculate computer input, update game state
-
-
-The next step is identifying the structure of the existing code
-
-
-
-So lets zoom out a little and see if we can rep
-
-Nicely for us, this part is separated from the rest of the code in a function. However, this function does not
+[link to code](/link_only/refractoring/full-code) and  [link to raw code](/link_only/refractoring/code-no-formatting)
 
 
 ### Data-structure cleanup
 
-As I mentioned in my [post about structure](/coding_posts/intuition-structure), data structures are the most important thing to get right. Hopefully you can see how incredibly shitty the current data structures are, and start to see just how seriously they foil our attempts at making clear code. In the above argument, I kept on having to refer to `box#` variables, instead of a single variable. There were all these cases made necessary by the fact that I had not method to programmatically access different box numbers (e.g., the 9 different cases for user input). Pretty much any more changes to the code (most critically adding testing) will be made far easier by cleaning up these data structures, so lets just get it over with now.
+####  Why we care about cleanup
+
+Hopefully, when going through the previous section, you might have been frustrated at how hard the final step of fitting things together is. A traditional view of refactoring is simply changing the code to make future changes easier. This can make an incredible difference when making changes like the one above, the difference between pulling your hair out for hours vs. finishing the change in minutes. Cumulatively, this can be the difference between a successful project and an unsuccessful one.
+
+I ignored this step in the first part partially to emphasize how important this is. For the next step, which will be testing the code, I will separate out the cleanup step from the testing step somewhat. This is a way of software development, but it is not always obvious when you want to do this cleanup. Many people do it too often, or too infrequently.
+
+So I will try to also introduce you to some of the intuition about when to refractor things.
+
+#### Importance of clean data structures
+
+As I mentioned in my [post about structure](/coding_posts/intuition-structure), data structures are the most important thing to get right. Hopefully you can see how incredibly shitty the current data structures are, and start to see just how seriously they foil our attempts at making clear code. In the above argument, I kept on having to refer to `box#` variables instead of a single variable. There were all these cases made necessary by the fact that I had not method to programmatically access different box numbers (e.g., the 9 different cases for user input). Pretty much any more changes to the code (most critically adding testing) will be made far easier by cleaning up these data structures, so lets just get it over with now.
+
+#### Identifying ideal data structures
 
 First, lets identify what sort of data structures there should be.
 

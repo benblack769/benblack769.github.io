@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#include "count-chars-fast.cpp"
+#include "count-chars.cpp"
 
 constexpr int string_size = 10000;
 constexpr int iters = 100000;
