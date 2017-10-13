@@ -260,6 +260,11 @@ Lets look at an example of some code, and the dependencies it has.
 
 ![arch-dep-bad](/images/cpu-archetecture/arch-dep-bad.png)
 
+### Ideal model of data dependencies
+![](/images/cpu-archetecture/dependencygraphmodel.png)
+![](/images/cpu-archetecture/ideal-2-loop-branch.png)
+![](/images/cpu-archetecture/ideal-2-loop.png)
+
 ### Instruction dependencies
 
 Machine code is simply 0s and 1s in memory. There are pointers to the current instruction, and code is fetched rather similarly to data. The problem is, that like data, each instruction can change the pointer to the next instruction arbitrarily. Function calls and branches do this. The worse case is a call to a function pointer, which cannot be determined before the pointer is calculated, so there is really no hope of ever completely fixing this dependency.
