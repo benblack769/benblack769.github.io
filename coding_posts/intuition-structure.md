@@ -6,7 +6,7 @@ under_construction: false
 
 When I first started coding, I thought that coding was like other forms of engineering. You have a problem, some materials, and the challenge is to piece together the tools in a clever way to make a working solution. It is a pretty common thought, and not entirely wrong, either. Many libraries and frameworks are built with this methodology in mind. But I find it lacking.
 
-The problem that finally forced me to work on this was a game I designed and wrote. When I first started writing it, it was almost all in a single 4500 line file, with several functions that were several hundred lines, with a dense coding style. If you want to laugh at some really bad code, you can find that file [here](https://gist.github.com/weepingwillowben/9f180dda531aed3249836efe12351033). I spent almost 2 years refactoring it and improving the AI, and ended up rewriting the whole thing around 3 times (you can see the latest version on [here](https://github.com/weepingwillowben/qtwargame)). But every time I was deeply unsatisfied. I was unsatisfied with my AI design, I was unsatisfied with my GUI, and I was unsatisfied with the abstractions my code had, and the additional burden they placed on me. And eventually I grew impatient enough, and the code hard enough, that I abandoned the project. I just wasn't smart enough to solve the problems I needed to solve. And that made me sad.
+The problem that finally forced me to work on this was a game I designed and wrote. When I first started writing it, it was almost all in a single 4500 line file, with several functions that were several hundred lines, with a dense coding style. If you want to laugh at some really bad code, you can find that file [here](https://gist.github.com/weepingwillowben/9f180dda531aed3249836efe12351033). I spent almost 2 years refactoring it and improving the AI, and ended up rewriting the whole thing around 3 times (you can see the latest version on [here](https://github.com/weepingwillowben/qtwargame)). But every time I was deeply unsatisfied. I was unsatisfied with my AI design, I was unsatisfied with my GUI, and I was unsatisfied with the abstractions my code had, and the additional burden they placed on me. And eventually I grew impatient enough, and the code difficult enough, that I abandoned the project. I just wasn't smart enough to solve the problems I needed to solve. And that made me sad.
 
 So I set on a mission to figure out how to do better next time. I promised myself that the next time I would start on a project, I would not fail.
 
@@ -14,7 +14,7 @@ So I set on a mission to figure out how to do better next time. I promised mysel
 
 It is common knowledge that the secret to dealing with complexity is to break it down into manageable components, and reason about each component separately. But implementing this in the wild is not necessarily easy. Two questions need to be answered.
 
-1. What should the components should look like?
+1. What should the components should look like broadly?
     * Interfaces/APIs
     * Naming schemes
     * Abstraction level
@@ -38,9 +38,10 @@ Here is a very incomplete list of characteristics people discuss when improving 
     * Good usually means a clean, well defined API.
     * These are the building blocks of your code. If these aren't good, then everything will be ugly and annoying.
 * Reusable code
-    * helper functions should be helpful to more than one use case
+    * Helper functions should be helpful to more than one use case
     * Classes should be extensible
 * Clear variable names
+    * Clarity of variable name scales with scope size (global variables are very clear even if that means they are verbose, variables in small loops can be short and ambiguous)
     * Someone who is reasonably familiar with the problem being solved should know what a particular variable is, even if they aren't familiar with the codebase.
 * Separate each idea
     * If you can find further ideas within the original idea, separate that apart as well.
@@ -58,11 +59,35 @@ Unfortunately, it is very hard to learn how to apply all these different, contra
 
 Eventually I found a solution. It is not exactly an original solution, although I approached it with somewhat more energy than most, due to my rather painful way of arriving at it.
 
-The solution is complex, but the concept is simple: **don't make yourself think too hard**.
-
-You shouldn't have to think to figure out what your code is doing. It should be obvious (except in very rare cases where you are actually dealing with a complicated algorithm). Variable names are a key part of this.
+The solution is complex, but the concept is simple: **you shouldn't have to think too hard about code**. There is one exception to this, refactoring. [Another post of mine](coding_posts/refractoring) covers this.
 
 
+#### Justification
+
+If you believe my answer, you can skip to the next section. If not, then continue.
+
+But despite that case, every one of the above bullet points can be reduced to this one line.
+
+* Clear operations, internal structures
+    * If your code's functions, classes, and modules have explicit purposes, with stated guarantees, edge case handling, etc, then you can write code on top of it without thinking about what the code actually does. Thinking about the operation of submodules is a huge pain when writing code.
+    * Figuring out whether a function has been written yet or not can be a huge pain in larger codebases, so making sure your file hierarchy is laid out well is huge.
+* Reusable code
+    * You don't want to have to think about the same thing twice. So don't. Write code that solves one problem once. Use others code so you don't have to think about it yourself.
+* Clear variable names
+    * You don't want to have to remember what you were thinking when looking back at old code. Nor do you want others to try to guess what you were thinking.
+    * When picking variable names, think: "If I forgot what I was thinking, would I remember it with this name?"
+* Separate each idea
+    * You don't want to have to juggle two ideas when you only need to juggle one. If you are thinking about two things when writing one piece of code, try to think about how to separate it as much as possible.
+* Testable
+    * You don't want to think hard about if tests passing imply that your code works. It should be really obvious, or your test is no good, and you should go write a test for your test.
+
+Now, you might call foul on me here. A lot of code can't seem to meet this ideal, no matter how we might want it to. Lots of code is based on complex codebases we can't hope to change, and is bad due to that. Some code has difficult algorithms, or complex logic that we can't avoid. Sometimes, the effort is simply not worth it: after all, the end goal is to make something that works, not something that is easy to understand.
+
+And for sure, holding different kinds of code to different quality standards is OK. Lots of production code has high standards for unit tests, so it can generally be messier at the unit level. Too much code reuse leads to monolithic software.
+
+But note that none of these things really contradict the thesis. If you are checking accuracy via unit tests, then you don't have to look at it that often, so you have to think about it less, even if it is messier. Difficult algorithms being hard really has nothing to do with the code being hard: such algorithms should be documented outside the code, and the code only needs to be able to reflect that documentation, and pass the tests. So it is the algorithm that is difficult, not the code. Monolithic codebases requires you to know too much, so if your code is leading to that, then you aren't really following the spirit of the thesis.
+
+#### Ideas
 
 I will try to show how these ideas that form the basis of code readability are tied to our intuitions of the ideas, and also to mathematical structure. That way, perhaps you can figure out your own code problems.
 
@@ -75,6 +100,17 @@ This is quite challenging, and I can't hope to teach this in a blog post. Rather
 
 ## Examples
 
+Examples are difficult because they aren't particularly meaningful unless the code is large and complex. The full benefit only becomes clear if you are constantly revisiting the code (another reason why many people never learn).
+
+Examples at a high level architecture level are [in this cool book (not mine)](http://aosabook.org/en/index.html).
+
+At a more moderate level, [my refactoring page](coding_posts/refractoring) has an interesting example.
+
+So here I will cover a lower level.
+
+
+
+<!--
 Here is a relatively simple problem which should demonstrate this. The problem is that I know how to check if someone won in tick tack toe. Simple enough, right? You check the rows, columns, and diagonals, and see if a player occupies all the spots there. But this problem, and other similar to it haunted me for years afterwards, making my code error prone, and difficult to debug.
 
 Below is some code that solves the tick tack toe problem. I wrote only a few weeks from when I learned programming for the first time. It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty. It then finds out who won (full code [here](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e), windows only unfortunately). It looks like this:
@@ -129,10 +165,13 @@ Wow, that is a lot of requirements. And it is the thing that experienced coders 
 Here is a more complicated task, the original one.
 
 Lets take
+-->
 
 
-Conclusion:
+### Conclusion:
 
-People often mistake good code with concise code. The two are definitely not the same. After all striving for conciseness and minimal code changes without thinking about the broader story is the source of spaghetti code and monolithic software. But really repetitive code is never good either.
+Some people often mistake good code with concise code. The two are definitely not the same. After all striving for conciseness and minimal code changes without thinking about the broader story is the source of spaghetti code and monolithic software.
 
-There is also more to good code than readability. There is testablilty, extensibility, maintainability, and more. All of them are super important in software, but I find that if you start with readability, then the others are much easier to manage.
+Other people think the best code is readable code. But at the extremes, you end up with COBAL, perhaps the worst programming high level language that people actually used.
+
+Other people think the same thing about testability, extensibility, maintainability, documentation, and more. All of them are super important in software, but focusing on these things individually leads to mistakes and poor tradeoffs. I find that if you just ask the question: *do I have to think about my code*, or when working with others, *will my collaborators have to think about my code* then that can, with experience, answer every question. And that is the best we can hope for. 
