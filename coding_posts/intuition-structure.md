@@ -106,7 +106,8 @@ Examples at a high level architecture level are [in this cool book (not mine)](h
 
 At a more moderate level, [my refactoring page](coding_posts/refractoring) has an interesting example.
 
-So here I will cover a lower level.
+So here I will cover a lower level, just to give you an idea of what I am talking about. In reality, there is no need to be this careful about low level code. But I have found it to be quite useful to code faster.
+
 
 
 
@@ -174,4 +175,4 @@ Some people often mistake good code with concise code. The two are definitely no
 
 Other people think the best code is readable code. But at the extremes, you end up with COBAL, perhaps the worst programming high level language that people actually used.
 
-Other people think the same thing about testability, extensibility, maintainability, documentation, and more. All of them are super important in software, but focusing on these things individually leads to mistakes and poor tradeoffs. I find that if you just ask the question: *do I have to think about my code*, or when working with others, *will my collaborators have to think about my code* then that can, with experience, answer every question. And that is the best we can hope for. 
+Other people think the same thing about testability, extensibility, maintainability, documentation, and more. All of them are super important in software, but focusing on these things individually leads to mistakes and poor tradeoffs. I find that if you just ask the question: *do I have to think about my code*, or when working with others, *will my collaborators have to think about my code* then that can, with experience, answer every question. And that is the best we can hope for.
