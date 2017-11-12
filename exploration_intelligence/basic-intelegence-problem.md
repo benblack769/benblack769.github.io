@@ -2,6 +2,7 @@
 title: Intelligence as a Definable Problem
 under_construction: false
 slug: basic-intelegence-problem
+excerpt: "Philosophical inquiry into the nature of intelligence."
 ---
 
 # Formalizing Intelligence

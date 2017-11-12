@@ -1,6 +1,7 @@
-links:
-{% for node in site.pages %}
-{% if node.url contains page.url and node.url != page.url and node.under_construction == false %}
-[{{node.title}}]({{node.url}})
+Pages:
+
+{% for post in site.pages %}
+{% if post.url contains page.url and post.url != page.url and post.under_construction == false %}
+{% include archive-single.html %}
 {% endif %}
 {% endfor %}

@@ -1,6 +1,7 @@
 ---
 title: Neural Network Paper
 under_construction: false
+excerpt: "Paper exploring how cool neural network topics like LSTMs and rmsprop work, and how they connect to human intelligence."
 ---
 
 # Creating long term memory for a neural network
