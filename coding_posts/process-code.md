@@ -2,6 +2,7 @@
 title: "Process and Code"
 slug: process-code
 under_construction: false
+excerpt: "Introduction to conceptualizing and coding dynamic systems."
 ---
 
 ### Code

@@ -2,6 +2,7 @@
 title: "Intuition and structure: The story of code"
 slug: intuition-structure
 under_construction: false
+excerpt: "Instrutive post about expressing ideas in code."
 ---
 
 When I first started coding, I thought that coding was like other forms of engineering. You have a problem, some materials, and the challenge is to piece together the tools in a clever way to make a working solution. It is a pretty common thought, and not entirely wrong, either. Many libraries and frameworks are built with this methodology in mind. But I find it lacking.
@@ -174,4 +175,4 @@ Some people often mistake good code with concise code. The two are definitely no
 
 Other people think the best code is readable code. But at the extremes, you end up with COBAL, perhaps the worst programming high level language that people actually used.
 
-Other people think the same thing about testability, extensibility, maintainability, documentation, and more. All of them are super important in software, but focusing on these things individually leads to mistakes and poor tradeoffs. I find that if you just ask the question: *do I have to think about my code*, or when working with others, *will my collaborators have to think about my code* then that can, with experience, answer every question. And that is the best we can hope for. 
+Other people think the same thing about testability, extensibility, maintainability, documentation, and more. All of them are super important in software, but focusing on these things individually leads to mistakes and poor tradeoffs. I find that if you just ask the question: *do I have to think about my code*, or when working with others, *will my collaborators have to think about my code* then that can, with experience, answer every question. And that is the best we can hope for.
