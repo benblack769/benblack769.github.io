@@ -10,6 +10,14 @@ excerpt: "Thoughts of a budding computer scientist"
 intro:
   - excerpt: ''#'hi there again'
 feature_row1:
+  - image_path: images/home/cityscreen.png
+    alt: "code pic"
+    title: "Coding posts"
+    excerpt: 'Cool ideas which use simple dynamic intuition to solve important problems.'
+    url: "intelligent-code"
+    btn_label: "Read More"
+    btn_class: "btn--inverse"
+feature_row2:
   - image_path: images/home/code_screen.png
     alt: "code pic"
     title: "Coding posts"
@@ -17,15 +25,15 @@ feature_row1:
     url: "coding_posts"
     btn_label: "Read More"
     btn_class: "btn--inverse"
-feature_row2:
-  - image_path: images/home/cityscreen.png
+feature_row3:
+  - image_path: images/home/Intelligence-ideas-drawing.png
     alt: "intelligent algorithm image"
     title: "Intelligence ideas"
     excerpt: 'Papers that explain my ideas of intelligence and how they can be implemented. For a more advanced audience interested in AI.'
     url: "exploration_intelligence"
     btn_label: "Read More"
     btn_class: "btn--inverse"
-feature_row3:
+feature_row4:
   - image_path: images/home/neural_nets.png
     alt: "neural nets dynamics graph"
     title: "Intuition behind neural networks"
@@ -40,5 +48,7 @@ feature_row3:
 {% include feature_row id="feature_row1" type="left" %}
 
 {% include feature_row id="feature_row2" type="left" %}
+
+{% include feature_row id="feature_row4" type="left" %}
 
 {% include feature_row id="feature_row3" type="left" %}

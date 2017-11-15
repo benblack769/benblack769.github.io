@@ -1,7 +1,7 @@
 <script>
 function point_coords(graph_size,node_num){
-    var xcen = 300;
-    var height = 300;
+    var xcen = 400;
+    var height = 400;
     var radial_offset = (2*Math.PI*(node_num + 0.2))/graph_size;
     var radial_size = 100*Math.sqrt(graph_size);
     var pointcen = [xcen+radial_size*Math.cos(radial_offset),height+radial_size*Math.sin(radial_offset)];
@@ -153,7 +153,7 @@ function draw_new_graph(){
 <script>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-var my_size = 16;
+var my_size = 17;
 var coloring = rand_coloring(my_size)
 draw_graph(coloring,my_size)
 
