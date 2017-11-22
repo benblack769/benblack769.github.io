@@ -11,8 +11,8 @@ intro:
   - excerpt: ''#'hi there again'
 feature_row1:
   - image_path: images/home/cityscreen.png
-    alt: "code pic"
-    title: "Coding posts"
+    alt: "intelligent algorithm image"
+    title: "Intelligent computation"
     excerpt: 'Cool ideas which use simple dynamic intuition to solve important problems.'
     url: "intelligent-code"
     btn_label: "Read More"
@@ -27,7 +27,7 @@ feature_row2:
     btn_class: "btn--inverse"
 feature_row3:
   - image_path: images/home/Intelligence-ideas-drawing.png
-    alt: "intelligent algorithm image"
+    alt: "intelligence diagram"
     title: "Intelligence ideas"
     excerpt: 'Papers that explain my ideas of intelligence and how they can be implemented. For a more advanced audience interested in AI.'
     url: "exploration_intelligence"
