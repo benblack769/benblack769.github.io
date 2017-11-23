@@ -7,7 +7,7 @@ function draw_plot(plot_data){
                         //{'date':new Date('2014-11-02'),'value':18}],
         width: 600,
         height: 250,
-        target: '#downloads',
+        target: '#stock_chart',
         x_accessor: 'date',
         y_accessor: 'open',
     })
