@@ -3,6 +3,7 @@ title: Requirements of a General Intelligence
 under_construction: false
 slug: generalized-intelligence-requirements
 excerpt: "Creating concrete requirements for an intelligent system."
+comments: true
 ---
 
 ## Moving Towards a Generalized Concept of Intelligence

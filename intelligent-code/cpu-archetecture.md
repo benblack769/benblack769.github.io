@@ -2,6 +2,8 @@
 title: Instruction Level Parallelism
 under_construction: false
 excerpt: "Informative post concerning connecting data parrelelism, computer archetecture and compilers."
+comments: true
+share: true
 ---
 
 # Instruction level parallelism: An introduction to computer architecture

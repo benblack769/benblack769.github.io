@@ -1,3 +1,12 @@
+---
+title: "Multiplicative Weights"
+slug: multiplicative-weights
+under_construction: false
+excerpt: "Solutions to real world problems using an amazing general technique."
+comments: true
+share: true
+---
+
 ## Multiplicative weights update algorithm
 
 This is one of many classical optimization techniques.

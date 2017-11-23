@@ -3,6 +3,8 @@ title: "Process and Code"
 slug: process-code
 under_construction: false
 excerpt: "Introduction to conceptualizing and coding dynamic systems."
+comments: true
+share: true
 ---
 
 ### Code
@@ -83,7 +85,7 @@ If you run it, you will see that it does quite poorly. Only two of the words are
 
 So it looks like our idea for an algorithm was no good. In this state, it is not going to be useful in any circumstance. So what to do next? So what is it that allows us to know about the blanks so much better than this algorithm?
 
-The answer any linguist would tell you is **Context**. We know what sorts of words will fit in which blanks. 
+The answer any linguist would tell you is **Context**. We know what sorts of words will fit in which blanks.
 
 
 #### The messiness of the real world
