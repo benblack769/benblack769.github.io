@@ -1,12 +1,16 @@
-
+function random_unit(){
+    return {
+        location: random_point(),
+        pick_up_proportion: Math.random(),
+        keep_moving_weight: Math.random(),
+    }
+}
 function init_units(){
-    unit1 = {
-        location: [3,5],
+    var res = new Array(NUM_UNITS)
+    for(var i = 0; i < NUM_UNITS; i++){
+        res[i] = random_unit()
     }
-    unit2 = {
-        location: [10,4],
-    }
-    return [unit1,unit2]
+    return res
 }
 function draw_circ(cen,color){
     var rad = SQUARE_SIZE / 3.5;
@@ -21,14 +25,13 @@ function draw_units(units){
     })
 }
 function random_move(){
-    var move = Math.floor(Math.random()*4);
+    var move = random_int(4);
     var sign = (move % 2)*2-1;
     if(move > 2){
         return [sign,0]
     } else {
         return [0,sign]
     }
-    return [move >> 1,move & 1]
 }
 function move_units(units){
     units.forEach(function(unit){

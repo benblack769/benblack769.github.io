@@ -1,3 +1,9 @@
+function random_int(max_val){
+    return Math.floor(Math.random()*(max_val+1))
+}
+function random_point(){
+    return [random_int(GAME_SIZE),random_int(GAME_SIZE)]
+}
 function add(vec1,vec2){
     return [vec1[0]+vec2[0],vec1[1]+vec2[1]]
 }
