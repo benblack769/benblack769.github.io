@@ -26,7 +26,7 @@ Core strategies are:
 * Optimistic: Always increasing
 * Skittish: if it decreases, it will decrease again, increases, increase again
 * Bullish: Long term trajectory is indicator
-* Uniformly random
+* Chaotic: Uniformly random
 * negation of all these strategies (i.e. the pessimistic strategy that always decreases, the reverse skittish strategy, trend-breaking strategy, etc)
 
 #### Note about strategies.
