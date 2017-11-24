@@ -1,4 +1,15 @@
-
+function process_stock_data(stock_data){
+    var stock_predictor = new StockPredictor();
+    if(stock_data.length == 0){
+        alert("bad stock data")
+    }
+    var prev_day = stock_data[0];
+    for(var i = 1; i < stock_data.length; i++){
+        var new_day = stock_data[i];
+        var cur_value = new_day.open > prev_day.open ? 1 : -1;
+        prev_day = new_day;
+    }
+}
 function draw_plot(plot_data){
     //console.log(plot_data)
     MG.data_graphic({
