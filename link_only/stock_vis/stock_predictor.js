@@ -1,8 +1,8 @@
 
-var MUL_WEIGHTS_UPDATE = 0.01;
+var MUL_WEIGHTS_UPDATE = 0.1;
 class StockPredictor {
   constructor() {
-      this.experts = strategy_constructors.map(function(construct){return new construct();});
+      this.experts = [new Skittish,new Optimistic,new Random,new Bullish];
       this.mul_weights = new MultiplicativeWeights(this.experts.length,MUL_WEIGHTS_UPDATE);
   }
   get_advice(){

@@ -38,6 +38,7 @@ Core strategies are:
 * Chaotic: Uniformly random
 * negation of all these strategies (i.e. the pessimistic strategy that always decreases, the reverse skittish strategy, trend-breaking strategy, etc)
 
+
 #### Note about strategies.
 
 These strategies are not chosen randomly. Each one has nice properties. Uniform random allows us to model chaotic events. Optimism takes care of standard trend of stocks over time. Bullish takes into account long term behavior. Skittish takes into account short term behavior. Negated strategies allow for reversals. All in all, you should be able to describe just about any decent strategy as a simple combination of these. Which is exactly what we are trying to do.
@@ -47,7 +48,9 @@ These strategies are not chosen randomly. Each one has nice properties. Uniform 
 1. Take each strategy as an advisor.
 2. etc.
 
+On real data:
 
+[real data example](/link_only/stock_vis/stock_vis.html)
 
 ### Offline case
 

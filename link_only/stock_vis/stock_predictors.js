@@ -28,7 +28,7 @@ class Bullish {
       return this.cur_val > 0 ? 1 : -1;
   }
   update(actual_value){
-      this.cur_val *= 0.01;
+      this.cur_val *= (1-0.3);
       this.cur_val += actual_value;
   }
 }

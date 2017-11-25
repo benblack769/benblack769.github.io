@@ -12,6 +12,16 @@ function max(vals){
     }
     return max;
 }
+function normalize(vals){
+    var max_weight = max(vals);
+    if(max_weight == 0){
+        return vals;
+    }
+    for(var i = 0; i < vals.length; i++){
+        vals[i] /= max_weight;
+    }
+    return vals;
+}
 function random_index(vals){
     var tot_weight = sum(vals);
     var pick_val = Math.random()*tot_weight;
@@ -19,11 +29,11 @@ function random_index(vals){
     for(var i = 0; i < vals.length; i++){
         var new_sum = old_sum + vals[i];
         if(old_sum <= pick_val && pick_val < new_sum){
-            return pick_val;
+            return i;
         }
         old_sum = new_sum;
     }
-    alert("error in calculation");
+    console.assert(false,"error in calculation")
 }
 class MultiplicativeWeights {
   constructor(num_weights,multiplicative_weight_update_val) {
@@ -39,17 +49,9 @@ class MultiplicativeWeights {
       for(var i = 0; i < this.weights.length; i++){
           if(advice[i] != actual){
               this.weights[i] *= (1 - this.update_constant);
+              console.assert(this.weights[i] > 0,"numbers not stable")
           }
       }
-      normalize();
-  }
-  normalize(){
-      var max_weight = max(this.weights);
-      for(var i = 0; i < this.weights.length; i++){
-          if(this.weights[i] <= 0){
-              console.log("numbers not stable")
-          }
-          this.weights[i] /= max_weight;
-      }
+      normalize(this.weights);
   }
 }
