@@ -50,7 +50,9 @@ These strategies are not chosen randomly. Each one has nice properties. Uniform 
 
 On real data:
 
-[real data example](/link_only/stock_vis/stock_vis.html)
+<a href="/link_only/stock_vis/stock_vis.html" rel="click for app">
+    <img src="/images/multiplicative_weights/stock_screenshot.png" alt="Click for app"/>
+</a>
 
 ### Offline case
 

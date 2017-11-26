@@ -113,7 +113,7 @@ function parse_line(line){
     var new_date = new Date(
         (old_date.slice(0,4)),
         (old_date.slice(4,6)),
-        (old_date.slice(6,8)),
+        (old_date.slice(6,8))
     );
     //console.log(new_date)
     //console.log(parseFloat(elements[2]))
