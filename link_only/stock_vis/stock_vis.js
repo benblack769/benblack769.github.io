@@ -46,11 +46,10 @@ function average_over_time(values,average_over_len){
     }
     return averages;
 }
-function get_plot_data(stock_data,predictor){
+function get_plot_data(stock_data,predictor,average_len){
     var changes = stock_changes(stock_data);
     var predicted_values = process_stock_data(changes,predictor)
     var accurate_predictions = did_predict(changes,predicted_values)
-    var average_len = 10;
     var averages = average_over_time(accurate_predictions,average_len);
     var plot_data = new Array(averages.length);
     for(var i = 0; i < averages.length; i++){
@@ -61,20 +60,19 @@ function get_plot_data(stock_data,predictor){
     }
     return plot_data
 }
-function sparsify_data(stock_data){
-    var sparse_factor = 30;
+function sparsify_data(stock_data,sparse_factor){
     var res = [];
     for(var i = 0; i < stock_data.length; i += sparse_factor){
         res.push(stock_data[i]);
     }
     return res;
 }
-function plot_mul_weights_strategies(stock_data){
+function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
     var predictors = [new Skittish,new Optimistic,new Random,new Bullish,new StockPredictor]
     var mylegend = ["skittsh","optimistic","random","bullish","mul_weights"]
-    var sparse_stock_data = sparsify_data(stock_data)
+    var sparse_stock_data = sparsify_data(stock_data,sparse_factor)
     var plot_data = predictors.map(function(pred){
-        return get_plot_data(sparse_stock_data,pred)
+        return get_plot_data(sparse_stock_data,pred,average_len)
     })
     //console.log(plot_data)
 
@@ -141,7 +139,9 @@ function process_stock_name(name){
         success : function(result){
             var stock_data = parse_csv_into_elements(result);
             plot_stocks(stock_data);
-            plot_mul_weights_strategies(stock_data);
+            var sparsity = parseInt($("#number_days").val());
+            var average_over = parseInt($("#average_over").val());
+            plot_mul_weights_strategies(stock_data,sparsity,average_over);
         },
         error: function(result){
             console.log(result)
@@ -162,10 +162,12 @@ function init_stock_options(){
     })
 }
 function update_plot(){
+    document.getElementById('stock_chart').innerHTML = "";
+    document.getElementById('pred_chart').innerHTML = "";
     process_stock_name($("#stock_options").val())
 }
 window.onload = function(){
-    $('#stock_options').change(update_plot);
+    $('#update_chart').click(update_plot);
     init_stock_options()
     update_plot()
 }

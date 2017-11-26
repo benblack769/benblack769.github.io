@@ -101,5 +101,3 @@ So how do we actually build an perfect AI for this game?
 In regular tick tack toe, we can create an optimal strategy by enumerating all $$9^3=729$$ game states, and working backwards.
 
 This will not work here because some of the optimal strategies are probabilistic, due to this simultaneous movement.
-
-So what do we use? Multiplicative weights!

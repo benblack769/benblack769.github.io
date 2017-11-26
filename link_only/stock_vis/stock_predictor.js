@@ -1,9 +1,9 @@
 
-var MUL_WEIGHTS_UPDATE = 0.1;
 class StockPredictor {
   constructor() {
       this.experts = [new Skittish,new Optimistic,new Random,new Bullish];
-      this.mul_weights = new MultiplicativeWeights(this.experts.length,MUL_WEIGHTS_UPDATE);
+      var mul_weights_update_val = parseFloat($("#mul_weights_constant").val())
+      this.mul_weights = new MultiplicativeWeights(this.experts.length,mul_weights_update_val);
   }
   get_advice(){
       return this.experts.map(function(expert){return expert.guess()})

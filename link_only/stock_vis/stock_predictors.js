@@ -23,12 +23,14 @@ class Random {
 class Bullish {
   constructor() {
       this.cur_val = 0;
+      this.update_val = parseFloat($("#bullish_discount").val())
+      console.log( this.update_val)
   }
   guess() {
       return this.cur_val > 0 ? 1 : -1;
   }
   update(actual_value){
-      this.cur_val *= (1-0.3);
+      this.cur_val *= (1-this.update_val);
       this.cur_val += actual_value;
   }
 }
