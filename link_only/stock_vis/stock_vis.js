@@ -109,36 +109,32 @@ var all_strat_info = {
         "color":"black",
     },
 }
-var current_objects = Object.assign({}, all_strat_info);
-function new_listener(key){
-    return function(){
-        if(key in current_objects){
-            delete current_objects[key]
-        }
-        else{
-            current_objects[key] = all_strat_info[key];
-        }
-        console.log(current_objects)
-    }
-}
 function place_checkboxes(){
     var mydiv = document.getElementById("strategy_inclusion")
    for(var key in all_strat_info){
         var x = document.createElement("INPUT");
-        x.setAttribute("type", "checkbox");
-        x.setAttribute("id", key);
+        x.type = "checkbox"
+        x.id = key;
         x.checked = true;
-        x.addEventListener("click", new_listener(key));
         mydiv.appendChild(x);
 
         var y = document.createElement("label");
         y.innerHTML = key;
-        y.setAttribute("for",key);
+        y.for = key;
         mydiv.appendChild(y);
     }
 }
+function get_cur_strategies(){
+    var out_strats = {}
+    for(var key in all_strat_info){
+        if(document.getElementById(key).checked){
+            out_strats[key] = all_strat_info[key]
+        }
+    }
+    return out_strats;
+}
 function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
-    var cur_values = Object.values(current_objects);
+    var cur_values = Object.values(get_cur_strategies());
     var predictors = cur_values.map(function(v){return v.strat_const()})
     var sparse_stock_data = sparsify_data(stock_data,sparse_factor)
     var plot_data = predictors.map(function(pred){
@@ -203,7 +199,7 @@ function parse_csv_into_elements(csv_string){
     return lines.map(parse_line)
 }
 function process_stock_name(name){
-    var base_url = ""//"https://weepingwillowben.github.io/link_only/stock_vis/"
+    var base_url = "https://weepingwillowben.github.io/link_only/stock_vis/"
     var final_url = base_url+"daily/table_"+name+".csv";
     $.ajax({
         url : final_url,
