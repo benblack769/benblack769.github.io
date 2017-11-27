@@ -203,7 +203,7 @@ function parse_csv_into_elements(csv_string){
     return lines.map(parse_line)
 }
 function process_stock_name(name){
-    var base_url = "https://weepingwillowben.github.io/link_only/stock_vis/"
+    var base_url = ""//"https://weepingwillowben.github.io/link_only/stock_vis/"
     var final_url = base_url+"daily/table_"+name+".csv";
     $.ajax({
         url : final_url,
