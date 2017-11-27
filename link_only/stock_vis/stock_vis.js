@@ -67,9 +67,79 @@ function sparsify_data(stock_data,sparse_factor){
     }
     return res;
 }
+var all_strat_info = {
+    "bullish":{
+        "strat_const":Bull,
+        "label":"bullish",
+        "color":"yellow",
+    },
+    "optimistic":{
+        "strat_const":Opti,
+        "label":"optimistic",
+        "color":"green",
+    },
+    "random":{
+        "strat_const":Rand,
+        "label":"random",
+        "color":"red",
+    },
+    "skittsh":{
+        "strat_const":Skitti,
+        "label":"skittsh",
+        "color":"blue",
+    },
+    "rev-skittish":{
+        "strat_const":SkitNegate,
+        "label":"rev-skittish",
+        "color":"rgb(125,255,255)",
+    },
+    "trend_reversing":{
+        "strat_const":BullNegate,
+        "label":"trend_reversing",
+        "color":"rgb(255,125,255)",
+    },
+    "pessimistic":{
+        "strat_const":Pessimistic,
+        "label":"pessimistic",
+        "color":"rgb(255,255,125)",
+    },
+    "mul_weights":{
+        "strat_const":PredStocks,
+        "label":"mul_weights",
+        "color":"black",
+    },
+}
+var current_objects = Object.assign({}, all_strat_info);
+function new_listener(key){
+    return function(){
+        if(key in current_objects){
+            delete current_objects[key]
+        }
+        else{
+            current_objects[key] = all_strat_info[key];
+        }
+        console.log(current_objects)
+    }
+}
+function place_checkboxes(){
+    var mydiv = document.getElementById("strategy_inclusion")
+   for(var key in all_strat_info){
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", "checkbox");
+        x.setAttribute("id", key);
+        x.checked = true;
+        x.addEventListener("click", new_listener(key));
+        mydiv.appendChild(x);
+
+        var y = document.createElement("label");
+        y.innerHTML = key;
+        y.setAttribute("for",key);
+        mydiv.appendChild(y);
+    }
+}
 function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
-    var predictors = [new Skittish,new Optimistic,new Random,new Bullish,new StockPredictor]
-    var mylegend = ["skittsh","optimistic","random","bullish","mul_weights"]
+    var cur_values = Object.values(current_objects);
+    var predictors = cur_values.map(function(v){return v.strat_const()})
     var sparse_stock_data = sparsify_data(stock_data,sparse_factor)
     var plot_data = predictors.map(function(pred){
         return get_plot_data(sparse_stock_data,pred,average_len)
@@ -86,8 +156,9 @@ function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
         target: '#pred_chart',
         x_accessor: 'date',
         y_accessor: 'perc_worked',
-        legend: mylegend,
-        legend_target: '.legend'
+        legend: cur_values.map(function(v){return v.label}),
+        legend_target: '.legend',
+        colors: cur_values.map(function(v){return v.color}),
     })
 }
 function plot_stocks(plot_data){
@@ -132,7 +203,7 @@ function parse_csv_into_elements(csv_string){
     return lines.map(parse_line)
 }
 function process_stock_name(name){
-    var base_url = "";//"https://weepingwillowben.github.io/link_only/stock_vis/"
+    var base_url = "https://weepingwillowben.github.io/link_only/stock_vis/"
     var final_url = base_url+"daily/table_"+name+".csv";
     $.ajax({
         url : final_url,
@@ -168,6 +239,7 @@ function update_plot(){
 }
 window.onload = function(){
     $('#update_chart').click(update_plot);
+    place_checkboxes()
     init_stock_options()
     update_plot()
 }

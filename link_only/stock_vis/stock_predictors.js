@@ -45,4 +45,39 @@ class Skittish {
       this.prev_sign = actual_value > 0 ? 1 : -1;
   }
 }
-var strategy_constructors = [Skittish,Optimistic,Random,Bullish];
+class Negate{
+    constructor(otherstrat){
+        this.strategy = otherstrat
+    }
+    guess(){
+        return - this.strategy.guess()
+    }
+    update(actual_value){
+        this.strategy.update(actual_value)
+    }
+}
+
+function Bull(){
+    return new Bullish;
+}
+function Opti(){
+    return new Optimistic;
+}
+function Skitti(){
+    return new Skittish;
+}
+function Rand(){
+    return new Random;
+}
+
+function BullNegate(){
+    return new Negate(new Bullish);
+}
+function SkitNegate(){
+    return new Negate(new Skittish);
+}
+function Pessimistic(){
+    return new Negate(new Optimistic);
+}
+
+var all_strat_info = [Bull,Opti,Skitti,Rand,BullNegate,SkitNegate,Pessimistic]

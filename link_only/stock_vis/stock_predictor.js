@@ -1,7 +1,10 @@
 
 class StockPredictor {
   constructor() {
-      this.experts = [new Skittish,new Optimistic,new Random,new Bullish];
+      var mul_weights_val = all_strat_info.mul_weights
+      delete all_strat_info.mul_weights
+      this.experts = Object.values(all_strat_info).map(function(data){return data.strat_const()})
+      all_strat_info["mul_weights"] = mul_weights_val
       var mul_weights_update_val = parseFloat($("#mul_weights_constant").val())
       this.mul_weights = new MultiplicativeWeights(this.experts.length,mul_weights_update_val);
   }
@@ -18,4 +21,7 @@ class StockPredictor {
           expert.update(actual)
       })
   }
+}
+function PredStocks(){
+    return new StockPredictor;
 }
