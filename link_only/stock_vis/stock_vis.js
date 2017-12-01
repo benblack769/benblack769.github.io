@@ -33,9 +33,10 @@ function average_over_time(values,average_over_len){
     var average_len_half = Math.floor(average_over_len/2)
     var num_values = values.length;
 
-    var averages = new Array(num_values);
+    var inc_val = Math.max(average_len_half,1);
+    var averages = {};
 
-    for(var i = 0; i < num_values; i++){
+    for(var i = 0; i < num_values; i += inc_val){
         var begin = Math.max(0,i-average_len_half)
         var end = Math.min(i+average_len_half,num_values-1)
         var cur_sum = 0;
@@ -51,12 +52,15 @@ function get_plot_data(stock_data,predictor,average_len){
     var predicted_values = process_stock_data(changes,predictor)
     var accurate_predictions = did_predict(changes,predicted_values)
     var averages = average_over_time(accurate_predictions,average_len);
+
     var plot_data = new Array(averages.length);
-    for(var i = 0; i < averages.length; i++){
+    var i = 0;
+    for(var idx in averages){
         plot_data[i] = {
-            "date":stock_data[i+1].date,
-            "perc_worked":averages[i],
+            "date":stock_data[idx].date,
+            "perc_worked":averages[idx],
         }
+        i += 1;
     }
     return plot_data
 }
@@ -140,7 +144,6 @@ function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
     var plot_data = predictors.map(function(pred){
         return get_plot_data(sparse_stock_data,pred,average_len)
     })
-    //console.log(plot_data)
 
     MG.data_graphic({
         title: "more cool stuff",
@@ -158,7 +161,6 @@ function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
     })
 }
 function plot_stocks(plot_data){
-    //console.log(plot_data)
     MG.data_graphic({
         title: "Downloads",
         description: "This graphic shows a time-series of downloads.",
@@ -182,8 +184,6 @@ function parse_line(line){
         (old_date.slice(4,6)),
         (old_date.slice(6,8))
     );
-    //console.log(new_date)
-    //console.log(parseFloat(elements[2]))
     return {
         "date":new_date,
         "open":parseFloat(elements[2]),
