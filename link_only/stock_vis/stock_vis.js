@@ -30,10 +30,10 @@ function did_predict(actual_changes,predicted_changes){
 function average_over_time(values,average_over_len){
     console.assert(average_over_len > 0,"bad len")
 
-    var average_len_half = Math.floor(average_over_len/2)
+    var average_len_half = Math.floor(average_over_len/2);
     var num_values = values.length;
 
-    var inc_val = Math.max(average_len_half,1);
+    var inc_val = Math.max(Math.floor(average_over_len/2),1);
     var averages = {};
 
     for(var i = 0; i < num_values; i += inc_val){
