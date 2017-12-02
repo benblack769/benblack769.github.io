@@ -59,14 +59,13 @@ function largest_inclusive_edge(edges,graph_size,complete_size){
                 }
             }
         }
+        has_empty = true
         for(var i = 0; i < v_list.length; i++){
             for(var j = 0; j < i; j++){
                 edge_freq[v_list[i]][v_list[j]] += 1
-                has_empty = true
             }
         }
     })
-    //clear out all the edges that will complete a K_r
     list_all_k_sets(graph_size,complete_size,function(v_list){
         var already_hit = false;
         var hit_edge = null
@@ -83,7 +82,9 @@ function largest_inclusive_edge(edges,graph_size,complete_size){
                 }
             }
         }
-        edge_freq[hit_edge[0]][hit_edge[1]] = 0;
+        if(already_hit){
+            edge_freq[hit_edge[0]][hit_edge[1]] = 0;
+        }
     })
     var my_max_edge = max_edge(edge_freq,graph_size)
     var has_edge = my_max_edge[0] != -1
