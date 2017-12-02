@@ -1,8 +1,15 @@
 <script src="graph_draw.js"></script>
 <script src="greedy_add.js"></script>
 <body>
-<button onclick="draw_new_graph()">Update Graph</button>
+<button onclick="greedy_execute()">Update Graph</button>
+<div>
+    <input type="number" value=20 id="graph_size">Graph Size</input>
+</div>
+<div>
+    <input type="number" value=4 id="clique_size">K Size</input>
+</div>
 <p id="num_display"></p>
+<p id="output_display"></p>
 <canvas id="myCanvas" width="1000" height="1000">
 </canvas>
 </body>

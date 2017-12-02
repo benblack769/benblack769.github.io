@@ -49,6 +49,7 @@ function max_edge(edge_weights,graph_size){
 }
 function largest_inclusive_edge(edges,graph_size,complete_size){
     edge_freq = zero_matrix(graph_size)
+    var has_empty = false
     //counts number of K_r that edges actually complete
     list_all_k_sets(graph_size,complete_size,function(v_list){
         for(var i = 0; i < v_list.length; i++){
@@ -61,6 +62,7 @@ function largest_inclusive_edge(edges,graph_size,complete_size){
         for(var i = 0; i < v_list.length; i++){
             for(var j = 0; j < i; j++){
                 edge_freq[v_list[i]][v_list[j]] += 1
+                has_empty = true
             }
         }
     })
@@ -83,14 +85,23 @@ function largest_inclusive_edge(edges,graph_size,complete_size){
         }
         edge_freq[hit_edge[0]][hit_edge[1]] = 0;
     })
-    return max_edge(edge_freq,graph_size)
+    var my_max_edge = max_edge(edge_freq,graph_size)
+    var has_edge = my_max_edge[0] != -1
+    return {
+        "has_edge": has_edge,
+        "lower_bound": !has_empty,
+        "edge":my_max_edge,
+    }
 }
 function greedy_step(edges,graph_size,complete_size){
-    var new_edge = largest_inclusive_edge(edges,graph_size,complete_size)
-    if(new_edge[0] == -1){
+    var out_data = largest_inclusive_edge(edges,graph_size,complete_size)
+    if(!out_data.has_edge){
+        document.getElementById("output_display").innerHTML = out_data.lower_bound ? "Provable lower bound." : "Possible upper bound?";
         return true;
     }
     else{
+        document.getElementById("output_display").innerHTML = "Evaluating...";
+        var new_edge = out_data.edge;
         edges[new_edge[0]][new_edge[1]] = 1;
         return false;
     }
@@ -107,18 +118,21 @@ function count_edges(edges,graph_size){
 function max_edges(graph_size){
     return (graph_size*(graph_size-1))/2;
 }
+var cur_timer;
 function greedy_execute(){
-    var graph_size = 18;
-    var complete_size = 4;
+    if(cur_timer){
+        window.clearInterval(cur_timer);
+    }
+    var graph_size = document.getElementById("graph_size").value;
+    var complete_size = document.getElementById("clique_size").value;
     var edges = zero_matrix(graph_size)
     var milli_wait = 100;
     draw_graph(edges,graph_size)
-    var myVar = window.setInterval(function(){
+    cur_timer = window.setInterval(function(){
         if(greedy_step(edges,graph_size,complete_size)){
-            console.log("over")
-            window.clearInterval(myVar);
+            window.clearInterval(cur_timer);
         }
-        document.getElementById("num_display").innerHTML= (count_edges(edges,graph_size)/max_edges(graph_size))
+        document.getElementById("num_display").innerHTML="Percentage of edges colored: "+ (count_edges(edges,graph_size)/max_edges(graph_size))
         draw_graph(edges,graph_size)
     }, milli_wait);
 }
