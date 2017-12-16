@@ -13,7 +13,7 @@ This is one of many classical optimization techniques.
 
 People tend not to learn it as an undergrad for two reasons.
 
-1. The proofs that it has good properties are difficult, and require fairly significant mathematical sophistication
+1. The proofs that it has good properties are fairly unintuitive, and require fairly significant mathematical sophistication
 2. The most important problems it tries to solve require substantial backgrounds to even understand why the problems are important
 
 There are many good papers out there that describe multiplicative weights mathematically, such as this one: [good multiplicative weights article (not mine)](https://jeremykun.com/2017/02/27/the-reasonable-effectiveness-of-the-multiplicative-weights-update-algorithm/)
