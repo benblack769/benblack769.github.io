@@ -301,6 +301,8 @@ So I will try to also introduce you to some of the intuition about when to refra
 
 As I mentioned in my [post about structure](/coding_posts/intuition-structure), data structures are the most important thing to get right. Hopefully you can see how incredibly shitty the current data structures are, and start to see just how seriously they foil our attempts at making clear code. In the above argument, I kept on having to refer to `box#` variables instead of a single variable. There were all these cases made necessary by the fact that I had not method to programmatically access different box numbers (e.g., the 9 different cases for user input). Pretty much any more changes to the code (most critically adding testing) will be made far easier by cleaning up these data structures, so lets just get it over with now.
 
+To see why, think about how you might add a test
+
 #### Identifying ideal data structures
 
 First, lets identify what sort of data structures there should be.
