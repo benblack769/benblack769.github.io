@@ -303,11 +303,17 @@ As I mentioned in my [post about structure](/coding_posts/intuition-structure), 
 
 To see why, think about how you might add a test
 
+[link to raw code](/link_only/refractoring/data-fix-raw)
+
 #### Identifying ideal data structures
 
 First, lets identify what sort of data structures there should be.
 
 It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty
+
+#### Removing easy code
+
+> The most productive way to spend your time is deleting code.
 
 ### Testable logic
 
