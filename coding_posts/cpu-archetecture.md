@@ -1,10 +1,23 @@
 ---
-title: Instruction Level Parallelism
-under_construction: false
-excerpt: "Informative post concerning connecting data parrelelism, computer archetecture and compilers."
+title: Reverse Engineering through Performance Analysis
+under_construction: true
+excerpt: "Showing how one can use reverse engineering principles to understand complex ideas in computer architecture and optimizing compilers."
 comments: true
 share: true
 ---
+
+# Overall purpose:
+
+Some computer scientists I admired greatly took a computer systems class, and didn't like it because it was all about learning about lots of gritty details which didn't seem to matter very much. I found this greatly disturbing: I have always deeply, appreciated computer systems, especially the attempts to make systems work faster under the hood.
+
+So I think about systems a little differently than many people.
+
+* Successful computer systems are based on engineering and  mathematical principles while taking into account historical and physical problems. If you really understand all the principles and problems involved, then much of systems is easy to derive from scratch.
+* Performance enhancing systems are easiest to understand by trying lots of things, and measuring performance.
+* Actual science is only useful to develop new systems. Understanding existing systems is best done without the rigor and detail of scientific techniques (admittedly, sometimes you need that rigor to be credible to other experts, but certainly not at a student level).
+
+
+So I will go through two strongly related performance enhancing systems, CPU architecture and compiler optimizations, and show how you can use analysis of the problems, key principles, and performance timings to understand why everything works the way it does.
 
 # Instruction level parallelism: An introduction to computer architecture
 

@@ -45,6 +45,6 @@ So with all these kinds of tests, what kind of test to focus on is not obvious.
 
 ### My design philosophy of tests
 
-*Tests are about establishing that your software is correct, meaning it works as designed. And designs should ???????????????????* 
+*Tests are about establishing that your software is correct, meaning it works as designed. And designs should ???????????????????*
 
 o
