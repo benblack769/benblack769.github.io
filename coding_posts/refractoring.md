@@ -303,17 +303,45 @@ As I mentioned in my [post about structure](/coding_posts/intuition-structure), 
 
 To see why, think about how you might add a test
 
-[link to raw code](/link_only/refractoring/data-fix-raw)
-
 #### Identifying ideal data structures
 
 First, lets identify what sort of data structures there should be.
 
-It represents the 9 boxes as 9 separate variables, box[1-9]. The box is 1 if the player has it, 10 if the computer has it, and 0 if it is empty
+We don't want to overstrain our brains, or break the code too badly, so lets just do the obvious things first.
+It should be obvious that `box#1-9` should just be an array, and same with `num#1-8`
+
+So lets just do that. This is a very easy change. Just change the two declarations of `box#` in the declaration of `draw_board`, and
+
+```c++
+int x = 3, y = 10, entry, t = 0, box1 = 0, box2 = 0, box3 = 0, box4 = 0,
+    box5 = 0, box6 = 0, box7 = 0, box8 = 0, box9 = 0;
+int num1, num2, num3, num4, num5, num6, num7, num8;
+```
+
+to
+
+```c++
+int x = 3, y = 10, entry, t = 0;//don't touch bad code you aren't dealing with at the moment
+int box[9] = {0};   //this initializes every entry in box to 0
+int num[8] = {-1};  //-1 is nonsense in the context of num, so it may help with debugging uninitialized variables
+```
+
+Then, you can fix the code just by search and replace on the references to these variables:
+
+    find: box1
+    replace with: box[0]
+
+and then do this with all the numbers 1-9, and also for `num` for 1-8. If you are a vim or emacs power-user, or obsessed with scripts, then you may be able to automate this process for all the numbers 1-9, but I just did it by hand in under 2 minutes.
+
+Once you do this, you get the following code: [link to raw fixed code](/link_only/refractoring/data-fix-raw)
 
 #### Removing easy code
 
-> The most productive way to spend your time is deleting code.
+> The most productive way to spend your time is deleting code. Because writing code may make your work easier, but it makes every one else's work harder. Deleting code is the only for sure way to make other's life easier. --anonymous
+
+When a software engineer said this to me, I realized that it is a great way of reasoning about when to simplify/delete code: If it makes future work much simpler, then go ahead. If not, then don't bother.
+
+So lets look in the codebase for things which given a little effort, will make our life easier.
 
 ### Testable logic
 
