@@ -2,6 +2,14 @@
 
 ## Problems deep learning tries to solve
 
+### Image Analysis: Text reading
+
+Consider the CAPTCHA problem:
+
+
+
+### Speech recognition
+
 ## Key ideas of deep learning, and how they try to solve those problems
 
 ### Gradient descent
