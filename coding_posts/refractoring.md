@@ -339,7 +339,183 @@ Once you do this, you get the following code: [link to raw fixed code](/link_onl
 
 > The most productive way to spend your time is deleting code. Because writing code may make your work easier, but it makes every one else's work harder. Deleting code is the only for sure way to make other's life easier. --anonymous
 
-When a software engineer said this to me, I realized that it is a great way of reasoning about when to simplify/delete code: If it makes future work much simpler, then go ahead. If not, then don't bother.
+When a software engineer said this to me, I realized that it is a great way of reasoning about when to simplify/delete code: If it makes future work much simpler, then go ahead. If not, then don't bother. The most important part of future work is *readability*. The second most is *edibility*.
+
+So lets think through some changes and reason about how easy they are to read and edit. Note that these evaluations differ from person to person, especially between people of different experience levels, so please go through and try to make your own evaluations as well.
+
+Here is a really bad section. The repetition is really obvious, and lots of hardcoded numbers which are hard to read and edit (line 79).
+
+```c++
+if (entry == 1 and box[0] == 0) {
+    box[0] = 1;
+}
+else if (entry == 2 and box[1] == 0) {
+    box[1] = 1;
+}
+else if (entry == 3 and box[2] == 0) {
+    box[2] = 1;
+}
+else if (entry == 4 and box[3] == 0) {
+    box[3] = 1;
+}
+else if (entry == 5 and box[4] == 0) {
+    box[4] = 1;
+}
+else if (entry == 6 and box[5] == 0) {
+    box[5] = 1;
+}
+else if (entry == 7 and box[6] == 0) {
+    box[6] = 1;
+}
+else if (entry == 8 and box[7] == 0) {
+    box[7] = 1;
+}
+else if (entry == 9 and box[8] == 0) {
+    box[8] = 1;
+}
+else {
+    cout << endl
+         << "Please Enter a number from 1-9 that has not been taken";
+    t = t - 2;
+}
+```
+
+Now, you can see that every number here depends on `entry`, so you can change this to
+
+```c++
+int box_num = entry - 1;
+if (box[box_num] == 0) {
+    box[box_num] = 1;
+}
+else {
+    cout << endl
+         << "Please Enter a number from 1-9 that has not been taken";
+    t = t - 2;
+}
+```
+
+Now, another part of the code with apparently obvious repetition is the actual AI if-else statement going from line 120-231.
+
+```c++
+/*first choice*/
+if (num[0] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[1] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[2] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[3] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[4] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[5] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[6] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (num[7] == 20) {
+    cout << "\n\nComputer Wins!\n\n";
+    break;
+}
+else if (box[4] == 0) {
+    box[4] = 10;
+}
+/*second choice*/
+else if ((num[0] == 2 or num[3] == 2 or num[6] == 2) and box[0] == 0) {
+    box[0] = 10;
+}
+else if ((num[0] == 2 or num[5] == 2 or num[7] == 2) and box[2] == 0) {
+    box[2] = 10;
+}
+/*box 5 is taken care of a the beginning of this code*/
+else if ((num[2] == 2 or num[3] == 2 or num[7] == 2) and box[6] == 0) {
+    box[6] = 10;
+}
+else if ((num[2] == 2 or num[5] == 2 or num[6] == 2) and box[8] == 0) {
+    box[8] = 10;
+}
+else if ((num[0] == 2 or num[4] == 2) and box[1] == 0) {
+    box[1] = 10;
+}
+else if ((num[1] == 2 or num[3] == 2) and box[3] == 0) {
+    box[3] = 10;
+}
+else if ((num[1] == 2 or num[5] == 2) and box[5] == 0) {
+    box[5] = 10;
+}
+else if ((num[2] == 2 or num[4] == 2) and box[7] == 0) {
+    box[7] = 10;
+}
+/*third choice*/
+else if ((num[0] == 10 or num[3] == 10 or num[6] == 10) and box[0] == 0) {
+    box[0] = 10;
+}
+else if ((num[0] == 10 or num[5] == 10 or num[7] == 10) and box[2] == 0) {
+    box[2] = 10;
+}
+/*box 5 is taken care of a the beginning of this code*/
+else if ((num[2] == 10 or num[3] == 10 or num[7] == 10) and box[6] == 0) {
+    box[6] = 10;
+}
+else if ((num[2] == 10 or num[5] == 10 or num[6] == 10) and box[8] == 0) {
+    box[8] = 10;
+}
+else if ((num[0] == 10 or num[4] == 10) and box[1] == 0) {
+    box[1] = 10;
+}
+else if ((num[1] == 10 or num[3] == 10) and box[3] == 0) {
+    box[3] = 10;
+}
+else if ((num[1] == 10 or num[5] == 10) and box[5] == 0) {
+    box[5] = 10;
+}
+else if ((num[2] == 10 or num[4] == 10) and box[7] == 0) {
+    box[7] = 10;
+}
+/*fourth choice*/
+else if (box[0] == 0) {
+    box[0] = 10;
+}
+else if (box[1] == 0) {
+    box[1] = 10;
+}
+else if (box[2] == 0) {
+    box[2] = 10;
+}
+else if (box[3] == 0) {
+    box[3] = 10;
+}
+else if (box[4] == 0) {
+    box[4] = 10;
+}
+else if (box[5] == 0) {
+    box[5] = 10;
+}
+else if (box[6] == 0) {
+    box[6] = 10;
+}
+else if (box[7] == 0) {
+    box[7] = 10;
+}
+else {
+    box[8] = 10;
+}
+```
+
+Unfortunately, you start to work with this, and you realize that there is quite a bit of non-trivial logic here. So it will take a lot of work. So instead of changing it right now, lets try to encapsulate it in a functional manner. 
 
 So lets look in the codebase for things which given a little effort, will make our life easier.
 

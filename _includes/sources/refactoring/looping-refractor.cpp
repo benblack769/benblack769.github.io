@@ -20,9 +20,6 @@ char sqr_rep(char playerchoice, int box_num)
         assert(false && "box_num not a valid quantity");
     }
 }
-int & x_y_val(int arr[],int x,int y){
-    return arr[y*3+x];
-}
 void draw_board(char playchoice,int box[])
 {
     cout << "Enter numbers 1-9(as shown) to play \n";
@@ -37,13 +34,12 @@ void draw_board(char playchoice,int box[])
         cout << "Computer goes first\n";
 
     char pc = playchoice;
-    for(int i = 0; i < 3; i++){
-        cout << sqr_rep(pc, x_y_val(box,0,i));
-        for(int j = 0; j < 3; j++){
-             cout << "|" << sqr_rep(pc, x_y_val(box,j,i));
-        }
-        cout << endl;
-    }
+    cout << sqr_rep(pc, box[0]) << "|" << sqr_rep(pc, box[1]) << "|"
+         << sqr_rep(pc, box[2]) << endl;
+    cout << sqr_rep(pc, box[3]) << "|" << sqr_rep(pc, box[4]) << "|"
+         << sqr_rep(pc, box[5]) << endl;
+    cout << sqr_rep(pc, box[6]) << "|" << sqr_rep(pc, box[7]) << "|"
+         << sqr_rep(pc, box[8]) << endl;
 }
 int main()
 {
@@ -79,11 +75,10 @@ int main()
 
             if (i == 0) { /* Player move*/
                 cin >> entry;
-                if(entry >= 1 && entry <= 9){
-                    int box_acc = entry - 1;
-                    if(box[box_acc] == 0){
-                        box[box_acc] = 1;
-                    }
+
+                int box_num = entry - 1;
+                if (box[box_num] == 0) {
+                    box[box_num] = 1;
                 }
                 else {
                     cout << endl
@@ -98,6 +93,7 @@ int main()
                 else
                     playchoice = 'X';
 
+                /*first choice*/
                 if (num[0] == 20) {
                     cout << "\n\nComputer Wins!\n\n";
                     break;
