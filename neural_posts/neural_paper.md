@@ -36,7 +36,7 @@ First, what is a recurrent network? It tries to solve a common problem that huma
 
 A recurrent network broadly it looks like this:
 
-![long term dependencies image](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/RNN-longtermdependencies.png "Long term dependencies")
+![long term dependencies image](/images/neural_paper/diagrams/RNN-longtermdependencies.png "Long term dependencies")
 
 The major parts are the input, a state which is a function of the previous inputs, and the output, which is a function of the previous state. For voice recognition, the input would be some representation of sound waves, and the output would be text. In order to train the model, the output would then be compared to the expected output, which is usually computed by hand (by writing out the text that the person is saying). Then, as long as the function A is differentiable, we can use backpropagation with gradient descent in order to get it to learn. I'll explore gradient descent in more detail later.
 
@@ -46,7 +46,7 @@ So how do we construct such a function so that we can nicely change the paramete
 
 Traditional RNNs are built as follows:
 
-![long term dependencies image](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/LSTM3-SimpleRNN.png "Long term dependencies")
+![long term dependencies image](/images/neural_paper/diagrams/LSTM3-SimpleRNN.png "Long term dependencies")
 
 As you can see, there is a state which propagates through the network.
 You can imagine that with every timestep back, you are going back another level of depth in an ordinary network. In real implementations, there is another layer before the output. So the input in the same step is a 3 layer network, the step before is 4 layers deep, etc.
@@ -59,7 +59,7 @@ The problem is that this is simply too deep. At least with ordinary gradient des
 
 Colah's blog post [here](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) is a great description of the structural aspects of LSTMs. I will cover a little of what is there, but not everything. I will be using diagrams from that source (which are generously published as public domain).
 
-![lstm-diagram](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/LSTM3-chain.png "Taken from Colah's blog")
+![lstm-diagram](/images/neural_paper/diagrams/LSTM3-chain.png "Taken from Colah's blog")
 
 The primary intuition behind this is that the cell state (the black line on top) is the information that is held from previous states. It is multiplied to by a number between 1 and zero, "forgetting" previous knowledge. It then adds to that cell state, "remembering" current knowledge. Its output is then some filtering of that cell state (which is why there is also a layer in between the output and the actual output in a real LSTM).
 
@@ -85,7 +85,7 @@ When I first wrote it up, I had the problem where it would always output the sam
 
 I used my tool to get the biases as they were training to see if they eventually stabilized. The following records a selection of the hidden layer biases 300 cycles through the text.
 
-![alt](https://raw.githubusercontent.com/weepingwillowben/music_net/master/plots/basic_test_plots/selected_hidden_biases.png "biases in output layer")
+![alt](/images/neural_paper/plots/selected_hidden_biases.png "biases in output layer")
 
 As you can see, it does not seem to stabilize perfectly, even over hundreds of iterations over the dataset. Instead it seems to slip every once in awhile into a new sort of state. This is an interesting phenomena, which suggests that the gradient descent is actually operating in a relatively complex space with local critical points. This is counterintuitive considering the (input, output) pairs are a linear function, and so it has no local optima. The cost is quadratic, not linear, but it also has no local optima. However, note that the neural network itself is not a linear function, and the weights are not updating in the space of the inputs and outputs, but rather in the space of the parameters of the NN and the cost And so we learn that the parameters are interacting in complicated ways even in this simple learning task.
 
@@ -103,7 +103,7 @@ Gradient descent has many well studied mathematical problems. It gets stuck in l
 
 Here is the actual formula that is used to calculate it:
 
-![rmsprop formula](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/rmsprop.PNG "Long term dependencies")
+![rmsprop formula](/images/neural_paper/diagrams/rmsprop.PNG "Long term dependencies")
 
 Gramma and alpha are parameters that you get to pick. gamma is usually around 0.9. Theta is a measure of the magnitudes of the previous gradients. In theory, what this does is make the learning rate smaller when the gradient is steeper, perhaps slowly lowering the values into a "canyon" (where normal SGD will overshoot the valley of minimal loss and end up on the other cliff). It will also make larger changes when the gradient is smaller, which can help it get out of local minima.
 
@@ -111,17 +111,17 @@ Gramma and alpha are parameters that you get to pick. gamma is usually around 0.
 
 This one shows an example of how momentum approaches can do worse than RMSprop and AdaDelta.
 
-![grad1](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/grad1.gif "Long term dependencies")
+![grad1](/images/neural_paper/diagrams/grad1.gif "Long term dependencies")
 
 This one shows how RMSprop can get out of an unstable equilibria very quickly.
 
-![grad2](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/grad2.gif "Long term dependencies")
+![grad2](/images/neural_paper/diagrams/grad2.gif "Long term dependencies")
 
 However, these are contrived low dimensional problems. We want to know if these things actually work on extremely high dimensional neural networks training on real problems.
 
 In order to see if this stabilized anything, I went ahead and ran it, capturing the updating biases as it updated. Ignore the x axis, this chart is on the same sort of timescale as the one above using ordinary SGD.
 
-![alt](https://raw.githubusercontent.com/weepingwillowben/music_net/master/plots/basic_test_plots/rmprop_long_update.png "biases in output layer using RMSprop")
+![alt](/images/neural_paper/plots/rmprop_long_update.png "biases in output layer using RMSprop")
 
 You can see that at the very beginning, it is changing much slower than SGD. This is almost certainly the primary intention of RMSprop: to stabilize outcomes by forcing it to change slower so it doesn't jump to some horrible state when updating. However, it is not so clear that it always works better since sometimes you really do just learn the easy stuff to learn as quickly as possible.
 
@@ -156,7 +156,7 @@ https://www.gutenberg.org/wiki/Gutenberg:The_Project_Gutenberg_License))
 
 I trained this using a network with cell states of 200. Afterwards it matched text like so:
 
-![generated text](https://raw.githubusercontent.com/weepingwillowben/music_net/master/diagrams/textgen.PNG "Top text is original, bottom text is guessed")
+![generated text](/images/neural_paper/diagrams/textgen.PNG "Top text is original, bottom text is guessed")
 
 Top text is original, bottom text is the guessed next letter. To see how it performs, you should look at the previous letters and see if you can guess what the next letter would be just from those. Then see if the machine guessed it.
 
@@ -168,7 +168,7 @@ So why might it be relatively poor? There are many practical reasons. For exampl
 
 Here is a typical view of how the error updates over a long period of training.
 
-![generated text](https://raw.githubusercontent.com/weepingwillowben/music_net/master/plots/lstm_plots/500_cost_decreasing_noisy.png "500 width algorithm")
+![generated text](/images/neural_paper/plots/500_cost_decreasing_noisy.png "500 width algorithm")
 
 There are three main stages I observed. The first stage, there is very quick learning. Then, it stabilizes to almost completely linear cost decrease. Then it goes on like that for awhile until it eventually flattens out. I saw this in almost every plot of error for the "guess the next letter" task.
 
@@ -193,7 +193,7 @@ So my next attempt to make this better was to layer two LSTMs on top of another.
 
 Unfortunately, after 3 days, it still did not really finish training, as you can see from the error not stabilizing:
 
-![deep error](https://raw.githubusercontent.com/weepingwillowben/music_net/master/plots/deep_lstm_plots/joined_data_layer501layer402error_mag.png "deep error")
+![deep error](/images/neural_paper/plots/joined_data_layer501layer402error_mag.png "deep error")
 
 As it did not learn fully, it did not reach the levels of the much simpler networks, only guessing the right letter 49.7% percent of the text correctly. To me this exemplifies the tradeoff with deeper networks: it might work better eventually, but it also may take forever to learn.
 
@@ -229,8 +229,8 @@ My results were that the 3rd LSTM actually did learn much faster, but not substa
 
 Try comparing the two plots below, the first is the 3rd LSTM, which takes in input the one that understands the first LSTM, and the first LSTM. They both have identical parameters for everything else.
 
-![basic error](https://raw.githubusercontent.com/weepingwillowben/music_net/master/plots/lstm_plots/altered_plots/stage3learn.png "basic error")
-![3rd layer error](https://raw.githubusercontent.com/weepingwillowben/music_net/master/plots/lstm_plots/altered_plots/basic_learn.png "3rd layer error")
+![basic error](/images/neural_paper/plots/stage3learn.png "basic error")
+![3rd layer error](/images/neural_paper/plots/basic_learn.png "3rd layer error")
 
 As you can tell, the 3rd LSTM actually learns much, much faster. In fact, the it stabilizes completely at around cost=260, whereas the first one very slowly declines to around 270.
 
