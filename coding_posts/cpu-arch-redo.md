@@ -88,6 +88,8 @@ Well, addition is associative, so what if we start adding the middle?
 
 This has a depth of 3, so we made it faster. You can generalize this process to *n* associative operations, resulting in depth of log(*n*).
 
+
+
 Hopefully you can believe that this is a general and powerful method of identifying parallelism. In fact, we are very close to an nice theory of optimal parallelism.
 
 The famous complexity textbook *Introduction to the Theory of Computation* by Michael Sipser uses the following definition of parallel complexity.
@@ -98,7 +100,7 @@ All sorts of nice things arise out of this definition. You can define optimal sp
 
 $$\frac{\text{size}}{\text{depth}}$$
 
-Which is easy to analyses with napkin based calculations.
+Which allows easy analysis with napkin based calculations.
 
 You can also get some nice theoretical results out of this (Sipser focuses on this).
 
@@ -106,6 +108,35 @@ So I think we are on to something really core to what we mean by parallelism.
 
 
 ## Hardware view of code: read/compute/write
+
+To make this post manageable, I will explain hardware's view of software in the most reductionist and simplistic view as possible. A lot will be left out, and other things will be mentioned, but not explored in any detail (I'll try to find other resources for these things). Unfortunately that means I will be explaining things in a way that is not really completely accurate, but useful for explanation.
+
+### Fully imperative programming
+
+In order to help you construct a real assembly language, we need to know what they should generally look like. Now assembly is the medium between the hardware and the programmer (at least it was back when people actually programmed in assembly, not so much any more...). So we need something that can both be implemented reasonably well in hardware, and that the programmer can understand and manipulate easily.
+
+So lets start out with the programmer's side of things (historically, it was more the hardware side that drove everything, but lets ignore this again).
+
+1. Read a small amount of memory from a given address in memory
+2. Perform some calculation based on that data
+3. Write back the result to memory
+
+The key insight is that if you consider the program state, such as "the instruction to be executed next", as data.
+
+### Hardware terminology
+
+It turns out that the Von Neumann architecture is really not too far from an attempt at implementing an imperative language directly in hardware (this is one of those things that is not historically accurate, but useful for demonstration).
+
+Of course, hardware people came up with all these ideas before programmers did, so the terminology relates to the physical objects, not the ideas.
+
+* Temporary variables are called **registers**. Of course, there is a fixed number of them, and at least in old computers, they were just fixed memory locations in the CPU to store temporary variables (now, they are not longer fixed hardware locations, and have more symbolic value).
+*
+
+
+![Von-Neumann-Architecture-Diagram](/images/cpu-archetecture/Von-Neumann-Architecture-Diagram.jpg "So that you can see what hardware people are thinking when they say Von Neumann Architecture")
+
+The Von Neumann computer architecture is based on the ideas that programs do 3 things:
+
 
 
 ## Machine code optimization
