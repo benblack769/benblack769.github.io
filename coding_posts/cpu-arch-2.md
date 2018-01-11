@@ -1,19 +1,28 @@
 ---
-title: Instruction Level Parallelism
-under_construction: false
-excerpt: "Informative post concerning connecting data parallelism, computer architecture and compilers."
+title: Reverse Engineering through Performance Analysis
+under_construction: true
+excerpt: "Showing how one can use reverse engineering principles to understand complex ideas in computer architecture and optimizing compilers."
+comments: true
+share: true
 ---
 
-# Instruction level parallelism: An introduction to computer architecture
+# Overall purpose:
 
-## Purpose
+Some computer scientists I admired greatly took a computer systems class, and didn't like it because it was all about learning about lots of gritty details which didn't seem to matter very much. I found this greatly disturbing: I have always deeply, appreciated computer systems, especially the attempts to make systems work faster under the hood.
 
-* Convince you that software developers should care about architecture
-* Show you how to exploring how code runs on hardware
-    * Highly advanced technology. In physics or chemistry, the most advanced technology is very expensive, only available in hard to access certain labs. In computer architecture, the most advanced technology is on your laptops, and in open source software.
-* Show you some really fun stuff
+So I decided to write down my own ideas about systems, and see if it helps someone understand them better.
+
+* Successful computer systems are based on engineering and  mathematical principles while taking into account historical and physical problems. If you really understand all the principles and problems involved, then much of systems is reasonably strait forward to derive from scratch.
+* Performance enhancing systems are easiest to understand by trying lots of things, and measuring performance.
+* Actual science is only useful to develop new systems. Understanding existing systems is best done without the rigor and detail of scientific techniques (admittedly, sometimes you need that rigor to be credible to other experts, but certainly not at a student level, and usually not at the working professional level).
+
+So I will go through two strongly related performance enhancing systems, CPU architecture and compiler optimizations, and show how you can use analysis of the problems, key principles, and performance timings to understand why everything works the way it does.
+
+# Introduction to key ideas
 
 ## Parallelism
+
+### Why do we care about parallelism?
 
 Basic circuits are inherently sequential: one transistors needs to switch before the next one can, and that switch is a physical change that takes time.
 
@@ -33,7 +42,7 @@ So how can we use those extra transistors?
 
 Here is an idea: instead of trying to use 1 circuit faster, lets try to use a bunch of circuits at the same time. In other words, lets try running our computations in parallel.
 
-## What is parallelism?
+### What is parallelism?
 
 Before running a computation, you often need other computations to be run first.
 
@@ -95,7 +104,47 @@ You can also get some nice theoretical results out of this (Sipser focuses on th
 
 So I think we are on to something really core to what we mean by parallelism.
 
-So now that we know what to look for when trying to parallelize things, lets go back to the hardware.
+
+## Hardware view of code: read/compute/write
+
+
+## Machine code optimization
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Instruction level parallelism: An introduction to computer architecture
+
+## Purpose
+
+* Convince you that software developers should care about architecture
+* Show you how to exploring how code runs on hardware
+    * Highly advanced technology. In physics or chemistry, the most advanced technology is very expensive, only available in hard to access certain labs. In computer architecture, the most advanced technology is on your laptops, and in open source software.
+* Show you some really fun stuff
+
 
 ## Brief introduction to assembly
 
