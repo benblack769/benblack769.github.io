@@ -1,8 +1,12 @@
+
 library(tidyverse)
 
 len = 20
 start = -3
 end = 8
+num_frames = 30
+gradient_update = 0.00001
+
 x_values = rnorm(len,mean=3,sd=2)
 y_values = x_values^2 + rnorm(len)*(x_values + 3)
 
@@ -33,29 +37,36 @@ coefs_differnetial = function(ps,coefs){
   coefs_diff[3] = sum(2*x^2*inner_val)
   coefs_diff
 }
-plot_function = function(coefs){
-  x_points = runif(100,min=start,max=end)
+plot_function = function(coefs,framenum){
+  x_points = runif(80,min=start,max=end)
   y_points = valuation(x_points,coefs)
   point_data = data.frame(x_points,y_points)
-  geom_line(data=point_data,mapping=aes(x=x_points,y=y_points))
+  geom_line(data=point_data,mapping=aes(x=x_points,y=y_points),alpha=0.2 + 0.2 * (1-(framenum/num_frames)))
 }
 plot_overlayed = function(){
   ggplot(raw_data,aes(x=x_values,y=y_values)) +
     geom_point()# + 
     #geom_smooth(method="lm", formula=y~I(x^2)+x)
 }
-cur_plot = plot_overlayed() 
-start_coefs = c(0,0.11,3)
-cur_plot = cur_plot + plot_function(start_coefs)
-for(x in 1:10){
-  new_coefs = start_coefs - 0.00002 * coefs_differnetial(raw_data,start_coefs)
-  start_coefs = new_coefs
-  cur_plot = cur_plot + plot_function(new_coefs)
-  print(coef_cost(raw_data,new_coefs))
-  print(start_coefs)
-}
-cur_plot
-cur_plot + geom_smooth(method="lm", formula=y~I(x^2)+x)
 
-ggsave("regression.png",plot=regression(data))
+get_plot = function(start_coefs){
+  cur_plot = plot_overlayed() 
+  cur_plot = cur_plot + plot_function(start_coefs,0)
+  for(x in 1:num_frames){
+    new_coefs = start_coefs - gradient_update * coefs_differnetial(raw_data,start_coefs)
+    start_coefs = new_coefs
+    cur_plot = cur_plot + plot_function(new_coefs,x)
+    print(coef_cost(raw_data,new_coefs))
+    print(start_coefs)
+  }
+  regreessed_plot = cur_plot + geom_smooth(method="lm", formula=y~I(x^2)+x,se=FALSE)
+  regreessed_plot
+}
+plot1 = get_plot(c(0,0.11,3))
+plot2 = get_plot(c(30,10,0))
+plot3 = get_plot(c(2,1,-1))
+  
+ggsave("plot1.png",plot=plot1)
+ggsave("plot2.png",plot=plot2)
+ggsave("plot3.png",plot=plot3)
 
