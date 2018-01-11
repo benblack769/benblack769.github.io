@@ -11,3 +11,4 @@ Gemfile.lock
 a.exe
 *.swp
 link_only/stock_vis/daily
+images/deep_learning_basics/qudratic_regression/*.png
