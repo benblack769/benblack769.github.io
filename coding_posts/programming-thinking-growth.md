@@ -14,7 +14,7 @@ While these are the main ones that big companies talk about, there are many othe
 
 * **The code doctor**: Rather than creating something new, some programmers apparently spend literally all their time fixing emerging problems with already constructed systems. This role is for those who love tracking down what a system is doing.
 * **The hacker**: Obsessed with finding flaws in programs, rather than how they work. Willing to spend a lot of time working through the system to understand what could go wrong, and how to exploiting it.
-* **The scientist**: I had a professor once who really did see computer science as a science, and valued skills usually associated with the sciences, like a good memory.
+* **The scientist**: I had a professor once who really did see computer science as a science, and valued skills usually associated with the sciences, like a good memory and formal analysis.
 
 And I am sure there are many more I don't know about.
 
