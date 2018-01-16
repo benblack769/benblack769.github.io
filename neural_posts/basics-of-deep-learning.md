@@ -38,7 +38,7 @@ Not only that, but we humans are able to understand many different languages by 
 * Learning
 * Filtering out noise
 * Abstracting shapes
-* Compressing data 
+* Compressing data
 
 ## Key ideas of deep learning, and how they try to solve those problems
 
@@ -46,13 +46,67 @@ Not only that, but we humans are able to understand many different languages by 
 
 ### NN function (activation/mat mul)
 
+![biological neuron](/images/deep_learning_basics/biological-neuron.JPG)
+![math neuron](/images/deep_learning_basics/neuron_math_img.jpg)
+$$y = \sigma(\bar{a} \cdot \bar{x} + b)$$
+
+### Stacking and Layering
+
+![3-layer network](/images/deep_learning_basics/300px-Colored_neural_network.svg.png)
+
+
+$$\text{hidden} = \sigma(W_1 \cdot \text{input} + b_1)$$
+$$\text{output} = \sigma(W_2 \cdot \text{hidden}  + b_2)$$
+
 ### Backpropagation
 
-## Working example (MNIST)
 
-## Issues with those ideas, and examples of fixes, and visualizations of how they work
+[Learning representations by back-propagating errors](https://www.nature.com/articles/323533a0)
+
+[Bad example of backpropagation explanation](http://neuralnetworksanddeeplearning.com/chap2.html)
+
+[A slightly better backpropagation explanation](https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf)
+
+[Yet another backpropagation algorithm](https://ayearofai.com/rohan-lenny-1-neural-networks-the-backpropagation-algorithm-explained-abf4609d4f9d)
+
+
+
+## Working example (Online picture vis)
+
+[picture vis](http://playground.tensorflow.org/#activation=tanh&batchSize=10&dataset=spiral&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=5&networkShape=4,2&seed=0.16152&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=true&xSquared=true&ySquared=true&cosX=false&sinX=true&cosY=false&sinY=true&collectStats=false&problem=classification&initZero=false&hideText=false)
+
+# Modern approach to ANNs
+
+## Introduction to core ideas
+### Story so far
+
+### Modern story
+
+## Vanishing gradient problem
+
+### ReLU activation function
+
+### Convolutional networks
+
+### LSTMs
+
+#### Intro to recurrent networks
+
+#### LSTM architecture, and how it solve VGP
+
+## Overfitting
+
+### Standard regularization
+
+*Adding term to cost function*
+
+$$\text{cost}(y,a) = \text{old-cost}(y,a) + \frac{\lambda}{2n} \sum_{w \in \text{weights}} w^2$$
+
+## Hardware considerations
 
 ## Overview of modern deep learning architectures (LSTM, convolution, attention, softmax probabilities)
+
+
 
 ## Solving non-standard problems like adversarial learning (if time)
 
