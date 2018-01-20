@@ -52,11 +52,11 @@ plot_overlayed = function(){
     #geom_smooth(method="lm", formula=y~I(x^2)+x)
 }
 
-get_plot = function(start_coefs){
+get_plot = function(start_coefs, grad_vec){
   cur_plot = plot_overlayed() 
   cur_plot = cur_plot + plot_function(start_coefs,0)
   for(x in 1:num_frames){
-    new_coefs = start_coefs - gradient_update * c(100,10,1) * coefs_differnetial(raw_data,start_coefs)
+    new_coefs = start_coefs - gradient_update * grad_vec * coefs_differnetial(raw_data,start_coefs)
     start_coefs = new_coefs
     cur_plot = cur_plot + plot_function(new_coefs,x)
     print(coef_cost(raw_data,new_coefs))
@@ -65,40 +65,76 @@ get_plot = function(start_coefs){
   regreessed_plot = cur_plot + geom_smooth(method="lm", formula=y~I(x^2)+x,se=FALSE)
   regreessed_plot
 }
-plot1 = get_plot(c(0,0.11,3))
-plot2 = get_plot(c(30,10,0))
-plot3 = get_plot(c(2,1,-1))
-  
-ggsave("plot1.png",plot=plot1)
-ggsave("plot2.png",plot=plot2)
-ggsave("plot3.png",plot=plot3)
 
+ggsave("points.png",plot=plot_overlayed())
+plot_all = function(grad_vec){ 
+  plot1 = get_plot(c(0,0.11,3),grad_vec)
+  plot2 = get_plot(c(30,10,0),grad_vec)
+  plot3 = get_plot(c(2,1,-1),grad_vec)
+  
+  grad_str = paste(grad_vec,collapse="")
+  
+  ggsave(paste("plot1",grad_str,".png",collapse=""),plot=plot1)
+  ggsave(paste("plot2",grad_str,".png",collapse=""),plot=plot2)
+  ggsave(paste("plot3",grad_str,".png",collapse=""),plot=plot3)
+}
+plot_all(c(1,1,1))
+plot_all(c(100,10,1))
+
+get_parameter_space_walk = function(){
+  start_coefs = c(30,10,0)
+  arg = data.frame(c=30,b=10,a=0)
+  for(x in 1:num_frames){
+    new_coefs = start_coefs - gradient_update * c(100,10,1) * coefs_differnetial(raw_data,start_coefs)
+    start_coefs = new_coefs
+    arg = rbind(arg,new_coefs)
+  }
+  ggplot(arg,aes(x=a,y=b,size=c)) + 
+    #scale_fill_grey() + 
+    geom_point()
+}
+ggsave("param_space_walk.png",plot=get_parameter_space_walk())
+
+
+get_cost_decline = function(){
+  start_coefs = c(30,10,0)
+  arg = data.frame(time=0,cost=coef_cost(raw_data,start_coefs))
+  for(x in 1:num_frames){
+    new_coefs = start_coefs - gradient_update * c(100,10,1) * coefs_differnetial(raw_data,start_coefs)
+    start_coefs = new_coefs
+    arg = rbind(arg,c(x,coef_cost(raw_data,start_coefs)))
+  }
+  ggplot(arg,aes(x=time,y=cost)) + 
+    #scale_fill_grey() + 
+    geom_line()
+}
+ggsave("get_cost_decline.png",plot=get_cost_decline())
 
 ## Stocastic gradient descent 
 
-
-get_socastic_plot = function(start_coefs){
-  cur_plot = plot_overlayed() 
-  cur_plot = cur_plot + plot_function(start_coefs,0)
-  for(x in 1:num_stocastic_frames){
-    data_entry = raw_data[sample(1:len,1),]
-    new_coefs = start_coefs - gradient_update * c(100,10,1) * coefs_differnetial(data_entry,start_coefs)
-    start_coefs = new_coefs
-    if(x%%(num_stocastic_frames/draw_stocastic_frams) == 0){
-      cur_plot = cur_plot + plot_function(new_coefs,x)
-      print(coef_cost(raw_data,new_coefs))
-      print(start_coefs)
-    }
-  }
-  regreessed_plot = cur_plot + geom_smooth(method="lm", formula=y~I(x^2)+x,se=FALSE)
-  regreessed_plot
-}
-
-plot1 = get_socastic_plot(c(0,0.11,3))
-plot2 = get_socastic_plot(c(30,10,0))
-plot3 = get_socastic_plot(c(2,1,-1))
-
-ggsave("stoc_plot1.png",plot=plot1)
-ggsave("stoc_plot2.png",plot=plot2)
-ggsave("stoc_plot3.png",plot=plot3)
-
+# 
+# get_socastic_plot = function(start_coefs){
+#   cur_plot = plot_overlayed() 
+#   cur_plot = cur_plot + plot_function(start_coefs,0)
+#   for(x in 1:num_stocastic_frames){
+#     data_entry = raw_data[sample(1:len,1),]
+#     new_coefs = start_coefs - gradient_update * c(100,10,1) * coefs_differnetial(data_entry,start_coefs)
+#     start_coefs = new_coefs
+#     if(x%%(num_stocastic_frames/draw_stocastic_frams) == 0){
+#       cur_plot = cur_plot + plot_function(new_coefs,x)
+#       print(coef_cost(raw_data,new_coefs))
+#       print(start_coefs)
+#     }
+#   }
+#   regreessed_plot = cur_plot + geom_smooth(method="lm", formula=y~I(x^2)+x,se=FALSE)
+#   regreessed_plot
+# }
+# 
+# plot1 = get_socastic_plot(c(0,0.11,3))
+# plot2 = get_socastic_plot(c(30,10,0))
+# plot3 = get_socastic_plot(c(2,1,-1))
+# 
+# ggsave("stoc_plot1.png",plot=plot1)
+# ggsave("stoc_plot2.png",plot=plot2)
+# ggsave("stoc_plot3.png",plot=plot3)
+# 

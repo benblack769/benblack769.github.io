@@ -86,13 +86,25 @@ $$\text{output} = \sigma(W_2 \cdot \text{hidden}  + b_2)$$
 
 ### ReLU activation function
 
-### Convolutional networks
+### RMSprop optimization
+
+$$E[g^2] = 0.9 E[g^2]_ {t-1} + 0.1g^2_t$$
+$$\theta_{t+1} = \theta_t - \frac{\mu}{\sqrt{E[g^2]_ {t}+\epsilon}}$$
 
 ### LSTMs
 
 #### Intro to recurrent networks
 
 #### LSTM architecture, and how it solve VGP
+
+## Noise and learning efficiency
+
+### Convolutional networks
+
+[really good explanation](https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/)
+
+[Good structure diagrams](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/)
+
 
 ## Overfitting
 
