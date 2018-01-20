@@ -1,7 +1,7 @@
 ---
 title: Deep Learning Starter Guide
 under_construction: false
-excerpt: "Links to cool websites with great descriptions of the subject."
+excerpt: "Links to cool websites with great descriptions of neural networks."
 comments: true
 share: true
 ---
@@ -11,6 +11,7 @@ share: true
 * Vanishing gradient problem
      * Decent formal explanation: [https://ayearofai.com/rohan-4-the-vanishing-gradient-problem-ec68f76ffb9b](https://ayearofai.com/rohan-4-the-vanishing-gradient-problem-ec68f76ffb9b)
 * Information bottleneck: Original paper: [Deep Learning and the Information Bottleneck Principle](https://arxiv.org/pdf/1503.02406.pdf)
+* Entire set of well written class notes: [http://cs231n.github.io/](http://cs231n.github.io/)
 
 
 ### Understanding core solutions
@@ -33,7 +34,7 @@ share: true
 ### My links
 
 * This cheatsheet: [https://weepingwillowben.github.io/neural_posts/getting-started-cheatsheet/](https://weepingwillowben.github.io/neural_posts/getting-started-cheatsheet/)
-* Slides: []
+* Slides: [link](https://docs.google.com/presentation/d/e/2PACX-1vR95t7ewHSCKC-3W1pCWwNYrghHUjn677hAYG5gvcBDH8QfssqUatKES8pHnbNgNgV2RfEzMhaNIbfa/pub?start=false&loop=false&delayms=3000&slide=id.g2efe2b8d1b_0_125)
 
 ### Other fun sites
 
@@ -50,4 +51,4 @@ Once you get 97%, then try to do even better using some of the above techniques.
 
 ### More?
 
-Please feel free to comment if you think there are other resources or ideas I should put on here!
+Please feel free to comment if you think there are other resources or ideas I should put on here.
