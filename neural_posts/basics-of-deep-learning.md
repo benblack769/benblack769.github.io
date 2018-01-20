@@ -69,7 +69,26 @@ $$\text{output} = \sigma(W_2 \cdot \text{hidden}  + b_2)$$
 
 [Yet another backpropagation algorithm](https://ayearofai.com/rohan-lenny-1-neural-networks-the-backpropagation-algorithm-explained-abf4609d4f9d)
 
+Formulas
 
+$$\text{lin-hidden}_i = \sum_j W^1_{ij} \cdot \text{input}_j + b^1_i$$
+
+$$\text{hidden}_i = \sigma\left(\text{linhidden}_i \right)$$
+
+$$\text{lin-out}_i = \sum_j W^2_{ij} \cdot \text{hidden}_j + b^2_i$$
+
+$$\text{output}_i = \sigma\left( \text{lin-out}_i \right)$$
+
+
+$$\text{cost} = \sum_i (\text{output}_i - \text{actual}_i)^2$$
+
+$$\text{outerr}_i = (\text{output}_i - \text{actual}_i)$$
+
+$$\text{hiderr}_i = \sigma^\prime\left(\text{lin-out}_i\right) * \left(\sum_j W^2_{ji} \cdot \text{outerr}_j \right)$$
+
+$$\frac{\partial W^2_{ij}}{\partial \text{cost}} = \text{lin-hidden}_i\text{outerr}_j $$
+
+$$\frac{\partial W^1_{ij}}{\partial \text{cost}} = \text{input}_i \text{hiderr}_j $$
 
 ## Working example (Online picture vis)
 
