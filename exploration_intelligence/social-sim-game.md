@@ -24,6 +24,7 @@ Intelligence occurs when there are complex tradoffs to be made. Social intellige
 * Sleeping vs Awake
 * Reproduction vs self-preservation
 * Good location vs low competition
+* Weight vs storage
 
 These ideas can all be done within a simple fighting game mechanics:
 

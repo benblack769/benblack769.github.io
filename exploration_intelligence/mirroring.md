@@ -33,7 +33,6 @@ excerpt: "Mirroring is the copying of others' internal state, including their pa
 *Allows a nice solution to the abstraction problem of reinforcement learning*
 
 # Real examples of mirroring
-
 ## Costs of mirroring
 
 ### Case 1: Reflective stress before quals
@@ -44,11 +43,7 @@ excerpt: "Mirroring is the copying of others' internal state, including their pa
 
 ### Case 2: Losing separation of myself and others
 
-*This is the reason why I wrote this*
 
-
-
-*a a*
 
 ### Case 3: Sociopathy in a mirror dependent society
 
@@ -61,10 +56,19 @@ excerpt: "Mirroring is the copying of others' internal state, including their pa
 *These are useful examples of mirroring, but also to support my belief that society has found good and bad places for every major human characteristic.*
 
 ### Case 1: Reflexive morality
-
 ### Case 2: Hyper-learning: climbing up the backs of titans via extreme mirroring
 
 ### Case 3: Dispassionate philanthropy
+
+## Mirroring and deep relationships
+
+*This is the reason why I wrote this*
+
+*Cannot create meaningful relationships without curiosity*
+
+*Curiosity is suppressed when mirroring is high, you only look for reactions to other people, not look for new reactions*
+
+*On the other hand, you cannot know enough about people to create deep relationships without mirroring.*
 
 ## Limits of mirroring
 
