@@ -10,13 +10,16 @@ comments: true
 
 ### Example system
 
-I am most interested in social systems.
+The most relevant, interesting, and understandable complex system is the human emotional system.
+
+
 
 ### System core
 
 At the core, a system has three key components:
 
-* Goal of a system (or Purpose, if you wish).
+* Purpose of a system (a purpose is a goal, or desired outcome).
+* 
 * Adaptive mechanisms (genetic change, human learning, etc.)
 * Adaptable subsystems ()
 
