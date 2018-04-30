@@ -11,14 +11,14 @@
 \begin{tikzpicture}[auto, node distance=4cm, every loop/.style={},
 thick,main node/.style={circle,draw,font=\sffamily\large\bfseries}]
 
-\node[main node] [fill=\lightred] (A) {$\partfrac{I_1}{\cost}$};
+\node[main node] [fill=\lightred] [label={[shift={(0,0.5)}]Input error}] [label={[shift={(0,0.2)}](non-linear part)}] (A) {$\partfrac{I_1}{\cost}$};
 \node[main node] [fill=\lightred] (B) [below of=A] {$\partfrac{I_2}{\cost}$};
 \node[main node] [fill=\lightred] (C) [below of=B] {$\partfrac{I_3}{\cost}$};
-\node[main node] (D) [right of=B]  {$\partfrac{L}{\cost}=\partfrac{A}{\cost}\sigma^\prime(I)$};
-\node[main node] (P) [right of=D]   {$\partfrac{A}{\cost}=\sum_k \partfrac{O_k}{\cost} W^2_{kj}$};
+\node[main node] (D) [right of=B] [label={[shift={(0,0.8)}]Linear part error}] {$\partfrac{L}{\cost}=\partfrac{A}{\cost}\sigma^\prime(I)$};
+\node[main node] (P) [right of=D]  [label={[shift={(0,0.8)}]Non-linear part error}]  {$\partfrac{A}{\cost}=\sum_k \partfrac{O_k}{\cost} W^2_{kj}$};
 \node[main node] [fill=red] (E) [right of=P] {$\partfrac{O_2}{\cost}$};
 \node[main node] [fill=red] (F) [below of=E] {$\partfrac{O_3}{\cost}$};
-\node[main node] [fill=red] (G) [above of=E]  {$\partfrac{O_1}{\cost}$};;
+\node[main node] [fill=red] (G) [above of=E] [label={[shift={(0,0.5)}]Output error}] [label={[shift={(0,0.2)}](linear part)}] {$\partfrac{O_1}{\cost}$};;
 
 \path[every node/.style={font=\sffamily\normalsize}]
 (D) [->] edge node [] {$W^1_{1j}$} (A)

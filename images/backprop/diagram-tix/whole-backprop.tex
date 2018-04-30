@@ -1,0 +1,53 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+
+\newcommand{\cost}{ \text{cost} }
+\newcommand{\lightred}{white!60!red}
+\newcommand{\partfrac}[2]{\frac{\partial #1}{\partial #2}}
+\begin{document}
+	
+\begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},
+thick,main node/.style={circle,draw,font=\sffamily\large\bfseries}]
+
+\node[main node] [fill=blue] [label={[shift={(0,0.5)}]Input vector}] (A) {$I_1$};
+\node[main node] [fill=blue] (B) [below of=A] {$I_2$};
+\node[main node] [fill=blue] (C) [below of=B] {$I_3$};
+\node[main node] [fill=gray] [label={[shift={(0,0.5)}]First hidden vector}] (D) [right of=A] {$H^1_1$};
+\node[main node] [fill=gray] (E) [right of=B] {$H^1_2$};
+\node[main node] [fill=gray] (F) [right of=C] {$H^1_3$};
+\node[main node] [fill=gray] [label={[shift={(0,1.5)}]Second hidden vector}] (G) [below right = 1cm and 2cm of D] {$H^2_1$};
+\node[main node] [fill=gray] (H) [below right = 1cm and 2cm of E] {$H^2_2$};
+\node[main node] [fill=green] (I) [label={[shift={(0,0.5)}]Output vector}] [right = 7cm of A] {$O_1$};
+\node[main node] [fill=green] (J) [right = 7cm of B] {$O_2$};
+\node[main node] [fill=green] (K) [right = 7cm of C] {$O_3$};
+\node[main node] [fill=red] (L) [right of= J] {$\cost $};
+\node[main node] [fill=yellow] (M) [label={[shift={(0,0.5)}]Expected vector}] [right = 5cm of I] {$E_1$};
+\node[main node] [fill=yellow] (N) [right = 5cm of J] {$E_2$};
+\node[main node] [fill=yellow] (O) [right = 5cm of K] {$E_3$};
+%\node[main node] [fill=red] (P)  [below = -0.2cm of I] {$\partfrac{O_1}{\cost}$};
+%\node[main node] [fill=red] (Q) [below = -0.2cm of J] {$O_2$};
+%\node[main node] [fill=red] (R) [below = -0.2cm of K] {$O_3$};
+
+\foreach \x in {D,E,F}
+\path[every node/.style={font=\sffamily\normalsize}]
+(A) [->] edge node [] {} (\x)
+(B) [->] edge node [] {} (\x)
+(C) [->] edge node [] {} (\x);
+\foreach \x in {G,H}
+\path[every node/.style={font=\sffamily\normalsize}]
+(D) [->] edge node [] {} (\x)
+(E) [->] edge node [] {} (\x)
+(F) [->] edge node [] {} (\x);
+\foreach \x in {I,J,K}
+\path[every node/.style={font=\sffamily\normalsize}]
+(G) [->] edge node [] {} (\x)
+(H) [->] edge node [] {} (\x);
+\foreach \x in {I,J,K,M,N,O}
+\path[every node/.style={font=\sffamily\normalsize}]
+(\x) [->] edge node [] {} (L);
+\end{tikzpicture}
+
+
+\end{document}
