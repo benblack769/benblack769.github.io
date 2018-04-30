@@ -6,3 +6,4 @@ excerpt: "Backpropagation is a simple, yet powerful algorithms used in deep lear
 comments: true
 ---
 
+## What is Backpropagation?

@@ -16,4 +16,4 @@ images/deep_learning_basics/qudratic_regression/*.png
 *.log
 *.aux
 *.gz
-images/backprop/diagram-tix/diagram.pdf
+images/backprop/diagram-tix/*.pdf
