@@ -1,8 +1,8 @@
 ---
 title: "Backpropagation in Nature"
 under_construction: true
-slug: cost-colating-as-backprop
-excerpt: "Backpropagation is a simple, yet powerful algorithms used in deep learning. But natural intelligences do not appear to use backpropagation when learning. But the algorithms it uses instead can be compared with deep learning to see where each has an advantage."
+slug: cost-collating-as-backprop
+excerpt: "Backpropagation is a simple, yet powerful algorithms used in deep learning. But natural intelligences do not appear to use backpropagation when learning. But the algorithms it uses instead can be seen as an approximation of deep learning. This approach has huge potential in distributed AI computing. If it is a close enough approximation, then it also may allow us to understand natural intelligence by studying deep learning."
 comments: true
 ---
 

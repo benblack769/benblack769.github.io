@@ -3,7 +3,8 @@
 # should call latex commands to automatically generate these
 
 # call
-
-pdf2svg diagram-tix/diagram.pdf diagram-svg/feed-forward.svg
-pdf2svg diagram-tix/diagram2.pdf diagram-svg/cost-abstract.svg
-pdf2svg diagram-tix/diagram3.pdf diagram-svg/cost-concrete.svg
+for i in $( cd diagram-tix; find . -name "*.pdf" ); do
+    echo diagram-tix/$i
+    pdf2svg diagram-tix/$i diagram-svg/$i.svg
+done
+#pdf2svg diagram-tix/diagram.pdf diagram-svg/feed-forward.svg

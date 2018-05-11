@@ -31,19 +31,20 @@ thick,main node/.style={circle,draw,font=\sffamily\large\bfseries}]
 %\node[main node] [fill=red] (R) [below = -0.2cm of K] {$O_3$};
 
 \foreach \x in {D,E,F}
+\foreach \y in {A,B,C}
 \path[every node/.style={font=\sffamily\normalsize}]
-(A) [->] edge node [] {} (\x)
-(B) [->] edge node [] {} (\x)
-(C) [->] edge node [] {} (\x);
+(\y) [->] edge node [] {} (\x);
+
 \foreach \x in {G,H}
+\foreach \y in {D,E,F}
 \path[every node/.style={font=\sffamily\normalsize}]
-(D) [->] edge node [] {} (\x)
-(E) [->] edge node [] {} (\x)
-(F) [->] edge node [] {} (\x);
+(\y) [->] edge node [] {} (\x);
+
 \foreach \x in {I,J,K}
+\foreach \y in {G,H}
 \path[every node/.style={font=\sffamily\normalsize}]
-(G) [->] edge node [] {} (\x)
-(H) [->] edge node [] {} (\x);
+(\y) [->] edge node [] {} (\x);
+
 \foreach \x in {I,J,K,M,N,O}
 \path[every node/.style={font=\sffamily\normalsize}]
 (\x) [->] edge node [] {} (L);
