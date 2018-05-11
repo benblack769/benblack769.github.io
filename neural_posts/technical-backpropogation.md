@@ -8,10 +8,13 @@ share: true
 
 
 ![arg](/images/backprop/diagram-svg/diagram.pdf.svg)
+
 ![arg](/images/backprop/diagram-svg/whole-backprop.pdf.svg)
 
 ![arg](/images/backprop/diagram-svg/act-whole-backprop.pdf.svg)
+
 ![arg](/images/backprop/diagram-svg/diagram2.pdf.svg)
+
 ![arg](/images/backprop/diagram-svg/diagram3.pdf.svg)
 
 $$\frac{\partial w}{\partial cost} = A * \frac{\partial O}{\partial cost}$$
