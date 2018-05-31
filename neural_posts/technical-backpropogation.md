@@ -7,6 +7,7 @@ share: true
 ---
 
 
+
 ![arg](/images/backprop/diagram-svg/diagram.pdf.svg)
 
 ![arg](/images/backprop/diagram-svg/whole-backprop.pdf.svg)
