@@ -8,7 +8,7 @@ share: true
 
 # Creating long term memory for a neural network
 
-Code and data here: [https://github.com/weepingwillowben/music_net](https://github.com/weepingwillowben/music_net)
+Code and data here: [https://github.com/weepingwillowben/NNetExperiments](https://github.com/weepingwillowben/NNetExperiments)
 
 ## Introduction
 
