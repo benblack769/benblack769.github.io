@@ -6,6 +6,8 @@ excerpt: "Informative post concerning connecting data parallelism, computer arch
 
 # Instruction level parallelism: An introduction to computer architecture
 
+This page was made to support and compliment a presentation with [these slides](https://docs.google.com/presentation/d/e/2PACX-1vRhM8-ftBP_WCAiY04AEM2aWHFvJEum8bDJTwO3W2WuaqiG-qg5uYzRO6LvK2XQt4UyzRVTV2Ag_j04/pub?start=false&loop=false&delayms=3000).
+
 ## Purpose
 
 * Convince you that software developers should care about architecture
