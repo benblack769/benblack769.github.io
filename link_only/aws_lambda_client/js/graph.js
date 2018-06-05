@@ -76,7 +76,7 @@ function load_svg(){
         'BlueSurvival': document.getElementById('BlueSurvival').value,
         //'RedStart': document.getElementById('RedStart').value,
         //'BlueStart': document.getElementById('BlueStart').value,
-        'Aval': document.getElementById('Aval').value,
+        'Aval': (-Number(document.getElementById('Aval').value)).toString(),
         'Cval': document.getElementById('Cval').value,
         'should_run_fast': document.getElementById('fast_checkbox').checked ? "true" : "false",
         'use_single_trait': document.getElementById("single_trait_id").checked ? "true" : "false",
