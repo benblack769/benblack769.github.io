@@ -37,7 +37,7 @@ feature_row4:
   - image_path: images/home/neural_nets.png
     alt: "neural nets dynamics graph"
     title: "Intuition behind neural networks"
-    excerpt: 'Showing how ideas from different parts of math, neuroscience, phycology, philosophy, and computer science come together to form the ideas behind neural networks. Theory and implementations.'
+    excerpt: 'Showing how ideas from different parts of math, neuroscience, psychology, philosophy, and computer science come together to form the ideas behind neural networks. Theory and implementations.'
     url: "neural_posts"
     btn_label: "Read More"
     btn_class: "btn--inverse"
