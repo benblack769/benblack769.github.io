@@ -31,6 +31,8 @@ But what about objects colliding? It turns out that while object collision may s
 
 So instead of trying to check if each pair of objects is close enough to collide, computers such as the javascript library that makes the above newton's cradle simulation make elaborate datastructures which allow very fast closeness searches.
 
+So many simulations have this setup. A complex system is divided into small portions which are described with simple, mathematical models. So there are two difficult parts: the modeling and designing efficient interactions. 
+
 ### More complex simulations
 
 Modern AI has had most of its greatest successes so far by solving simple classification, optimization problems. Which person does this photo of a face represent? Does this brain scan have signs of disease in it, and if so, which disease? Is this audio input representing a part of a word, and if so, which word part? All of these reduce a large, complex input space (usually images or sound), and output a small, simple and discrete output space (a probability or set of probabilities). So you might think of it as reducing and distilling the information in the input. Naftali Tishby's Information Bottleneck theory formalized this idea, and it has emerged as one of the only broadly known theories in deep learning.
