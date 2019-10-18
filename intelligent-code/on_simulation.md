@@ -31,7 +31,13 @@ But what about objects colliding? It turns out that while object collision may s
 
 So instead of trying to check if each pair of objects is close enough to collide, computers such as the javascript library that makes the above newton's cradle simulation make elaborate datastructures which allow very fast closeness searches.
 
-So many simulations have this setup. A complex system is divided into small portions which are described with simple, mathematical models. So there are two difficult parts: the modeling and designing efficient interactions. 
+So many simulations have this setup. A complex system is divided into small portions which are described with simple, mathematical models. So there are two difficult parts: the modeling and designing efficient interactions.
+
+Of the two, the modeling is what makes simulation inaccessible. State of the art modeling in the most useful areas such as fluid dynamics, weather prediction, and computer graphics are the result of decades of academic research and commercial development.
+
+Amateurs who try to make a custom model of a world from scratch, such as Dwarf Fortresses, end up with a deeply flawed product that barely ends up being passable to a human. While interesting phenomena do sometimes come out, really stupid phenomena also do. This is fine in a game, less so in a scientific application.
+
+
 
 ### More complex simulations
 
