@@ -6,12 +6,10 @@ main:
     url: /about/
   - title: "Neural Networks"
     url: /neural_posts/
-  - title: "Coding Posts"
-    url: /coding_posts/
   - title: "Intelligent Code"
     url: /intelligent-code/
-  - title: "Intelligence Ideas"
-    url: /exploration_intelligence/
+  #- title: "Intelligence Ideas"
+    #url: /exploration_intelligence/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"

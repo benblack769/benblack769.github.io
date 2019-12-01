@@ -1,10 +1,10 @@
 ---
 title: "AI and Simulation"
 slug: process-code
-under_construction: true
-excerpt: "Why simulation will become increasingly important in an AI dominated technology world, and how I discovered this by making a really shitty simulator."
-comments: true
-share: true
+under_construction: false
+excerpt: "Why simulation will become increasingly important in an AI dominated technology world, and how I discovered this by making a low quality simulator."
+comments: false
+share: false
 ---
 
 Computer simulation is a very cool subject. It affects our lives in accurate weather reporting, and continuing improvements in efficiency of vehicles and airplanes. More importantly, it allows for cool animations such as the snow in Frozen. But accurate, large scale modeling and simulation is very difficult. From an engineering perspective, it is one of the greatest challenges in software and hardware development.
@@ -54,14 +54,46 @@ When I started out on this project, I was starting to believe that simulation wa
 
 Inspired by these new innovations in generating images, and old innovations in simulation originating in speeding up the game of life (see [here](intelligent-code/on_simulation/#game-of-life) for more on the implications of cellular automaton on simulation), I started on a project to make an everything simulator.
 
+### My local interaction simulator
 
+The idea was to create a slow, but simple "ground truth" simulator, which a deep generative network could then copy.
 
+Since deep networks work best with dense ground truth data, I figured it would be best if the simulator was naturally represented in a dense form to start out with.
 
-<video width="450" height="300" controls>
-<source src="/link_only/on_simulation/videos/compressed_collide.mp4" type="video/mp4">
+This combined with ideas from cellular automata that interactions between objects can be represented as local computations, allowing massive parallelism (the implementation uses OpenCL to utilize GPU parallel processing power).
+
+#### Liquid simulation
+
+The problem then comes down to creating formulas and states for the cells which simulate physical interaction. For liquids, they tend to have both attractive forces (surface tension) and repelling forces (density). A very intuitive implementation of that gives rise to the following simulation:
+
+<video width="600" height="400" controls>
+<source src="/link_only/on_simulation/videos/compressed_video.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+#### Solid simulation
+
+What about solids? It turns out that solids are much harder. In particular, they have this crystalline structure which makes reactions to collisions extremely fast! This makes it unsuited for this cellular automata at a deep level, as cellular automata are inherently inefficient at representing fast moving objects. But some solids are more malleable than others, for example jello may not react as fast to collisions as quartz. So can we simulate jello? I'm not sure, but I couldn't manage to get it to work. The problem is that while local interactions should work, it seems as though a more discrete spring model is needed, which cannot be represented cleanly in a cellular automata framework. If you want, you can see one of my failed attempts.
+
+<video width="600" height="400" controls>
+<source src="/link_only/on_simulation/videos/bad_jellies_short.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 
 
+### More videos:
 
-## Game Of life
+<video width="600" height="400" controls>
+<source src="/link_only/on_simulation/videos/compressed_long.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<video width="600" height="400" controls>
+<source src="/link_only/on_simulation/videos/compressed_splatter.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<video width="600" height="400" controls>
+<source src="/link_only/on_simulation/videos/compressed_splatter.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>

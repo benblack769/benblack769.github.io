@@ -1,10 +1,10 @@
 ---
 title: "Process and Code"
 slug: process-code
-under_construction: false
+under_construction: true
 excerpt: "Introduction to conceptualizing and coding dynamic systems."
-comments: true
-share: true
+comments: false
+share: false
 ---
 
 ### Code

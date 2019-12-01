@@ -3,7 +3,7 @@ title: "Different Types of Intelligence"
 under_construction: true
 slug: apparent-intelligence
 excerpt: "People have different ideas of what intelligence is, and what is and is not intelligence. This makes some of my posts about natural intelligences like social and evolutionary intelligence seem deeply misleading to many people. In order to have a coherent shared vision of what natural and social intelligences are, I break down exactly what intelligence parts so that when we talk about intelligence, everyone can understand what we are talking about."
-comments: true
+comments: false
 ---
 
 The word "intelligent" can mean many different things to different people in different contexts. I will describe some of these meanings, assign less ambiguous terms to them, and show some contexts which they make sense. Hopefully, by the end of each section, you will be able to pick out other contexts where people are talking about this particular kind of intelligence.
@@ -47,7 +47,7 @@ Why does our mind change? Why do we feel this way in so many contexts?
 ### Irreducible intelligence
 
 Now, what if you kept on reducing intelligent behavior until it could be reduced no more?
-Why would am I even asking this question? Well, perhaps this corresponds to another objective type of intelligence. Perhaps a true measure of intelligence is how 
+Why would am I even asking this question? Well, perhaps this corresponds to another objective type of intelligence. Perhaps a true measure of intelligence is how
 
 
 What would this even look like? Well, in reality, it is impossible in generality, a result from computability theory.

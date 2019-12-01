@@ -26,9 +26,9 @@
 header_pages:
  - about.md
  - index.md
- - coding_posts/index.md
  - exploration_intelligence/index.md
  - neural_posts/index.md
+# - coding_posts/index.md
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your entire site, values
@@ -111,8 +111,8 @@ analytics:
 author:
   name             : "Ben Black"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am a Math-CS student at Reed College. I have a passion for AI, performance analysis, automated program optimization, and computer language runtime models."
-  location         : "Portland"
+  bio              : "I am a CS master's student at the University of Maryland. I have a fascination with AI, the algorithms which powers it, the systems which support it, and the machine learning which ties it to the real world."
+  location         : "Maryland, College Park"
   email            : "weepingwillowben@gmail.com"
   uri              :
   bitbucket        :

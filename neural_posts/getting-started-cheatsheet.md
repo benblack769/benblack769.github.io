@@ -2,8 +2,8 @@
 title: Deep Learning Starter Guide
 under_construction: false
 excerpt: "Links to cool websites with great descriptions of neural networks."
-comments: true
-share: true
+comments: false
+share: false
 ---
 
 ### Understanding core ideas

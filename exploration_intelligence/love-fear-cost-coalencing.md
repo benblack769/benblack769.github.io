@@ -3,7 +3,7 @@ title: "Fear and Love as cost collating"
 under_construction: true
 slug: fear-love-cost-collate
 excerpt: "I argue that emotions are part of a cost collating mechanism at the highest level of the human experience. I bring out love and fear as examples that I am interested in, and argue that the dynamics of these emotions can be treated as a type of cost collating. "
-comments: true
+comments: false
 ---
 
 ## What is fear?

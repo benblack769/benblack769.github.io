@@ -17,14 +17,6 @@ feature_row1:
     url: "intelligent-code"
     btn_label: "Read More"
     btn_class: "btn--inverse"
-feature_row2:
-  - image_path: images/home/code_screen.png
-    alt: "code pic"
-    title: "Coding posts"
-    excerpt: 'Posts for intermediate level coders that explain the principles of code, and how to work with complex problems.'
-    url: "coding_posts"
-    btn_label: "Read More"
-    btn_class: "btn--inverse"
 feature_row3:
   - image_path: images/home/Intelligence-ideas-drawing.png
     alt: "intelligence diagram"
@@ -46,8 +38,6 @@ feature_row4:
 {% include feature_row id="intro" type="center" %}
 
 {% include feature_row id="feature_row4" type="left" %}
-
-{% include feature_row id="feature_row2" type="left" %}
 
 {% include feature_row id="feature_row1" type="left" %}
 

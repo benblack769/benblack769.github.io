@@ -3,8 +3,8 @@ title: "Refactoring and reading"
 slug: refractoring
 under_construction: false
 excerpt: "Walk through a difficult refractoring exercise."
-comments: true
-share: true
+comments: false
+share: false
 ---
 
 My [Intuition and Structure](coding_posts/intuition-structure) page describes how to build decent code from scratch. However, what happens when you are given a awful codebase, and expected to do things with it quickly?
@@ -515,7 +515,7 @@ else {
 }
 ```
 
-Unfortunately, you start to work with this, and you realize that there is quite a bit of non-trivial logic here. So it will take a lot of work. So instead of changing it right now, lets try to encapsulate it in a functional manner. 
+Unfortunately, you start to work with this, and you realize that there is quite a bit of non-trivial logic here. So it will take a lot of work. So instead of changing it right now, lets try to encapsulate it in a functional manner.
 
 So lets look in the codebase for things which given a little effort, will make our life easier.
 

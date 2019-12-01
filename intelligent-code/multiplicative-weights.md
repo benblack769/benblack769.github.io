@@ -3,8 +3,8 @@ title: "Multiplicative Weights"
 slug: multiplicative-weights
 under_construction: false
 excerpt: "Solutions to real world problems using an amazing general technique."
-comments: true
-share: true
+comments: false
+share: false
 ---
 
 ## Multiplicative weights update algorithm
