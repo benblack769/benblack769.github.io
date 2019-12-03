@@ -1,3 +1,12 @@
+---
+title: "Hybrid chess engine"
+slug: chess-engine
+under_construction: false
+excerpt: "A chess engine that attempts to combine the strengths of Lc0 and Stockfish, the two dominant chess engines, and succeeds in certain cases."
+comments: false
+share: false
+---
+
 # Lc0-stockfish-hybrid
 
 Lc0-stockfish-hybrid is a (mostly) UCI-compliant chess engine based off two separate projects, [Stockfish](https://stockfishchess.org/) the leading traditional chess engine, and [LC0, or leela](https://lczero.org/) the leading open source neural network chess engine based off AlphaZero.
