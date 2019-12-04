@@ -1,12 +1,12 @@
 ---
-title: "Imagnative Coding"
+title: "Imaginative Coding"
 layout: splash
 under_construction: false
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
   overlay_image: /assets/images/unsplash-image-1.jpg
-excerpt: "Thoughts of a budding computer scientist"
+excerpt: "Projects and ideas of a creative programmer"
 intro:
   - excerpt: ''#'hi there again'
 feature_row1:
