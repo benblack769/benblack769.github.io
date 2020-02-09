@@ -11,8 +11,15 @@ Better than supervised by an actual RL signal because it is incremental.
 
 ### TD(λ)
 
+The parameter λ introduces a recency bias that makes the method weight more recent samples more highly.  
 
+Formally, for
+$$ 0 \le \lambda \le 1 $$, we have
 
+$$ \Delta w_t = \alpha (P_{t+1}-P_t) \sum_{k=1}^t \lambda^{t-k}\nabla_w P_k$$
+
+Note that if $$\lambda = 1$$ then we have the uniform sampling distribution, where all diffs in the future are weighted equally,
+and if $$\lambda = 0$$ then we have the singleton distribution where only the next diff matters. 
 
 ## Bibtex Citation
 

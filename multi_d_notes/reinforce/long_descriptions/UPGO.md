@@ -1,0 +1,22 @@
+
+
+### Citation
+
+```
+@article{DBLP:journals/corr/abs-1806-05635,
+  author    = {Junhyuk Oh and
+               Yijie Guo and
+               Satinder Singh and
+               Honglak Lee},
+  title     = {Self-Imitation Learning},
+  journal   = {CoRR},
+  volume    = {abs/1806.05635},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1806.05635},
+  archivePrefix = {arXiv},
+  eprint    = {1806.05635},
+  timestamp = {Mon, 13 Aug 2018 16:48:33 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1806-05635},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```

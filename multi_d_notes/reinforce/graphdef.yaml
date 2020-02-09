@@ -14,6 +14,16 @@ nodes:
         description: "Off policy learning technique by Richard Stutton"
         type: idea
         tags: learning_target
+    UPGO:
+        title: "UPGO Self-imitation algorithm"
+        description: "???"
+        type: algorithm
+        tags: learning_target
+    v_trace:
+        title: "Clipped importance sampling (V-trace)"
+        description: "???"
+        type: algorithm
+        tags: learning_target
     strategy_statistics:
         title: "Strategy statistics"
         description: "An encoding of a strategy into some (possibly high dimentional) numeric form"
@@ -41,7 +51,7 @@ nodes:
         tags: reinforcement
     bootstrap_dqn:
         title: "Bootstrap DQN"
-        description: "???"
+        description: "A exploration method for DQN based RL based off random value functions"
         type: algorithm
         tags: reinforcement,exploration
     dithering_exploration:
@@ -53,11 +63,48 @@ nodes:
         title: "AlphaStar"
         type: project
         description: "Deepmind's Starcraft playing engine."
+    off_policy_learning:
+        title: "Off policy learning"
+        description: "The problem of a policy learning from the consequences of actions that a slightly different policy took."
+        type: idea
+        tags: reinforcement
+    curriculum_learning:
+        title: "Curriculum learning"
+        description: "The idea that learning is fastest when training is on carefully prepared dataset where difficulty increases with abililty. "
+        type: idea
+        tags: learning
+    self_play:
+        title: "Self-play"
+        description: "In a game, a RL agent can compete with itself to produce learning scenarios"
+        type: algorithm
+        tags: learning
+    fictitious_self_play:
+        title: "Fictitious self-play"
+        description: "Agent plays against itself and archives of its past policies while learning."
+        type: algorithm
+    prioritized_fictitious_self_play:
+        title: "Prioritized fictitious self-play"
+        description: "Prioritizes play against "
+        type: algorithm
+    ladder_based_play_matching:
+        title: "Ladder based play matching"
+        description: "Prioritizes play against agents of similar overall elo"
+        type: algorithm
 relations:
     - alphastar -> temporal_difference
     - alphastar -> strategy_statistics
     - pop_based_training -> memetic_algorithm
     - alphastar -> pop_based_training
     - bootstrap_dqn - dithering_exploration
+    - bootstrap_dqn -> pop_based_training
     - q_learning <- dqn
     - bootstrap_dqn <- dqn
+    - temporal_difference -> off_policy_learning
+    - curriculum_learning <- self_play
+    - alphastar -> prioritized_fictitious_self_play
+    - self_play <- fictitious_self_play
+    - fictitious_self_play <- prioritized_fictitious_self_play
+    - self_play <- prioritized_fictitious_self_play
+    - curriculum_learning <- ladder_based_play_matching
+    - alphastar -> ladder_based_play_matching
+    - alphastar -> self_play
