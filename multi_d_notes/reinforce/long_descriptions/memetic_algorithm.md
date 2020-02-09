@@ -1,0 +1,3 @@
+In computer science and operations research, a memetic algorithm (MA) is an extension of the traditional genetic algorithm. It uses a local search technique to reduce the likelihood of the premature convergence.
+
+In a physical view, it models both population based evolution and individual level adaptation. This makes it appropriate for studies of cultural evolution, where both individuals and group have influence.

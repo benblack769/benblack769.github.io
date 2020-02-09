@@ -1,0 +1,63 @@
+node_types:
+    idea:
+        name: Idea
+        color: black
+    project:
+        name: Project
+        color: green
+    algorithm:
+        name: Algorithm
+        color: blue
+nodes:
+    temporal_difference:
+        title: "Temporal Differences"
+        description: "Off policy learning technique by Richard Stutton"
+        type: idea
+        tags: learning_target
+    strategy_statistics:
+        title: "Strategy statistics"
+        description: "An encoding of a strategy into some (possibly high dimentional) numeric form"
+        type: idea
+        tags: exploration
+    memetic_algorithm:
+        title: "Memetic Algorithm"
+        description: "Also known as genetic local search, Lamarckian EAs, Baldwinian EAs, cultual algorithms"
+        type: idea
+        tags: evolution, exploration
+    pop_based_training:
+        title: "Population based training"
+        description: "Training hyperparameters are set by population of evolving learners."
+        type: idea
+        tags: evolution
+    q_learning:
+        title: "Q Learning"
+        description: "Learning by "
+        type: idea
+        tags: reinforcement
+    dqn:
+        title: "Deep Q Network"
+        description: "A q-learning approach utlitizing deep neural networks"
+        type: algorithm
+        tags: reinforcement
+    bootstrap_dqn:
+        title: "Bootstrap DQN"
+        description: "???"
+        type: algorithm
+        tags: reinforcement,exploration
+    dithering_exploration:
+        title: "Dithering exploration"
+        description: "Exploration strategies which rely on minor perterbations in action space"
+        type: idea
+        tags: exploration
+    alphastar:
+        title: "AlphaStar"
+        type: project
+        description: "Deepmind's Starcraft playing engine."
+relations:
+    - alphastar -> temporal_difference
+    - alphastar -> strategy_statistics
+    - pop_based_training -> memetic_algorithm
+    - alphastar -> pop_based_training
+    - bootstrap_dqn - dithering_exploration
+    - q_learning <- dqn
+    - bootstrap_dqn <- dqn
