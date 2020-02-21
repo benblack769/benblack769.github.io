@@ -8,6 +8,9 @@ node_types:
     algorithm:
         name: Algorithm
         color: blue
+    problem:
+        name: Problem
+        color: red
 nodes:
     temporal_difference:
         title: "Temporal Differences"
@@ -84,11 +87,31 @@ nodes:
         type: algorithm
     prioritized_fictitious_self_play:
         title: "Prioritized fictitious self-play"
-        description: "Prioritizes play against "
+        description: "Prioritizes play against agents it does poorly against"
         type: algorithm
     ladder_based_play_matching:
         title: "Ladder based play matching"
         description: "Prioritizes play against agents of similar overall elo"
+        type: algorithm
+    disk_game:
+        title: "Disk Game"
+        description: "A differentiable version of Rock Paper Scisors"
+        type: problem
+    helmholtz_decomposition:
+        title: "Helmholtz decomposition"
+        description: "Any sufficiently smooth, rapidly decaying function in 3d is the sum of a curl and a divergence term."
+        type: idea
+    transitive_cyclic_decomposition:
+        title: "Transitive Cyclic Decomposition"
+        description: "Any zero-sum differentiable game can be decomposed into a cyclic (counterable) and a transitive (globally better) parts"
+        type: idea
+    response_to_nash:
+        title: "Response to the Nash"
+        description: "Strategies are updated with the best response to the Nash equilibria of the population."
+        type: algorithm
+    response_to_rectified_nash:
+        title: "Response to the rectified Nash"
+        description: "Each effective agent is trained against agents it beats or ties"
         type: algorithm
 relations:
     - alphastar -> temporal_difference
@@ -108,3 +131,11 @@ relations:
     - curriculum_learning <- ladder_based_play_matching
     - alphastar -> ladder_based_play_matching
     - alphastar -> self_play
+    - response_to_nash -> transitive_cyclic_decomposition
+    - response_to_rectified_nash -> transitive_cyclic_decomposition
+    - fictitious_self_play -> transitive_cyclic_decomposition
+    - prioritized_fictitious_self_play -> transitive_cyclic_decomposition
+    - self_play -> transitive_cyclic_decomposition
+    - disk_game <- prioritized_fictitious_self_play
+    - disk_game <- response_to_rectified_nash
+    - disk_game - transitive_cyclic_decomposition
