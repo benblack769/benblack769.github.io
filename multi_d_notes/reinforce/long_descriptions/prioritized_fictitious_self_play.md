@@ -12,7 +12,7 @@ Choosing $$f_{\text{var}} = x(1-x)$$ means that the agent prefers opponents arou
 
 ### Criticism
 
-In the [Transitive Cyclic Decomposition](/#transitive_cyclic_decomposition) paper, this method is criticized because it contracts the space of agents rather than expands it.
+In the [Transitive Cyclic Decomposition](/#transitive_cyclic_decomposition) paper, this method is criticized because it contracts the space of agents rather than expands it. More precisely, it lowers the [Effective diversity](/#effective_diversity) of the strategies.
 
 In particular, in the [disk game](/#disk_game), this method contracts the space of solutions instead of growing them (this method is version C in the diagram).
 

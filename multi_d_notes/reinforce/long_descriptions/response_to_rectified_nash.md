@@ -2,7 +2,11 @@ This builds upon the ideas of [Response to the Nash](/#response_to_nash) but cre
 
 In particular, this method considers all the agents which have support in the Nash equilibria. This means that an optimal strategy will play each of these agents sometimes. Then, when training new agents, it only trains those agents against opponents which lose to it.
 
-### Emperical Evidence for success.
+### Objective
+
+Note that this is essentially a greedy algorithm for the [Effective Diversity](/#effective_diversity) objective.
+
+### Evidence for success.
 
 In the [Transitive Cyclic Decomposition](/#transitive_cyclic_decomposition) paper, this method is emphasized because it expands the space of agents.
 

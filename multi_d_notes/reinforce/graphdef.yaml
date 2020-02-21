@@ -113,6 +113,14 @@ nodes:
         title: "Response to the rectified Nash"
         description: "Each effective agent is trained against agents it beats or ties"
         type: algorithm
+    effective_diversity:
+        title: "Effective Diversity"
+        description: "A reward based definition of strategic diversity"
+        type: idea
+    colonel_blotto:
+        title: "Colonel Blotto"
+        description: "Resource allocation game where every player allocates resources to every area and wins in an area if they allocate the most resources."
+        type: problem
 relations:
     - alphastar -> temporal_difference
     - alphastar -> strategy_statistics
@@ -139,3 +147,7 @@ relations:
     - disk_game <- prioritized_fictitious_self_play
     - disk_game <- response_to_rectified_nash
     - disk_game - transitive_cyclic_decomposition
+    - response_to_rectified_nash -> effective_diversity
+    - prioritized_fictitious_self_play -> effective_diversity
+    - colonel_blotto <- response_to_rectified_nash
+    - colonel_blotto <- response_to_nash
