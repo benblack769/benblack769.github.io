@@ -12,6 +12,10 @@ node_types:
         name: Problem
         color: red
 nodes:
+    exploring_as_self_play:
+        title: "Exploration as self-play"
+        description: "Exploration can be seen as a self play problem (List of papers)"
+        type: idea
     temporal_difference:
         title: "Temporal Differences"
         description: "Off policy learning technique by Richard Stutton"
@@ -151,3 +155,5 @@ relations:
     - prioritized_fictitious_self_play -> effective_diversity
     - colonel_blotto <- response_to_rectified_nash
     - colonel_blotto <- response_to_nash
+    - exploring_as_self_play <- curriculum_learning
+    - exploring_as_self_play <- self_play
