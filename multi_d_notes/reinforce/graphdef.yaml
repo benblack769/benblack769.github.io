@@ -12,10 +12,38 @@ node_types:
         name: Problem
         color: red
 nodes:
+    exploration_exploitation:
+        title: "Exploration-Exploitation Tradeoff"
+        description: "Exploration involves searching suboptimal paths, which in extremes will criple the agents ability to perform well."
+        type: problem
+    prediction_based_exploration:
+        title: "Prediction based exploration"
+        description: "Newness of an enviornment is estimated by how badly a learned predictor works."
+        type: idea
+    tv_problem:
+        title: "TV addiction problem"
+        description: "A curious agent can (like a human) be addicted to long strings of new information"
+        type: problem
+    video_game_addiction:
+        title: "Video game addiction problem"
+        description: "A self-rewarding agent can easily get stuck playing an interactive game where it does new things which are useless and give no real reward"
+        type: problem
+    next_state_prediction_curiosity:
+        title: "Next-state prediction curiosity"
+        description: "Predicting next state of enviornment is a difficult task, which this paper uses to simulate curiosity"
+        type: algorithm
+    random_network_distilation:
+        title: "Random Network Distilation"
+        description: "A curiosity based exploration paradigm based on using randomized networks as a state hash function."
+        type: algorithm
     exploring_as_self_play:
         title: "Exploration as self-play"
         description: "Exploration can be seen as a self play problem (List of papers)"
         type: idea
+    enviornment_policy_selector_game:
+        title: "Enviornment-policy selection game"
+        description: "A solution to integrating networks with different reward functions based on game theory"
+        type: algorithm
     temporal_difference:
         title: "Temporal Differences"
         description: "Off policy learning technique by Richard Stutton"
@@ -64,6 +92,11 @@ nodes:
     dithering_exploration:
         title: "Dithering exploration"
         description: "Exploration strategies which rely on minor perterbations in action space"
+        type: idea
+        tags: exploration
+    randomized_value_exploration:
+        title: "Randomized value exploration"
+        description: "Exploring an entire path based on the guidence of a randomized function"
         type: idea
         tags: exploration
     alphastar:
@@ -130,8 +163,8 @@ relations:
     - alphastar -> strategy_statistics
     - pop_based_training -> memetic_algorithm
     - alphastar -> pop_based_training
-    - bootstrap_dqn - dithering_exploration
     - bootstrap_dqn -> pop_based_training
+    - bootstrap_dqn -> randomized_value_exploration
     - q_learning <- dqn
     - bootstrap_dqn <- dqn
     - temporal_difference -> off_policy_learning
@@ -157,3 +190,14 @@ relations:
     - colonel_blotto <- response_to_nash
     - exploring_as_self_play <- curriculum_learning
     - exploring_as_self_play <- self_play
+    - exploration_exploitation <- dithering_exploration
+    - exploration_exploitation <- randomized_value_exploration
+    - exploration_exploitation <- prediction_based_exploration
+    - tv_problem <- next_state_prediction_curiosity
+    - tv_problem <- random_network_distilation
+    - tv_problem <- video_game_addiction
+    - prediction_based_exploration <- next_state_prediction_curiosity
+    - prediction_based_exploration <- random_network_distilation
+    - enviornment_policy_selector_game -> video_game_addiction
+    - enviornment_policy_selector_game -> curriculum_learning
+    - enviornment_policy_selector_game -> response_to_rectified_nash
