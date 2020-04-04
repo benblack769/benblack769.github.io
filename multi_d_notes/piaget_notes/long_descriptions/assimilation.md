@@ -8,7 +8,9 @@ The choice of phrasing is very interesting. Assimilation is when a structure abs
 
 First, Jean Piaget believes that children do not see the world and themselves as separate. Rather children see just one world, with no duality between external and internal. So assimilating your hand's motions and the motion of your parents faces around you are treated the same.
 
-Another important feature of this terminology is the idea that assimilation is the process of becoming similar to something. When the baby sees something new, it adapts the new thing to be more similar to its schema.
+Another important feature of this terminology is the idea that assimilation is the process of becoming similar to something. When the baby sees something new, it adapts the sensory signal of that thing to be more similar to its schema.
+
+Another important feature is the newness. Only new relations need to be assimilated to the schema. Familiar relations do not.
 
 ### Needs in children
 
@@ -17,8 +19,14 @@ In children, Jean Piaget finds many such goals, all interacting. These include:
 * Sucking (the mouth needs to suck on things)
 * Glancing (the eyes want to see things)
 * Grasping (the hands want to hold things)
+* Recall (the hippocampus want to recall things it has seen before)
 
 And a whole bunch more.
+
+#### Memory
+
+Assimilation is only relevant for new relations. Oddly, however, recall is a need in of itself, so there must be a difference between assimilatory familiarity and strict memory. Physically, memory is probably controlled by the hippocampus vs assimilation is controlled by the main brain. Also, assimilation is connected to a specific need, whereas memory tends to just absorb events with high emotive content, i.e. a general need.
+
 
 ### Assimilation in children
 

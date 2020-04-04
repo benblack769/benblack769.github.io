@@ -11,6 +11,9 @@ node_types:
     problem:
         name: Problem
         color: red
+    paper:
+        name: Paper
+        color: yellow
 nodes:
     exploration_exploitation:
         title: "Exploration-Exploitation Tradeoff"
@@ -40,10 +43,6 @@ nodes:
         title: "Exploration as self-play"
         description: "Exploration can be seen as a self play problem (List of papers)"
         type: idea
-    enviornment_policy_selector_game:
-        title: "Enviornment-policy selection game"
-        description: "A solution to integrating networks with different reward functions based on game theory"
-        type: algorithm
     temporal_difference:
         title: "Temporal Differences"
         description: "Off policy learning technique by Richard Stutton"
@@ -152,17 +151,46 @@ nodes:
         type: algorithm
     effective_diversity:
         title: "Effective Diversity"
-        description: "A reward based definition of strategic diversity"
+        description: "A reward based definition of strategic diversity in antisymmetric two player game"
         type: idea
     colonel_blotto:
         title: "Colonel Blotto"
         description: "Resource allocation game where every player allocates resources to every area and wins in an area if they allocate the most resources."
         type: problem
+    smoothed_symetric_nash_diversity:
+        title: "Diversity for uniform agents"
+        description: "Diversity in a population of uniform agents can be obtained by compting the number of 'smoothed' nash in the game."
+        type: idea
+    diverse_two_player_multi_agent_games:
+        title: "Diversity for two player multi-agent games"
+        description: ""
+        type: idea
+    nash_matrix_estimation:
+        title: "N-player game matrix estimation"
+        description: ""
+        type: algorithm
+    active_thief_discovery:
+        title: "Active thief discovery"
+        description: "A discovery problem of a adversarial agent"
+        type: problem
+    nash_based_diversity:
+        title: "Nash based Diversity"
+        description: "Evaluating diversity based off properties of the nash equilibria of a game"
+        type: idea
 relations:
     - alphastar -> temporal_difference
     - alphastar -> strategy_statistics
     - pop_based_training -> memetic_algorithm
     - alphastar -> pop_based_training
+    - active_thief_discovery -> effective_diversity
+    - pop_based_training <- nash_based_diversity
+    - nash_based_diversity <- effective_diversity
+    - nash_based_diversity <- smoothed_symetric_nash_diversity
+    - nash_based_diversity <- response_to_nash
+    - nash_matrix_estimation <- nash_based_diversity
+    - diverse_two_player_multi_agent_games <- smoothed_symetric_nash_diversity
+    - diverse_two_player_multi_agent_games <- effective_diversity
+    - effective_diversity <- response_to_rectified_nash
     - bootstrap_dqn -> pop_based_training
     - bootstrap_dqn -> randomized_value_exploration
     - q_learning <- dqn
@@ -175,6 +203,7 @@ relations:
     - self_play <- prioritized_fictitious_self_play
     - curriculum_learning <- ladder_based_play_matching
     - alphastar -> ladder_based_play_matching
+    - ladder_based_play_matching -> pop_based_training
     - alphastar -> self_play
     - response_to_nash -> transitive_cyclic_decomposition
     - response_to_rectified_nash -> transitive_cyclic_decomposition
@@ -198,6 +227,3 @@ relations:
     - tv_problem <- video_game_addiction
     - prediction_based_exploration <- next_state_prediction_curiosity
     - prediction_based_exploration <- random_network_distilation
-    - enviornment_policy_selector_game -> video_game_addiction
-    - enviornment_policy_selector_game -> curriculum_learning
-    - enviornment_policy_selector_game -> response_to_rectified_nash
