@@ -1,5 +1,11 @@
-
-# The economic problem of AI
+---
+title: "The economic problem of AI"
+slug: economic-problem
+under_construction: false
+excerpt: "An essay on the barriers to technological development of AI."
+comments: false
+share: false
+---
 
 Why do you use technology? Do you play with it? Perhaps you do. But, what about the technologies you are still using from 10 years ago? Are they just toys or something more? Are they something that fits into your life like a belt, tying things together, making your life a little easier, a little more convenient, a little brighter, a little less lonely?
 
