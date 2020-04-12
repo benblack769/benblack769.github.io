@@ -148,6 +148,7 @@ exclude:
   - "*.sublime-project"
   - "*.sublime-workspace"
   - vendor
+  - multi_d_notes
   - .asset-cache
   - .bundle
   - .jekyll-assets-cache
