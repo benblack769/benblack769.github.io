@@ -32,6 +32,19 @@ nodes:
         title: "Schema"
         description: "A functional psycological structure with a base purpose and ability to adapt to move towards that purpose."
         type: psychological
+    signal:
+        title: "Signal"
+        description: "A value that corresponds to a dynamic oscillation's frequency in another space."
+        type: mathmatical
+    simplistic_biological_neurons:
+        title: "Potential Buildup Neurons"
+        description: "A simplistic model of biological neurons that allows for signal analysis"
+        type: biological
+    signal_reinforcement:
+        title: "Signal reinforcement"
+        description: "Strong, steady signals should be reinforced so they are easier to produce"
+        type: mathmatical
+
 relations:
     - accomidation - assimilation
     - circular_reaction -> accomidation
