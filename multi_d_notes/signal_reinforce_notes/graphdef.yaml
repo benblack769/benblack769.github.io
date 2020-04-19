@@ -1,0 +1,42 @@
+node_types:
+    biological:
+        name: Biological
+        color: green
+    psychological:
+        name: Psycological
+        color: red
+    mathmatical:
+        name: Mathmatical
+        color: blue
+    algorithm:
+        name: Algorithmic
+        color: yellow
+nodes:
+    accomidation:
+        title: "Accomidation"
+        description: "Changing your nature to better accomidate external stimuli."
+        type: psychological
+    assimilation:
+        title: "Assimilation"
+        description: "Changing your state so that external objects are internalized."
+        type: psychological
+    circular_reaction:
+        title: "Circular Reaction"
+        description: "Doing something interesting over and over because your actions stimulate your senses, which in turn rewards those actions, and the actions follow the reward."
+        type: psychological
+    origins_of_child_intelligence:
+        title: "The Origins of Child Intelligence"
+        description: "A collection of observations and theories about the early development of intentional behavior in infants."
+        type: psychological
+    schema:
+        title: "Schema"
+        description: "A functional psycological structure with a base purpose and ability to adapt to move towards that purpose."
+        type: psychological
+relations:
+    - accomidation - assimilation
+    - circular_reaction -> accomidation
+    - circular_reaction -> assimilation
+    - accomidation -> origins_of_child_intelligence
+    - circular_reaction -> origins_of_child_intelligence
+    - assimilation -> origins_of_child_intelligence
+    - schema -> origins_of_child_intelligence
