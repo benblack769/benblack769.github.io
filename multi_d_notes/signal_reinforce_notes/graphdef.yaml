@@ -20,6 +20,10 @@ nodes:
         title: "Assimilation"
         description: "Changing your state so that external objects are internalized."
         type: psychological
+    boredom:
+        title: "Boredom"
+        description: "Boredom is learning to destroy stimulation of highly familiar scenarios so you can move on to trying unfamiliar ones."
+        type: psychological
     circular_reaction:
         title: "Circular Reaction"
         description: "Doing something interesting over and over because your actions stimulate your senses, which in turn rewards those actions, and the actions follow the reward."
@@ -44,12 +48,45 @@ nodes:
         title: "Signal reinforcement"
         description: "Strong, steady signals should be reinforced so they are easier to produce"
         type: mathmatical
+    destructive_interfeerence:
+        title: "Destructive Interfeerence"
+        description: "Cross-neuron interfeerence encourages diversity among neurons"
+        type: mathmatical
+    similarity_grouping:
+        title: "Similarity Grouping"
+        description: "Grouping similar signaled nueron grouping together will allow destructive interfeerence to work better"
+        type: "mathmatical"
+    grouping_3d:
+        title: "3d Grouping"
+        description: "Biological neurons almost certainly perform some sort of 3d grouping where similar signaled neurons are attracted into the same physical space"
+        type: biological
+    local_shared_energy:
+        title: "Locally shared energy"
+        description: "Biological neurons almost certainly borrow from the same local pool of energy to activate. Mechansim for destructive interfeerence."
+        type: biological
+    capsule_network_activation:
+        title: "Capsule Network Activation"
+        description: "Hinton's capsule networks activate capsule by capsule in a destructively interfeering way"
+        type: algorithm
 
 relations:
     - accomidation - assimilation
     - circular_reaction -> accomidation
     - circular_reaction -> assimilation
+    - boredom -> circular_reaction
     - accomidation -> origins_of_child_intelligence
     - circular_reaction -> origins_of_child_intelligence
     - assimilation -> origins_of_child_intelligence
     - schema -> origins_of_child_intelligence
+    - local_shared_energy -> destructive_interfeerence
+    - capsule_network_activation -> destructive_interfeerence
+    - grouping_3d -> similarity_grouping
+    - signal <- simplistic_biological_neurons
+    - assimilation -> signal
+    - signal_reinforcement -> signal
+    - signal_reinforcement -> accomidation
+    - destructive_interfeerence - signal_reinforcement
+    - destructive_interfeerence <- similarity_grouping
+    - similarity_grouping <- grouping_3d
+    - local_shared_energy -> destructive_interfeerence
+    
