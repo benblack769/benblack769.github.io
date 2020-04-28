@@ -56,6 +56,10 @@ nodes:
         title: "Similarity Grouping"
         description: "Grouping similar signaled nueron grouping together will allow destructive interfeerence to work better"
         type: "mathmatical"
+    conv_destruc_interfeer:
+        title: "Convolutional interfeerence"
+        description: "Signal reinforcement using physical proximity as destructive signal"
+        type: algorithm
     grouping_3d:
         title: "3d Grouping"
         description: "Biological neurons almost certainly perform some sort of 3d grouping where similar signaled neurons are attracted into the same physical space"
@@ -89,4 +93,6 @@ relations:
     - destructive_interfeerence <- similarity_grouping
     - similarity_grouping <- grouping_3d
     - local_shared_energy -> destructive_interfeerence
-    
+    - conv_destruc_interfeer -> destructive_interfeerence
+    - conv_destruc_interfeer -> signal
+    - conv_destruc_interfeer -> signal_reinforcement
