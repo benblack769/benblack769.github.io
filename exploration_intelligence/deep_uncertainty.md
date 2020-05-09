@@ -2,10 +2,31 @@
 title: "Deep uncertainty"
 slug: deep-uncertainty
 under_construction: true
-excerpt: "An essay on the problems of unparameterizable uncertainty in society and the solutions we come to as individuals."
+excerpt: "An essay on the problems of unparameterizable uncertainty in society today and the solutions we come to as individuals and communities."
 comments: false
 share: false
 ---
+
+Progressing depth of uncertainty
+
+* Noise based uncertainty (create a noise model, statistics)--danger is a number of assumptions you have to work with
+* Noise model uncertainty (create a hyperparameter controlling noise models)--danger is being too conservative, which may lead to bad outcomes: you don't gain knowledge this way
+* Variable uncertainty (What if the missing variable from the data is the most significant one? But everyone has different ideas about what variable this is, so you can't get funding to gather that extremely important, but difficult to measure value?)
+* Loss of words uncertainty (What if the missing variable is so complex, we have no words for it? We may still have stories which capture immense complexity)
+* Story uncertainty (What if the story that explains the phenomenom does not yet exist?)
+
+
+
+Individuaization is digging yourself out the hole by taking or inventing a small set of stories, terms, ideas, and assuming they work. You do not have enough time to evaluate these fully in your lifetime. In a granular society, many ideas are assumed, so there is a better chance that one of them works best. And knowledge is improved. In a mostly homogenous society, you can carefully watch you peers who share mostly similar assumptions, but with a few key differences. You can then watch what works better or worse. However, you have no hope of learning about the problems with the things everyone you know has assumed. So progress is low dimentional, but potentially much quicker than in a more open society.
+
+If there is a more homogenous soceity, and the assumptions they hold work, they tend to do better than a granular society. A granular society tends to do better than a homogenous one when the assumptions don't work well.
+
+What does work well mean?
+
+1. Self-propogating (idea spreads from group to group)
+2. Individual benefitting (idea helps inviduals survive)
+
+Note that the first can hold for a long time even if it does poorly for individual's fitness. However, in the very long run, the second should eventually win out.
 
 What can a water molecule tell of its fate? It can look to the left, and see another molecule about to collide with it. It can look to the right, and tell that there is nothing there, suggesting it will be pushed in that direction soon. It can tell if it is closely packed with and connected to other molecules in a liquid or bouncing around loosely in a gas.
 
