@@ -35,6 +35,10 @@ nodes:
         title: "Next-state prediction curiosity"
         description: "Predicting next state of enviornment is a difficult task, which this paper uses to simulate curiosity"
         type: algorithm
+    task_diversity:
+        title: "Task diversity"
+        description: "Method of increasing skill diversity to encourage exploration"
+        type: algorithm
     random_network_distilation:
         title: "Random Network Distilation"
         description: "A curiosity based exploration paradigm based on using randomized networks as a state hash function."
@@ -192,6 +196,8 @@ relations:
     - diverse_two_player_multi_agent_games <- effective_diversity
     - effective_diversity <- response_to_rectified_nash
     - bootstrap_dqn -> pop_based_training
+    - task_diversity -> pop_based_training
+    - task_diversity -> exploration_exploitation
     - bootstrap_dqn -> randomized_value_exploration
     - q_learning <- dqn
     - bootstrap_dqn <- dqn
