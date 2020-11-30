@@ -1,0 +1,15 @@
+### Basic idea
+
+Same as [DIAYN](/#DIAYN), except random source changes over time. Basically a time-continuous version.
+
+### Algorithmic ideas
+
+Instead of information vector being sampled once at beginning, it is samples many times over the course of the episode. Different elements of the information vector are sampled at different rates, hence the clock.
+
+Idea is to maximize mutual information between environment state and information, same as before, but which information the state should match is spread out over time (and is not known in advance).
+
+If information is kept constant at long time scales, behavior is expected to be similar to DIAYN. If information is changing at short time scales, expect policy to gravitate towards areas where encoding information is easy, i.e., places where this high entropy information can be encoded.
+
+In other words, this offers a smooth tradeoff between entropy and information, without separate special treatment. It also gets at the concept of action entropy at different time scales. That is, building information at a time scale, and having it change.
+
+Long time sequence information should be easier to encode, so be careful.
