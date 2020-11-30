@@ -18,3 +18,5 @@ So you can see that if the future states after the action do more poorly due to 
 If $$r + V(S^\prime)$$ evaluates worse than $$Q(S, a)$$ then $$Q(S, a)$$ will know that $$a$$ did a bad job storing the memory, so it will have a gradient of $$a$$ vs the change in value of the state.
 
 So you have memory updating to be more useful. The only problem is that this is a very difficult credit assignment problem. So [perhaps there can be a reward that explicitly encourages information to be remembered this way](/#clock_information_exploration).
+
+The problem with that technique is that the information being memorized is random noise. But with overfitting, some of that random noise will correlate with an actual feature of the environment state. And so you start controlling that noise to match the environment state. It may also be beneficial for the policy which controls the memory to not have direct access to the state. All of this is highly speculative. 
