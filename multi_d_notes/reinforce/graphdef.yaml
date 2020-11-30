@@ -234,6 +234,22 @@ nodes:
         title: "Entropy Regularization"
         description: "Network chooses mean and variance -- is rewarded for choosing high variance (high entropy)"
         type: idea
+    memory:
+        title: "Memory"
+        description: "Agents must manage partial observibility by keeping a memory of prior events"
+        type: problem
+    recurrent_memory:
+        title: "Recurrent Nerual Memory"
+        description: "RNNs"
+        type: idea
+    attentional_memory:
+        title: "Attentional Neural Memory"
+        description: ""
+        type: idea
+    state_based_memory:
+        title: "State Based Memory"
+        description: "Using environment state to hold memory (nondifferentiable)"
+        type: idea
 relations:
     - alphastar -> temporal_difference
     - alphastar -> strategy_statistics
@@ -302,3 +318,8 @@ relations:
     - clock_information_exploration <- factorized_target_exploration
     - out_of_sample_estimation <- value_curvature_problem
     - out_of_sample_estimation <- double_q_networks
+    - memory <- recurrent_memory
+    - memory <- attentional_memory
+    - memory <- state_based_memory
+    - state_based_memory <- factorized_target_exploration
+    
