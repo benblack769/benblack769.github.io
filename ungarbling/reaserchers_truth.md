@@ -1,0 +1,18 @@
+### The Researcher's truth
+
+
+A researcher is commonly thought to seek the truth. But the whole truth is much too large to see, and most truths are uninteresting to most people. Again, the common thought is that truth is more interesting to researchers. But this is not true either. Most good researchers are remarkably delusional. Think of Einstein and his thought experiments. In what world are these not delusions? Or Pasteur and his self-promotion and marketing. Was he really as great as he said he was? About what about the early great psycologists? Freud and his dreams? Jung and his hallucinations? And these are the successful examples. The nature of their motivations is better exposed by their failures. Take Einstein's cosmological constant, a bizarre forcing of the mathematics governing reality into a worldview he had no actual evidence for. Or Alan Turing's claim that a fully capable AI could be built in a few decades of work on top of 50s hardware. This list of failures always far exceeds the list of successes. So what gives? What is the true desire of the scientist, if not to seek truth? The scientist seeks to reveal not the truth, but their truth to the world. Their personal desires, thoughts and experiences are reflected by their science. However, unlike the storyteller or the artist, who must acknowledge the limited scope of their experiences, the scientist replaces the theologian in seeking universal truths, truths applicable to everything, but connected to themselves.
+
+Science came around at a time of deepening skepticism. The world had been blackened by the plague, opened wider with the discovery of the America's and fractured with the protestant movement contesting the claim of the catholic church. In this environment, deeply skeptical philosophers started doubting many of the assumptions of the community. (I think therefore I am guy) talked about a demon fooling all of our senses. This skepticism made it so that old arguments based off theological texts, tradition, secret rituals, or sacred experiences no longer got very much traction. Instead, arguments that used common ground: generally applicable argument structure (i.e. logic and math) and repeatable observations (i.e. science) became the way that philosophers gained traction.
+
+The scientist therefore has a mission: to promote their truth, and a restriction: to limit their argument to generally applicable evidence and structure. This dichotomy explains why scientists are both dogmatic and curious, both delusional and clear-eyed, and why not all smart people are suited to becoming scientists.
+
+So the question becomes then, what do scientists reward each other on? If a paper is published that promotes a theory that is part of the scientists truth, they are likely to be rewarded. If a system or method is invented that allows the scientist to run their own experiments to promote their truth, they are likely to be rewarded.
+
+Some things which are less likely to be rewarded: an exploratory tool is created which allows the reasercher to explore new possiblities (only rewarded if they end up allowing the researcher to confirm their own truth easily, but these are loved by students). Negative results (only if the parties which did not accept the result as truth have run into problems because of the insistence by the community upon the truth of that negative result). Books (again, mostly desired by students, but also by their teachers, but can seriously improve the standards of the theory if used as a textbook)
+
+
+
+With this deep skeptisim, when one  started using a new framework to guide thinking, one based off
+
+The scientist tries to
