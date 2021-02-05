@@ -1,0 +1,149 @@
+
+  <div class="author__urls-wrapper">
+    <!--<button class="btn btn--inverse">{{ site.data.ui-text[site.locale].follow_label | remove: ":" | default: "Follow" }}</button>-->
+    <ul class="author__urls social-icons">
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> <span itemprop="name">College Park, Maryland</span>
+        </li>
+
+      <li>
+        <a href="mailto:benblack769@gmail.com">
+          <meta itemprop="email" content="benblack769@gmail.com" />
+          <i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].email_label | default: "Email" }}
+        </a>
+      </li>
+
+        <li>
+          <a href="https://www.linkedin.com/in/benjamin-black-345aa9132" itemprop="sameAs">
+            <i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+          </a>
+        </li>
+
+      {% if author.bitbucket %}
+        <li>
+          <a href="https://bitbucket.org/{{ author.bitbucket }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket
+          </a>
+        </li>
+      {% endif %}
+
+        <li>
+          <a href="https://github.com/weepingwillowben" itemprop="sameAs">
+            <i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+
+      {% if author.gitlab %}
+        <li>
+          <a href="https://gitlab.com/{{ author.gitlab }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-gitlab" aria-hidden="true"></i> Gitlab
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.stackoverflow %}
+        <li>
+          <a href="https://www.stackoverflow.com/users/{{ author.stackoverflow }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-stack-overflow" aria-hidden="true"></i> Stackoverflow
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.lastfm %}
+        <li>
+          <a href="https://last.fm/user/{{ author.lastfm }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-lastfm-square" aria-hidden="true"></i> Last.fm
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.dribbble %}
+        <li>
+          <a href="https://dribbble.com/{{ author.dribbble }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-dribbble" aria-hidden="true"></i> Dribbble
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.pinterest %}
+        <li>
+          <a href="https://www.pinterest.com/{{ author.pinterest }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-pinterest" aria-hidden="true"></i> Pinterest
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.foursquare %}
+        <li>
+          <a href="https://foursquare.com/{{ author.foursquare }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-foursquare" aria-hidden="true"></i> Foursquare
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.steam %}
+        <li>
+          <a href="https://steamcommunity.com/id/{{ author.steam }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-steam-square" aria-hidden="true"></i> Steam
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.youtube %}
+        {% if author.youtube contains "://" %}
+          <li>
+            <a href="{{ author.youtube }}" itemprop="sameAs">
+              <i class="fa fa-fw fa-youtube-square" aria-hidden="true"></i> YouTube
+            </a>
+          </li>
+        {% else author.youtube %}
+          <li>
+            <a href="https://www.youtube.com/user/{{ author.youtube }}" itemprop="sameAs">
+              <i class="fa fa-fw fa-youtube-square" aria-hidden="true"></i> YouTube
+            </a>
+          </li>
+        {% endif %}
+      {% endif %}
+
+      {% if author.soundcloud %}
+        <li>
+          <a href="https://soundcloud.com/{{ author.soundcloud }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-soundcloud" aria-hidden="true"></i> Soundcloud
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.weibo %}
+        <li>
+          <a href="https://www.weibo.com/{{ author.weibo }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-weibo" aria-hidden="true"></i> Weibo
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.flickr %}
+        <li>
+          <a href="https://www.flickr.com/{{ author.flickr }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-flickr" aria-hidden="true"></i> Flickr
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.codepen %}
+        <li>
+          <a href="https://codepen.io/{{ author.codepen }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-codepen" aria-hidden="true"></i> CodePen
+          </a>
+        </li>
+      {% endif %}
+
+      {% if author.vine %}
+        <li>
+          <a href="https://vine.co/u/{{ author.vine }}" itemprop="sameAs">
+            <i class="fa fa-fw fa-vine" aria-hidden="true"></i> Vine
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </div>

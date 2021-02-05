@@ -12,7 +12,7 @@ In terms of fun, well run, accessible and longer competitions, MIT's [battlecode
 
 This year, there was a specific feature to the competition I found challenging. The robots operated in a fully continuous space, i.e., there were not a finite number of positions a robot could be in, or move to. Here is a screenshot of what it looked like. [Link](https://www.battlecode.org/tournaments/watch/SPRINT/1262) to view this match (link expires around September 2017).
 
-![Screenshot](../images/random_walks/capture-1.png)
+![Screenshot](/images/random_walks/capture-1.png)
 
 Now, I have some code which decides on a destination for each robot. My problem is that I don't know how to get there. After all, how can you make reasonably intelligent decisions about how to get there if there are obstacles in the way? Obstacles which you don't know about? Especially considering there are a infinite number of possible locations to move each turn? (well, ok, technically not infinite, but very large). I should also mention that there is a very tight computation limit on the decisions (for those who know low level code, it is 10,000 Java bytecodes for all decisions per turn). What this all means practically is that you cannot start building maps of the trees around you and navigate via standard algorithms. Instead, you have to operate with much less information.
 
@@ -24,15 +24,15 @@ Here is a grid of pixels. I am trying to get from the top left corner to the bot
 
 So lets watch the behavior of this line as the space grows:
 
-![zoom1](../images/random_walks/outblank2.png)
+![zoom1](/images/random_walks/outblank2.png)
 
-![zoom2](../images/random_walks/outblank3.png)
+![zoom2](/images/random_walks/outblank3.png)
 
-![zoom3](../images/random_walks/outblank.png)
+![zoom3](/images/random_walks/outblank.png)
 
-![zoom4](../images/random_walks/outblank4.png)
+![zoom4](/images/random_walks/outblank4.png)
 
-![zoom5](../images/random_walks/outblank5.png)
+![zoom5](/images/random_walks/outblank5.png)
 
 One thing to note is that this blue path is consistently around 10,000 longer than the red path for the bigger spaces. If you remember our original intentions, it is to move around intelligently in a space we don't know about. If this takes that much longer than walking strait there, then we might as well not bother. This confirms what I thought originally about the random direction approach being very bad.
 
@@ -44,7 +44,7 @@ Back to the problem,
 
 We want to get to the destination. But on the other hand, we still want to have some random element of motion. To me, directions seem like vectors. So what will do is just add a random vector to a vector that points in the direction of the destination.
 
-![Force Vectors](../images/random_walks/arrowsnop.png)
+![Force Vectors](/images/random_walks/arrowsnop.png)
 
 There are two components here. The blue vector is a vector in a random direction. The green is a vector that points away from where we were last. The resulting direction we want to travel in is the red vector, which is the sum of the random vector and the green vector. This is easy and fast to calculate in code.
 
@@ -68,18 +68,18 @@ There are two additions to the code that I have not yet mentioned. The first are
 
 Lets see how well this works!
 
-![Working well](../images/random_walks/working_well.png)
+![Working well](/images/random_walks/working_well.png)
 
 
 Wow, that was fast! It got there in 130% of the time of the perfect solution! But remember what our problem was when there was an obstacle in the way.
 
 Lets look at this map instead:
 
-![Cross Bar](../images/random_walks/cross_bar.png)
+![Cross Bar](/images/random_walks/cross_bar.png)
 
 With this map, there is a single obstacle in the way, so we can see the random walk's behavior around it. It turns out that with a `dest_weight` of 0.5, this will not terminate in my lifetime. I had to lower the `dest_weight` to 0.015 in order to get this to finish in a few seconds, and it still took over a million steps to get over the barrier. 
 
-![working_poorly](../images/random_walks/outcross_bar.png)
+![working_poorly](/images/random_walks/outcross_bar.png)
 
 There is the trace of that walk. As you can see, it is really getting stuck in that corner, and it is getting out by pure chance. Hopefully, you can see that the difficulty it has escaping increases wildly with the size of the area it has to escape. I consider this a failure. If the weight is too low, then there is no significant effect, if it is too high, then it gets stuck. After trying for some time to find an optimal weight, there was still little benefit in this particular case.
 
@@ -89,35 +89,35 @@ Lets brainstorm another way to improve the walks performance. If you look close
 
 To implement this idea in code we will need to keep track of the place we were last. Then, we can use the same vector technique as last time. The only difference is that in this case, the vector is pointing away from the point we are keeping track of, instead of towards it (which can be accomplished with simple vector negation). Lets see the results:
 
-![zig_zaggy](../images/random_walks/zig_zaggy.png)
+![zig_zaggy](/images/random_walks/zig_zaggy.png)
 
 This looks different! It doesn't do much better on a blank map, but lets see if it does better on a normal map.
 
 Here is the normal version (9 million steps):
 
-![through_middle](../images/random_walks/outline_middle1.png)
+![through_middle](/images/random_walks/outline_middle1.png)
 
 And here is the altered version: (1.5 million steps)
 
-![through_middle_zig_zaggy](../images/random_walks/outline_middle.png)
+![through_middle_zig_zaggy](/images/random_walks/outline_middle.png)
 
 It appears to be doing better, and we can even get a sense of why. The problem where it clusters in a single places does seem to be solved! It really does get to most of the map in the second version.
 
 Lets see how it does on a more complicated maze:
 
-![maze_zig](../images/random_walks/outmaze1.png)
+![maze_zig](/images/random_walks/outmaze1.png)
 
 Yup, it still seems to spread itself out pretty well over the map.
 
 At this point of the exploration, I got an idea. If this is spreading over the map, then perhaps it also helps fix the problem that the first idea had, which was that it was sicking in a single point. Lets see how that performs.
 
-![cross_zig](../images/random_walks/outcross_bar1.png)
+![cross_zig](/images/random_walks/outcross_bar1.png)
 
 Yup, it seemed to work, perhaps even better than without the pull towards the end.
 
 At this point, lets stop to see some more measurable progress. How far have we come? The following measurements are the number of steps it took to go through the more complicated maze given the following techniques.  "Push" is going away from where we started, Pull is being pulled towards the endpoint.
 
-![measurement](../images/random_walks/measurement.png)
+![measurement](/images/random_walks/measurement.png)
 
 Here we can see that combining push and pull gives a median time of less than 100,000 steps. Considering that the perfect path is 2700, this is still not great, as it is around 35 times longer, but it is now over 100 times better, and usable in certain circumstances. So I will stop trying to improve it, and instead reflect a little.
 

@@ -28,7 +28,7 @@ First, forward propagation for a single node. A node is simply the sum of a numb
 * $$\sigma$$: The activation function. One common choice is relu.
 * $$W^i$$: the weight matrix for the *i* layer.
 
-![img](../images/backprop/diagram-svg/diagram.pdf.svg)
+![img](/images/backprop/diagram-svg/diagram.pdf.svg)
 
 ### Backward propagation
 
@@ -40,19 +40,19 @@ Next, backpropogation for a single node. Backpropogation is a recursive method w
 * $$\frac{\partial O}{\partial c}$$: The degree to which the non-activated part of the output which contributes to the cost. Formally, the partial derivative of the output with respect to *c*.
 * $$\sigma^\prime$$: the derivative of the activation function. For relu, this is just the step function which is one if greater than zero, and zero otherwise.
 
-![img](../images/backprop/diagram-svg/diagram3.pdf.svg)
+![img](/images/backprop/diagram-svg/diagram3.pdf.svg)
 
 ### Computing the cost
 
 So, now that the individual networks are clear, lets look at the whole system. To start the recurrence relation of the backpropagation, you need a base case. This means you need an output neuron which is the cost. In a supervised setting this is computed by directly comparing the output of the network to some gold standard output which is considered to be correct. One common comparison is squared error $$cost = \sum_i (O_i - E_i)^2$$
 
-![img](../images/backprop/diagram-svg/whole-backprop.pdf.svg)
+![img](/images/backprop/diagram-svg/whole-backprop.pdf.svg)
 
 ### Backpropagating the cost
 
 After computing the cost, you can use the single node backpropagation method to recursively compute the error of the previous layers.
 
-![img](../images/backprop/diagram-svg/act-whole-backprop.pdf.svg)
+![img](/images/backprop/diagram-svg/act-whole-backprop.pdf.svg)
 
 ### Computing the gradient
 
