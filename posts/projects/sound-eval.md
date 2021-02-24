@@ -17,6 +17,11 @@ These two issues have made the community of automated music analysis researchers
 
 We want a single way of capturing all this information into a single, easily analyzable vector. Custom uses can use standardized algorithms to use these vectors for whatever they may want.
 
+### Usage information
+
+Full code and much details on useage can be found on the [github page](https://github.com/weepingwillowben/sound-eval)
+
+
 ## Model
 
 This model is inspired by Thomas Miktov's work on word-to-vec and doc-to-vec. These two natural language processing models, distributed through popular distributions like gensim, are still quite popular today, especially among a more applied research community. This is despite these methods being crushed on basically every relevant benchmark they have been applied to in 2017 and 2018.
@@ -144,9 +149,3 @@ One standard thing to do with embeddings is to run k-means to cluster them, and 
 This plot shows some promising results. For example, some genres, such as hip-hop, rock, and electronic are concentrated mostly in one or two clusters. The genres which are more spread out, like experimental, pop, and international, are by their nature more difficult  genres to classify.  You can try it yourself, by clicking on songs in the interface, and trying to classify them into these 8 genres, and seeing if you guess is right.
 
 Even more promising is looking at which genres overlap significantly. Note that the clusters with the two largest concentrations of Folk have the smallest concentrations of Electronic. This confirms the intuition that Electronic and Folk music are difficult to confuse.
-
-
-
-### Usage information
-
-Full code and much details on useage can be found on the [github page](https://github.com/weepingwillowben/sound-eval)
