@@ -3,16 +3,18 @@
 {% for page in site.pages %}
   {% if page.url contains include.group and page.under_construction == false %}
     <a href="{{page.url}}" class="gallery-link">
-      <div class="entry inline">
+      <div class="entry">
         <div class="img-entry">
           <img src={% if page.img %}"{{page.img}}"{% else %}"/images/default.png"{% endif %} class="img-entry-content"\>
         </div>
-        <div class="title-entry">
-          {{ page.title }}
-        </div>
-        <div class="descrip-entry">
-          {{ page.excerpt }}
-        </div>
+        <span class="text-entry">
+            <div class="title-entry">
+              {{ page.title }}
+            </div>
+            <div class="descrip-entry">
+              {{ page.excerpt }}
+            </div>
+        </span>
       </div>
     </a>
   {% endif %}
