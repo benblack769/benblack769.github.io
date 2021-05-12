@@ -272,6 +272,7 @@ defaults:
   - scope:
       path: ""
     values:
+      priority: 0
       layout: single
       author_profile: true
       read_time: true
