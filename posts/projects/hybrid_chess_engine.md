@@ -5,6 +5,7 @@ under_construction: false
 excerpt: "A chess engine that attempts to combine the strengths of Lc0 and Stockfish, the two dominant chess engines, and succeeds in certain cases."
 comments: false
 share: false
+code: "https://github.com/weepingwillowben/lc0-stockfish-hybrid"
 img: /images/chess_engines/vis_graphs/thousand/sf_tactical.svg
 ---
 

@@ -2,10 +2,12 @@
 title: "PettingZoo"
 slug: pettingzoo
 under_construction: false
-excerpt: "Training Multi-Agent PettingZoo environments."
+excerpt: "A large and popular platform for Multi-Agent reinforcement learning environments environments."
+website: "https://www.pettingzoo.ml/"
+publication: "https://arxiv.org/abs/2009.14471"
+code: "https://github.com/PettingZoo-Team/PettingZoo"
 comments: false
 share: false
-url: "https://www.pettingzoo.ml/"
 priority: 1
 img: /images/pettingzoo/PettingZoo.svg
 ---

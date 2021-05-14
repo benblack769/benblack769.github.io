@@ -38,7 +38,7 @@ header_pages:
 
 # Site Settings
 locale                   : "en"
-title: Imaginative Coding
+title: Ben Black's portfolio
 title_separator          : "-"
 name                     : "Ben Black"
 description              : > # this means to ignore newlines until "baseurl:"

@@ -4,6 +4,7 @@ under_construction: false
 excerpt: "Project exploring music and how to train a network to automatically group similar music together."
 img: /images/music_s3_screenshots/doc2vec.svg
 comments: false
+code: "https://github.com/weepingwillowben/sound-eval"
 share: false
 ---
 

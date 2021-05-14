@@ -25,17 +25,9 @@
   margin-left: auto;
   margin-right: auto;
 }
-.entry:hover{
-  border-style: solid;
-  border-color: rgba(0,0,0,0.1);
-}
 .entry{
   color: #000000;
   height: 240px;
-  border-width: medium;
-  border-radius: 1em;
-  border-style: solid;
-  border-color: rgba(0,0,0,0);
   padding: 1em;
   text-align: center;
   margin: auto;
@@ -43,8 +35,16 @@
 }
 .img-entry{
     float: left;
-  width: 300px;
-  height: 200px;
+    border-width: medium;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: rgba(0,0,0,0);
+  width: 315px;
+  height: 215px;
+}
+.img-entry:hover{
+  border-style: solid;
+  border-color: rgba(0,0,0,0.1);
 }
 .img-entry-content{
   width: 300px;

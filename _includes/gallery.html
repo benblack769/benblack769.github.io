@@ -3,21 +3,37 @@
 {% assign sorted_pages = site.pages | sort: "priority" | reverse %}
 {% for page in sorted_pages %}
   {% if page.url contains include.group and page.under_construction == false %}
-    <a href="{{page.url}}" class="gallery-link">
       <div class="entry">
+          <a href="{{page.url}}" class="gallery-link">
         <div class="img-entry">
           <img src={% if page.img %}"{{page.img}}"{% else %}"/images/default.png"{% endif %} class="img-entry-content"\>
         </div>
+      </a>
         <span class="text-entry">
-            <div class="title-entry">
-              {{ page.title }}
-            </div>
+            <a href="{{page.url}}" class="gallery-link">
+                <div class="title-entry">
+                  {{ page.title }}
+                </div>
+            </a>
             <div class="descrip-entry">
               {{ page.excerpt }}
+              {% if page.website %}
+              <br>
+              <a href="{{page.website}}">Website </a>
+              {% endif %}
+
+              {% if page.publication %}
+              <br>
+              <a href="{{page.publication}}">Publication </a>
+              {% endif %}
+
+              {% if page.code %}
+              <br>
+              <a href="{{page.code}}">Code </a>
+              {% endif %}
             </div>
         </span>
       </div>
-    </a>
   {% endif %}
 {% endfor %}
 </div>
