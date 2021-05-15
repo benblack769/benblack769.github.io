@@ -5,7 +5,7 @@ under_construction: false
 excerpt: "A chess engine that attempts to combine the strengths of Lc0 and Stockfish, the two dominant chess engines, and succeeds in certain cases."
 comments: false
 share: false
-code: "https://github.com/weepingwillowben/lc0-stockfish-hybrid"
+code: "https://github.com/benblack769/lc0-stockfish-hybrid"
 img: /images/chess_engines/vis_graphs/thousand/sf_tactical.svg
 ---
 
@@ -14,7 +14,7 @@ Lc0-stockfish-hybrid is a (mostly) UCI-compliant chess engine based off two sepa
 
 ## Code
 
-Code is publicly available [on Github](https://github.com/weepingwillowben/lc0-stockfish-hybrid).  If you need windows or Linux binaries, you can contact me at benblack769@gmail.com.
+Code is publicly available [on Github](https://github.com/benblack769/lc0-stockfish-hybrid).  If you need windows or Linux binaries, you can contact me at benblack769@gmail.com.
 
 ## Hybrid Project
 

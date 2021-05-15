@@ -32,7 +32,7 @@ Below is some code that allows you to play tick tack toe. I wrote it when I lear
 {% endhighlight %}
 </div>
 
-code also on a [github gist](https://gist.github.com/weepingwillowben/8786b84688936e206408d71ae040c18e).
+code also on a [github gist](https://gist.github.com/benblack769/8786b84688936e206408d71ae040c18e).
 
 Wow, this is super ugly. And there is an easy fix for this: automatic code formatters. The standard code formatter for c and c++ is called clang-format. If you don't feel like installing it, then [there is a website](http://format.krzaq.cc/) which allows you to use it.
 

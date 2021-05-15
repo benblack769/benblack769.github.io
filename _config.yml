@@ -43,9 +43,9 @@ title_separator          : "-"
 name                     : "Ben Black"
 description              : > # this means to ignore newlines until "baseurl:"
   An exploration of CS ideas.
-url                      : https://weepingwillowben.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://benblack769.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "/" # the subpath of your site, e.g. "/blog"
-repository               : "weepingwillowben/weepingwillowben.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "benblack769/benblack769.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 150
@@ -113,7 +113,7 @@ author:
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "I am a CS master's student at the University of Maryland. I have a fascination with AI, the algorithms which powers it, the systems which support it, and the machine learning which ties it to the real world."
   location         : "Maryland, College Park"
-  email            : "weepingwillowben@gmail.com"
+  email            : "benblack769@gmail.com"
   uri              :
   bitbucket        :
   codepen          :
@@ -121,7 +121,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "weepingwillowben"
+  github           : "benblack769"
   gitlab           :
   google_plus      :
   keybase          :

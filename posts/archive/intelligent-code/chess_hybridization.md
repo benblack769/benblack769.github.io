@@ -13,7 +13,7 @@ Lc0-stockfish-hybrid is a (mostly) UCI-compliant chess engine based off two sepa
 
 ## Code
 
-Code is publicly available [on Github](https://github.com/weepingwillowben/lc0-stockfish-hybrid).  If you need windows or Linux binaries, you can contact me at benblack769@gmail.com.
+Code is publicly available [on Github](https://github.com/benblack769/lc0-stockfish-hybrid).  If you need windows or Linux binaries, you can contact me at benblack769@gmail.com.
 
 ## Hybrid Project
 

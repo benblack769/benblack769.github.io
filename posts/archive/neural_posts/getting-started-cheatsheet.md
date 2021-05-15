@@ -33,7 +33,7 @@ share: false
 
 ### My links
 
-* This cheatsheet: [https://weepingwillowben.github.io/neural_posts/getting-started-cheatsheet/](https://weepingwillowben.github.io/neural_posts/getting-started-cheatsheet/)
+* This cheatsheet: [https://benblack769.github.io/neural_posts/getting-started-cheatsheet/](https://benblack769.github.io/neural_posts/getting-started-cheatsheet/)
 * Slides: [link](https://docs.google.com/presentation/d/e/2PACX-1vR95t7ewHSCKC-3W1pCWwNYrghHUjn677hAYG5gvcBDH8QfssqUatKES8pHnbNgNgV2RfEzMhaNIbfa/pub?start=false&loop=false&delayms=3000&slide=id.g2efe2b8d1b_0_125)
 
 ### Other fun sites

@@ -8,7 +8,7 @@ share: false
 
 # Creating long term memory for a neural network
 
-Code and data here: [https://github.com/weepingwillowben/NNetExperiments](https://github.com/weepingwillowben/NNetExperiments)
+Code and data here: [https://github.com/benblack769/NNetExperiments](https://github.com/benblack769/NNetExperiments)
 
 ## Introduction
 
@@ -274,7 +274,7 @@ Third,
 
 ## Appendix A: Thoughts on Debugging Neural Networks
 
-Now, when people show you their neural network code, you go off, and try to run it, and it may work, but good luck making any changes. Neural nets are notoriously tricky. Out of all the code I have ever written, they have the greatest barriers to debugging. The code will run with several major errors, but it will not do what you want to do without everything being perfect. This is the case because there are no conditionals in the main part of the code. You can write out just about every ANN ever invented without loops, if statements or recursion. This is not only speculation or theory, some code I wrote does just this, outputting code without loops that computes a simple, but practically useful neural net (see my [Graph Optimizer](https://github.com/weepingwillowben/GraphOptimizer) project for more details). What this means is that every part of the code is important to every part of the computation. There is not any part of the code which is not run for certain problems.
+Now, when people show you their neural network code, you go off, and try to run it, and it may work, but good luck making any changes. Neural nets are notoriously tricky. Out of all the code I have ever written, they have the greatest barriers to debugging. The code will run with several major errors, but it will not do what you want to do without everything being perfect. This is the case because there are no conditionals in the main part of the code. You can write out just about every ANN ever invented without loops, if statements or recursion. This is not only speculation or theory, some code I wrote does just this, outputting code without loops that computes a simple, but practically useful neural net (see my [Graph Optimizer](https://github.com/benblack769/GraphOptimizer) project for more details). What this means is that every part of the code is important to every part of the computation. There is not any part of the code which is not run for certain problems.
 
 I this is an interesting contrast to standard AI techniques, which may be fiddly, but if you make one minor error in the code, then usually most things work fine, or it crashes immediately, or at the very least, it is easy to trace back what exactly went wrong. In general, it is easy to debug. This is because for GOFAI, we are navigating around some sort of finite state machine, or some sort of symbol processor, or decision tree, or something, and in all of these, we can think about the program moving around, doing different things in different cases. This is the case because the symbolic concepts of the AI tend to be directly correspond to exact lines of code, or at least a fairly small section of code.
 

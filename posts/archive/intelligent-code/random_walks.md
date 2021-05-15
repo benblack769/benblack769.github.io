@@ -62,7 +62,7 @@ def next_dir(curp,destp):
     result_vec = dest_vec + rand_vec
     return result_vec.direction()
 ```
-Working code with details and examples in [this github gist](https://gist.github.com/weepingwillowben/05eba38e9d512dee5801f6acd6a12974). You can run this code easily by copying and pasting the code to [this online python interpreter](https://repl.it/languages/python3).
+Working code with details and examples in [this github gist](https://gist.github.com/benblack769/05eba38e9d512dee5801f6acd6a12974). You can run this code easily by copying and pasting the code to [this online python interpreter](https://repl.it/languages/python3).
 
 There are two additions to the code that I have not yet mentioned. The first are the weights. The weights of 1.0 and 0.5 in the code mean that the vector pushing away from the new point away from the old one will be twice as long as the random vector. The second change is the `normalize` function. The `normalize` function makes any vector a length 1 vector. It's purpose is just to make it easier to think about the weights.  It is used so that no matter how far away the previous point is, the force pushing the new one away is the same.
 
@@ -133,4 +133,4 @@ So if you choose to try to improve this method, you can add new weights, origina
 
 In case you were wondering about the AI competition, my long distance movement code was one of the best, at least in my mind. The rest of my code was not so great, so I did poorly in the competition. But I did much better on the type of maps where this long distance movement was needed. So that is some evidence that in this computationally constrained world, this general strategy actually does quite well.
 
-Full code to generate the images is [on github](https://github.com/weepingwillowben/pathgen). This code is not really meant to be looked at, but you still can if you want.
+Full code to generate the images is [on github](https://github.com/benblack769/pathgen). This code is not really meant to be looked at, but you still can if you want.

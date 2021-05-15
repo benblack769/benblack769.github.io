@@ -77,7 +77,7 @@ def guess(word_with_blanks,dictionary):
                 return guess_word
 ```
 
-Are you curious how well this strategy actually works? If you are interested, I put some very simple, but working code [here](https://gist.github.com/weepingwillowben/6dd77d47c151dddda568cb132422ca95). You can run it by copying and pasting the code to [here](https://repl.it/languages/python3), or download it and run it on the command line.
+Are you curious how well this strategy actually works? If you are interested, I put some very simple, but working code [here](https://gist.github.com/benblack769/6dd77d47c151dddda568cb132422ca95). You can run it by copying and pasting the code to [here](https://repl.it/languages/python3), or download it and run it on the command line.
 
 If you run it, you will see that it does quite poorly. Only two of the words are guessed at all (you, the), and "the" is guessed incorrectly. Something unfortunate is going on. We could increase the size of the dictionary. But then there would be more words which could work, so this would decrease the chance that any of our guesses is incorrect.
 

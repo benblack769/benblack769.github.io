@@ -4,7 +4,7 @@ under_construction: false
 excerpt: "Project exploring music and how to train a network to automatically group similar music together."
 img: /images/music_s3_screenshots/doc2vec.svg
 comments: false
-code: "https://github.com/weepingwillowben/sound-eval"
+code: "https://github.com/benblack769/sound-eval"
 share: false
 ---
 
@@ -20,7 +20,7 @@ We want a single way of capturing all this information into a single, easily ana
 
 ### Usage information
 
-Full code and much details on useage can be found on the [github page](https://github.com/weepingwillowben/sound-eval)
+Full code and much details on useage can be found on the [github page](https://github.com/benblack769/sound-eval)
 
 
 ## Model

@@ -144,4 +144,4 @@ Even more promising is looking at which genres overlap significantly. Note that 
 
 ### Usage information
 
-Full code and much details on useage can be found on the [github page](https://github.com/weepingwillowben/sound-eval)
+Full code and much details on useage can be found on the [github page](https://github.com/benblack769/sound-eval)
