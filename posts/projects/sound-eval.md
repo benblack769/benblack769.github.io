@@ -6,6 +6,7 @@ img: /images/music_s3_screenshots/doc2vec.svg
 comments: false
 code: "https://github.com/benblack769/sound-eval"
 share: false
+post_date: "2018"
 ---
 
 ## Intro to music classification

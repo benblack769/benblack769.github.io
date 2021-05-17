@@ -9,12 +9,17 @@
           <img src={% if page.img %}"{{page.img}}"{% else %}"/images/default.png"{% endif %} class="img-entry-content"\>
         </div>
       </a>
-        <span class="text-entry">
+        <div class="text-entry">
             <a href="{{page.url}}" class="gallery-link">
-                <div class="title-entry">
+                <span class="title-entry">
                   {{ page.title }}
-                </div>
+                </span>
             </a>
+
+            {% if page.post_date %}
+            <span class="post_date"> ({{page.post_date}}) </span>
+            {% endif %}
+
             <div class="descrip-entry">
               {{ page.excerpt }}
               {% if page.website %}
@@ -32,7 +37,7 @@
               <a href="{{page.code}}">Code </a>
               {% endif %}
             </div>
-        </span>
+        </div>
       </div>
   {% endif %}
 {% endfor %}

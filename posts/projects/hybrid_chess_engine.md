@@ -7,6 +7,7 @@ comments: false
 share: false
 code: "https://github.com/benblack769/lc0-stockfish-hybrid"
 img: /images/chess_engines/vis_graphs/thousand/sf_tactical.svg
+post_date: "2019"
 ---
 
 
