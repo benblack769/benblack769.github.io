@@ -19,7 +19,7 @@ I added multi-agent support to these environments out of the hope that these env
 * Code at https://github.com/PettingZoo-Team/Multi-Agent-ALE
 * Publication on [arxiv](https://arxiv.org/pdf/2009.09341.pdf)
 * A nice display of the environments is in the [pettingzoo documentation](https://www.pettingzoo.ml/atari).
-* Code to train environments code [using RLLIB](https://github.com/justinkterry/MA-ALE-paper), [using ALL](https://gist.github.com/benblack769/cbf4c0a674ad24d0e095263a0b553726).
+* Code to train environments code [using RLLIB](https://github.com/justinkterry/MA-ALE-paper) and [using ALL](https://gist.github.com/benblack769/cbf4c0a674ad24d0e095263a0b553726).
 
 The core code is written in C++. A low level python interface is included, and high level python interface and documentation is available through [PettingZoo](https://www.pettingzoo.ml/atari).
 
