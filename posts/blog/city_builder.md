@@ -5,6 +5,8 @@ under_construction: false
 excerpt: "An implementation of a greedy road investment strategy and its visualizations."
 comments: false
 share: false
+img: https://raw.githubusercontent.com/benblack769/city_gen/master/screenshots/upgrade2.PNG
+post_date: 2016
 ---
 
 ### Inspiration

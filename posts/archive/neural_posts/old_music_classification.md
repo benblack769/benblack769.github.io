@@ -1,6 +1,6 @@
 ---
 title: Unsupervised Music Classification
-under_construction: false
+under_construction: true
 excerpt: "Project exploring music and how to train a network to automatically group similar music together."
 comments: false
 share: false

@@ -4,8 +4,8 @@ main:
   #  url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   - title: "Projects"
     url: /menus/projects
-  - title: "Archive"
-    url: /menus/archive
+  - title: "Blog"
+    url: /menus/blog
   #- title: "Intelligence Ideas"
     #url: /exploration_intelligence/
   # - title: "Sample Posts"

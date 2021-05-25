@@ -1,7 +1,7 @@
 ---
 title: "Intelligent computation"
 comments: false
-under_construction: false
+under_construction: true
 ---
 
 Many people understand what algorithms are used for, and how we implement them. However, I believe there is a greater story to process. That is, we create these algorithms because they do work for us. And that work is the work of intelligence.

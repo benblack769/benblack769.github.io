@@ -6,6 +6,8 @@ under_construction: false
 excerpt: "A cool method of navigation in unknown space."
 comments: false
 share: false
+post_date: 2016
+img: /images/random_walks/capture-1.png
 ---
 
 In terms of fun, well run, accessible and longer competitions, MIT's [battlecode](https://www.battlecode.org/) competition is one of the best. I would recommend it if you are ever bored in January.
