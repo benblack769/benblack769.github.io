@@ -5,7 +5,7 @@ excerpt: "An intuitive yet formal description of backpropagation using diagrams.
 comments: false
 share: false
 img: /images/backprop/diagram-svg/whole-backprop.pdf.svg
-post_date: 2018
+post_date: "2018"
 ---
 #
 

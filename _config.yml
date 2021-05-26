@@ -273,6 +273,7 @@ defaults:
       path: ""
     values:
       priority: 0
+      post_date: ""
       layout: single
       author_profile: true
       read_time: true

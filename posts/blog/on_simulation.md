@@ -5,7 +5,7 @@ under_construction: false
 excerpt: "Why simulation will become increasingly important in an AI dominated technology world, and how I discovered this by making a low quality simulator."
 comments: false
 share: false
-post_date: 2018
+post_date: "2018"
 img: /link_only/on_simulation/videos/still_img.png
 ---
 

@@ -6,7 +6,7 @@ under_construction: false
 excerpt: "A cool method of navigation in unknown space."
 comments: false
 share: false
-post_date: 2016
+post_date: "2016"
 img: /images/random_walks/capture-1.png
 ---
 

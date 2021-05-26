@@ -4,7 +4,7 @@ under_construction: false
 excerpt: "The notion of exploration in reinforcement learning is based off a false notion that we are alone in the world. We are not alone, we did not come from nothing, and if we want reinforcement learning to be successful, we must understand that basic fact."
 comments: false
 share: false
-post_date: 2019
+post_date: "2019"
 ---
 
 What is the nature of exploration?

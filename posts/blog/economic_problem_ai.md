@@ -5,7 +5,7 @@ under_construction: false
 excerpt: "An essay on the barriers to technological development of AI."
 comments: false
 share: false
-post_date: 2020
+post_date: "2020"
 ---
 
 ### The purpose of technology

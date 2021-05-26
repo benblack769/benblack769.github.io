@@ -6,7 +6,7 @@ excerpt: "An implementation of a greedy road investment strategy and its visuali
 comments: false
 share: false
 img: https://raw.githubusercontent.com/benblack769/city_gen/master/screenshots/upgrade2.PNG
-post_date: 2016
+post_date: "2016"
 ---
 
 ### Inspiration
