@@ -1,0 +1,17 @@
+<p>This builds upon the ideas of <a href="/#response_to_nash">Response to the Nash</a> but creates niches for strategies in order to widen the game space.</p>
+
+<p>In particular, this method considers all the agents which have support in the Nash equilibria. This means that an optimal strategy will play each of these agents sometimes. Then, when training new agents, it only trains those agents against opponents which lose to it.</p>
+
+<h3 id="objective">Objective</h3>
+
+<p>Note that this is essentially a greedy algorithm for the <a href="/#effective_diversity">Effective Diversity</a> objective.</p>
+
+<h3 id="evidence-for-success">Evidence for success.</h3>
+
+<p>In the <a href="/#transitive_cyclic_decomposition">Transitive Cyclic Decomposition</a> paper, this method is emphasized because it expands the space of agents.</p>
+
+<p>In particular, in the <a href="/#disk_game">disk game</a>, (this method is version B in the diagram).</p>
+
+<p><img src="linked_data/game_response.PNG" alt="game_response" /></p>
+
+<p>This makes it better than <a href="/#prioritized_fictitious_self_play">Prioritized fictitious self play</a> (version C in the diagram).</p>

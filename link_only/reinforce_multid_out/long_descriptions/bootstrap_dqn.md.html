@@ -1,0 +1,38 @@
+
+<h3 id="overview">Overview</h3>
+
+<p>Idea is to simply have many Q functions that train on different data segments.</p>
+
+<p>During training, a certain run of the policy just follows the greedy policy of a single Q function all the way to the end. Then, when the Q-function is getting updated via the DQN update method (including memory replay, etc), that head is only trained on data that it’s policy generated.</p>
+
+<p>Generalization between functions is handled by the neural network sharing weights between the different functions, i.e. the functions are just “heads” of the neural network. Generalization can also happen by choosing to instead train a point <em>p</em> created by executing the policy associated with  head <em>w</em> on a different head.</p>
+
+<p>In other words, this method works by allowing more biased variations, especially at the beginning of training. But you shouldn’t expect this to work all the time because you should expect that you need more variation than just initialization will allow for.</p>
+
+<p>Here are some good and no so good results.</p>
+
+<p><img src="/linked_data/boot_dqn_results.PNG" alt="results" /></p>
+
+<h3 id="video-explanation">Video explanation</h3>
+
+<p><a href="https://www.youtube.com/watch?v=e3KuV_d0EMk&amp;feature=youtu.be">link</a></p>
+
+<h3 id="citation">Citation</h3>
+
+<pre><code>@article{DBLP:journals/corr/OsbandBPR16,
+  author    = {Ian Osband and
+               Charles Blundell and
+               Alexander Pritzel and
+               Benjamin Van Roy},
+  title     = {Deep Exploration via Bootstrapped {DQN}},
+  journal   = {CoRR},
+  volume    = {abs/1602.04621},
+  year      = {2016},
+  url       = {http://arxiv.org/abs/1602.04621},
+  archivePrefix = {arXiv},
+  eprint    = {1602.04621},
+  timestamp = {Mon, 13 Aug 2018 16:46:32 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/OsbandBPR16},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+</code></pre>

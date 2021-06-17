@@ -1,0 +1,80 @@
+
+<h3 id="league">League</h3>
+
+<p>The alpha star league consists of</p>
+
+<ul>
+  <li>main actors</li>
+  <li>League actors</li>
+  <li>Main exploiters</li>
+  <li>League exploiters</li>
+</ul>
+
+<p>Quote from paper</p>
+
+<blockquote>
+  <p>The league consists of three distinct types of agent, differing primarily in their mechanism for selecting the opponent mixture. First, the main agents utilize prioritized fictitious self-play (PFSP) mechanism that adapts the mixture probabilities proportionally to the win rate of each opponent against the agent; this provides our agent with more opportunities to overcome the most problematic opponents. With fixed probability, a main agent is selected as an opponent; this recovers the rapid learning of self-play (Fig. 3c). Second, main exploiter agents play only against the current iteration of main agents. Their purpose is to identify potential exploits in the main agents; the main agents are thereby encouraged to address their weaknesses. Third, league exploiter agents use a similar PFSP mechanism to the main agents, but are not targeted by main exploiter agents. Their purpose is to find systemic weaknesses of the entire league. Both main exploiters and league exploiters are periodically reinitialized to encourage more diversity and may rapidly discover specialist strategies that are not necessarily robust against exploitation. Figure 3b analyses the choice of agents within the league</p>
+</blockquote>
+
+<blockquote>
+  <p>In StarCraft, each player chooses one of three races—Terran, Protoss or Zerg—each with distinct mechanics. We trained the league using three main agents (one for each StarCraft race), three main exploiter agents (one for each race), and six league exploiter agents (two for each race). Each agent was trained using 32 third-generation tensor processing units (TPUs23) over 44 days. During league training almost 900 distinct players were create</p>
+</blockquote>
+
+<p><img src="/linked_data/league.png" alt="league_pic" /></p>
+
+<h3 id="citation">Citation</h3>
+
+<pre><code>@Article{Vinyals2019,
+author={Vinyals, Oriol
+and Babuschkin, Igor
+and Czarnecki, Wojciech M.
+and Mathieu, Micha{\"e}l
+and Dudzik, Andrew
+and Chung, Junyoung
+and Choi, David H.
+and Powell, Richard
+and Ewalds, Timo
+and Georgiev, Petko
+and Oh, Junhyuk
+and Horgan, Dan
+and Kroiss, Manuel
+and Danihelka, Ivo
+and Huang, Aja
+and Sifre, Laurent
+and Cai, Trevor
+and Agapiou, John P.
+and Jaderberg, Max
+and Vezhnevets, Alexander S.
+and Leblond, R{\'e}mi
+and Pohlen, Tobias
+and Dalibard, Valentin
+and Budden, David
+and Sulsky, Yury
+and Molloy, James
+and Paine, Tom L.
+and Gulcehre, Caglar
+and Wang, Ziyu
+and Pfaff, Tobias
+and Wu, Yuhuai
+and Ring, Roman
+and Yogatama, Dani
+and W{\"u}nsch, Dario
+and McKinney, Katrina
+and Smith, Oliver
+and Schaul, Tom
+and Lillicrap, Timothy
+and Kavukcuoglu, Koray
+and Hassabis, Demis
+and Apps, Chris
+and Silver, David},
+title={Grandmaster level in StarCraft II using multi-agent reinforcement learning},
+journal={Nature},
+year={2019},
+volume={575},
+number={7782},
+pages={350-354},
+issn={1476-4687},
+doi={10.1038/s41586-019-1724-z},
+url={https://doi.org/10.1038/s41586-019-1724-z}
+}
+</code></pre>
