@@ -11,7 +11,9 @@
 <script src="stock_vis.js"></script>
 
 <body>
+    <h3> Stock label </h3>
     <select id="stock_options"></select>
+    <h3> Stratgy parameters </h3>
     <div>
         <input id="number_days" type="number" value=10>Number of days</input>
     </div>
@@ -24,9 +26,13 @@
     <div>
         <input id="mul_weights_constant" value="0.1">Mul Weights constant</input>
     </div>
+    <h3> Stratgies to include </h3>
     <div id="strategy_inclusion">
     </div>
+    <br>
+    <h3> Make sure to update chart after changes </h3>
     <button id="update_chart">Update Chart</button>
     <div id="stock_chart"></div>
+    <h3> Results </h3>
     <div id="pred_chart"></div>
 </body>

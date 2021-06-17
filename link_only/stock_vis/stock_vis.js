@@ -146,8 +146,8 @@ function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
     })
 
     MG.data_graphic({
-        title: "more cool stuff",
-        description: "This graphic shows a time-series of downloads.",
+        title: "Stock price prediction accuracy",
+        description: "This graphic shows a time-series of stock prices.",
         data: plot_data, //[{'date':new Date('2014-11-01'),'value':12},
                         //{'date':new Date('2014-11-02'),'value':18}],
         width: 600,
@@ -162,8 +162,8 @@ function plot_mul_weights_strategies(stock_data,sparse_factor,average_len){
 }
 function plot_stocks(plot_data){
     MG.data_graphic({
-        title: "Downloads",
-        description: "This graphic shows a time-series of downloads.",
+        title: "Stock prices",
+        description: "This graphic shows a time-series of prediction accuracies of various methods.",
         data: plot_data, //[{'date':new Date('2014-11-01'),'value':12},
                         //{'date':new Date('2014-11-02'),'value':18}],
         width: 600,
