@@ -137,7 +137,7 @@ function greedy_execute(){
         draw_graph(edges,graph_size)
     }, milli_wait);
 }
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", function(event) {
     init_draw()
     greedy_execute()
-}
+})

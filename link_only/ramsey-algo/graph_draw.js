@@ -5,10 +5,10 @@ function init_draw(){
     ctx = c.getContext("2d");
 }
 function point_coords(graph_size,node_num){
-    var xcen = 400;
-    var height = 400;
     var radial_offset = (2*Math.PI*(node_num + 0.2))/graph_size;
     var radial_size = 100*Math.sqrt(Math.sqrt(graph_size));
+    var height = radial_size+20;
+    var xcen = radial_size+20;
     var pointcen = [xcen+radial_size*Math.cos(radial_offset),height+radial_size*Math.sin(radial_offset)];
     return pointcen
 }

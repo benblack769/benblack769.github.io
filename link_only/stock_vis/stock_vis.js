@@ -233,9 +233,9 @@ function update_plot(){
     document.getElementById('pred_chart').innerHTML = "";
     process_stock_name($("#stock_options").val())
 }
-window.onload = function(){
+$(document).ready(function(){
     $('#update_chart').click(update_plot);
     place_checkboxes()
     init_stock_options()
     update_plot()
-}
+})
