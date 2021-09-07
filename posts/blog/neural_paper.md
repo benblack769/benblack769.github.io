@@ -1,9 +1,11 @@
 ---
-title: Neural Network Paper
+title: Intuitive introduction to improving RNN models
 under_construction: false
-excerpt: "Paper exploring how cool neural network topics like LSTMs and rmsprop work, and how they connect to human intelligence."
+excerpt: "Long post exploring how cool neural network topics like LSTMs and rmsprop work, and how they connect to human intelligence."
 comments: false
 share: false
+post_date: "2017"
+img: http://localhost:4000/images/neural_paper/plots/rmprop_long_update.png
 ---
 
 # Creating long term memory for a neural network
