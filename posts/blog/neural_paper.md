@@ -5,7 +5,7 @@ excerpt: "Long post exploring how cool neural network topics like LSTMs and rmsp
 comments: false
 share: false
 post_date: "2017"
-img: http://localhost:4000/images/neural_paper/plots/rmprop_long_update.png
+img: /images/neural_paper/plots/rmprop_long_update.png
 ---
 
 # Creating long term memory for a neural network
