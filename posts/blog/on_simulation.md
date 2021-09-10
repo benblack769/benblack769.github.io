@@ -7,6 +7,7 @@ comments: false
 share: false
 post_date: "2018"
 img: /link_only/on_simulation/videos/still_img.png
+priority: 2
 ---
 
 Computer simulation is a very cool subject. It affects our lives in accurate weather reporting, and continuing improvements in efficiency of vehicles and airplanes. More importantly, it allows for cool animations such as the snow in Frozen. But accurate, large scale modeling and simulation is very difficult. From an engineering perspective, it is one of the greatest challenges in software and hardware development.

@@ -6,6 +6,7 @@ comments: false
 share: false
 post_date: "2017"
 img: /images/neural_paper/plots/rmprop_long_update.png
+priority: 1
 ---
 
 # Creating long term memory for a neural network

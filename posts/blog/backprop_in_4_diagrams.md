@@ -6,6 +6,7 @@ comments: false
 share: false
 img: /images/backprop/diagram-svg/whole-backprop.pdf.svg
 post_date: "2018"
+priority: 1
 ---
 #
 

@@ -7,6 +7,7 @@ comments: false
 share: false
 post_date: "2018"
 img: /images/applets/MIDI_docs.PNG
+priority: 1
 ---
 
 ### MIDI Vector visualization
