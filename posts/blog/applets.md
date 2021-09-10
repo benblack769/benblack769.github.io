@@ -54,8 +54,25 @@ This app was written entirely in javascript. The JS code draws the graph by simp
 
 ### Multiplicative Weights for Stock estimation
 
+When I first learned about the multiplicative weights update algorithm, I immediately started thinking about applications in the stock market. One of the guarantees of the multiplicative weights algorithm is that you cannot do too much worse than the best expert. So I thought I would come up with some stock selection strategies and see if the multiplicative weights algorithm would do well.
+
+I built a static website with lots of daily stock data and a frontend application which processes the data via a number of heuristic strategies. A strategy is considered "correct" if it correctly predicts whether the stock will go up or down on a particular day. I also built a multiplicative weights update algorithm using those heuristics as experts. You can visit the application by following the link below:
+
 [Stock multiplicative weights](https://benblack769.github.io/link_only/stock_vis/stock_vis.html)
 
+If you visit the link and play around with my app, you will find that:
+
+1. All the heuristics have a very poor predictive quality pretty much all the time.
+2. The multiplicative weights update algorithm is sometimes the worst heuristic of all of them!
+
+This gives two important insights about the algorit:
+
+1. It requires that the experts actually be pretty good consistently over a long period of time.
+2. It can be worse than any particular expert!
+
+It also shows that the stock market is really noisy, and binary "up/down" indications of the stock market are not likely to be predictable.
+
+<!--
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.11.0/metricsgraphics.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -92,18 +109,60 @@ This app was written entirely in javascript. The JS code draws the graph by simp
 <div id="stock_chart"></div>
 <h3> Results </h3>
 <div id="pred_chart"></div>
-
+-->
 
 ### Genealogy generator
 
+I was working for [Marc Bedau](https://people.reed.edu/~mab/), a Philosophy professor at Reed College who was working with scientists to understand the deep nature of real work problems. The problem he was interested in at the time was patents. Given that new patents emerge from old ones, what does that genealogy tree look like? What characteristics does it have? Are there any patterns? Can we visualize it effectively?
+
+One of the necessary steps is simply being able to work with hyper-parental trees (genealogy trees where a child can have more than 2 parents), and understand the dynamics of how inheritable traits tend to change under simple assumptions. Previous work had studied how single traits change, but not how multiple traits change. So I made an interactive web-app to allow my professor to easily click around and understand this multi-trait behavior through manual interaction.
+
+The frontend simply makes a call to an AWS lambda service, which calls the legacy python code and the graphvis tool to generate the visualization.
+
+If you are curious, you can see the application below.
 
 [Genealogy generator](https://benblack769.github.io/link_only/aws_lambda_client/graph.html)
 
-### Sound Vector visualization
+### MIDI Vector visualization
+
+While I was working for that same philosophy professor, I started getting going on my own project. This project was to use the word2vec and doc2vec unsupervised learning algorithms to embed audio files into a space where notions of movement, distance, etc, correspond to changes in the actual nature of the music. Using more advanced clustering tools the professor was working with, he was even hoping to understand musical change over time.
+
+A MIDI file, at its simplest, is just a sequence of notes/chords, durations and volumes. I simply ignored the volumes and durations, and treated it as a sequence of chords (a chord is a combination of notes). The word2vec algorithm was then applied to this, placing each chord into a high dimentional (80 dimensions) vector space, based on what sorts of chords tend to be its close neighbors (within a 3 length window). This high dimentional embedding space is known to be well behaved, and notions of distance and relative position are quite robust. However, it is hard to visualize. So I used TSNE to put it onto a low dimentional space, so that you can understand which vectors are closer to one another.
+
+Similarly, doc2vec embeds the whole MIDI file based on the overall distribution of its chords relative to other files.
+
+Once the machine learning algorithm embedded the chords and files and placed them onto their respective surfaces, I had it output some data files that the frontend could read. I allowed users to click on this frontend to play the song or chord to see if they agree that neighboring points are similar. I also allowed them to see if relationships between the chords made sense. Below is the deployed visualization, trained on and displaying the free [midiworld](https://www.midiworld.com/) dataset.
+
+* [Chord visualization link](https://midiworld-display.s3.us-west-2.amazonaws.com/words/display_template.html)
+* [File visualization](https://midiworld-display.s3.us-west-2.amazonaws.com/docs/display_template.html)
+
+Full code for the project [here](https://github.com/benblack769/midi_viewer)
 
 
-[sound eval](https://s3-us-west-2.amazonaws.com/fma-dataset-embeddings/display_template.html)
+After this visualization, I was disturbed by the low quality of the document associations (though some of the chord similarities are interesting). I blamed throwing out the durations and volumes, and I could not figure out a better way to preprocess the MIDI file, other than just to have it generate the actual audio. So I started insisting that only true raw audio, not MIDI files, should be processed in order for this analysis to be sufficiently general. That insistence led to one of my most successful projects ever, the sound-eval project ([project post here](/posts/projects/sound-eval/)). I was even able to reuse a lot of my visualization code there, and improve upon it.
 
 ### Graphical Notes
 
-[Reinforcement learning notes](https://benblack769.github.io/link_only/reinforce_multid_out/#exploration_exploitation)
+When I first started studying reinforcement learning, I ran across the [AlphaStar paper](https://www.nature.com/articles/s41586-019-1724-z). This paper is a huge, complex algorithm that took many of the innovations of deep reinforcement learning and putting them all together. However, I was unfamiliar with the literature and had a hard time organizing my thoughts as I was going through related work. I realized that the relationships between papers was not hierarchical, and so no normal organization system could help me compile my notes. So I decided to build my own note system, with arbitrary relationships, a visualization of those relationships, and also long form detailed notes as well as short-form descriptions.
+
+The goal was not to have a super user friendly note taking system, but rather a note organization system, where you can visually understand whether your notes are connected satisfactorily, so that you know that the connections in your head, and the connections on paper are the same. So I built a command line tool that processes a yaml file with the note bullets and relations, and well as supplementary files and data for long form notes. This command line tool outputs the HTML and SVG data to make a static website.
+
+While this seems like a clunky website architecture, it is fast, reliable, and easy to deploy. You can explore my reinforcement learning notes below:
+
+[Reinforcement learning notes](https://benblack769.github.io/link_only/reinforce_multid_out/#alphastar)
+
+While I rarely refer to these notes, the process of creating all these relationships is enormously helpful, as it forces me to enumerate all the relationships I know about a topic, and greatly increases my confidence that I understand a subject. While I won't recommend my tool specifically, as it is a bit clunky, I strongly suggest you try to take notes in a system which encourages you to make arbitrary links between thoughts. 
+
+Full code to generate the static website [here](https://benblack769.github.io/link_only/reinforce_multid_out/#alphastar)
+
+
+
+
+
+
+
+
+
+
+
+.
