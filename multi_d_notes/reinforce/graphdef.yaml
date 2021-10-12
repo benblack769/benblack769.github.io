@@ -250,6 +250,38 @@ nodes:
         title: "State Based Memory"
         description: "Using environment state to hold memory (nondifferentiable)"
         type: idea
+    critic_scaling:
+        title: "Critic Scaling"
+        description: "Scaling a critic can lead to better learning more reliably then scaling a policy in an actor-critic platform"
+        type: paper
+    loss_landscapes:
+        title: "Loss Landscapes of Neural Nets"
+        description: "Loss landscapes of neural nets have visibly rough 2 dimentional geometry if they are deep."
+        type: paper
+    policy_gradient_uncertainty:
+        title: "A Closer Look at Deep Policy Gradients"
+        description: "Policy gradient proxies such as PPO often lead in opposite direction to true gradient."
+        type: paper
+    large_networks_rl:
+        title: "Training Large Neural Networks for RL"
+        description: "Deep Networks in RL can be very rough and hard to optimize."
+        type: paper
+    reward_surfaces:
+        title: "Reward surface visualization"
+        description: "Reward surfaces might be a good tool to understand "
+        type: problem
+    entropy_vis_paper:
+        title: "Understanding the Impact of Entropy on Policy Optimization"
+        description: ""
+        type: paper
+    neural_network_archtecture:
+        title: "importance of Neural Networks for RL"
+        description: "Neural network archtecture can be critically important to success in RL"
+        type: problem
+    mean_field_games:
+        title: "Mean field games"
+        description: "A game with a large number of agents where one agents addition or subtraction or policy change incrementally affects the outcome."
+        type: idea
 relations:
     - alphastar -> temporal_difference
     - alphastar -> strategy_statistics
@@ -322,4 +354,12 @@ relations:
     - memory <- attentional_memory
     - memory <- state_based_memory
     - state_based_memory <- factorized_target_exploration
-    
+    - entropy_regularization <- entropy_vis_paper
+    - neural_network_archtecture <- critic_scaling
+    - neural_network_archtecture <- attentional_memory
+    - neural_network_archtecture <- recurrent_memory
+    - neural_network_archtecture <- alphastar
+    - reward_surfaces <- large_networks_rl
+    - reward_surfaces <- policy_gradient_uncertainty
+    - loss_landscapes <- reward_surfaces
+    - reward_surfaces <- critic_scaling

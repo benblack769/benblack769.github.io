@@ -1,0 +1,1 @@
+Workshop on the subject: http://www.ipam.ucla.edu/programs/workshops/mean-field-games/

@@ -1,0 +1,20 @@
+![entropy curvature](entropy_curvature.PNG)
+
+```
+@article{DBLP:journals/corr/abs-1811-11214,
+  author    = {Zafarali Ahmed and
+               Nicolas Le Roux and
+               Mohammad Norouzi and
+               Dale Schuurmans},
+  title     = {Understanding the impact of entropy on policy optimization},
+  journal   = {CoRR},
+  volume    = {abs/1811.11214},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1811.11214},
+  eprinttype = {arXiv},
+  eprint    = {1811.11214},
+  timestamp = {Sun, 02 Dec 2018 11:06:43 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1811-11214.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
