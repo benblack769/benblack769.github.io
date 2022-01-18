@@ -80,7 +80,7 @@ nodes:
         tags: evolution
     q_learning:
         title: "Q Learning"
-        description: "Learning by "
+        description: "TD learning over state-action pairs"
         type: idea
         tags: reinforcement
     dqn:
@@ -282,6 +282,14 @@ nodes:
         title: "Mean field games"
         description: "A game with a large number of agents where one agents addition or subtraction or policy change incrementally affects the outcome."
         type: idea
+    bairds_counter_example:
+        title: "Baird’s counter-example"
+        description: "Baird has a counterexample to the convergence of temporal difference algorithm"
+        type: paper
+    off_policy_instability:
+        title: "Off Policy Instability"
+        description: "Off policy algorithms like TD lambda have known instability results in the offline setting"
+        type: problem
 relations:
     - alphastar -> temporal_difference
     - alphastar -> strategy_statistics
@@ -363,3 +371,7 @@ relations:
     - reward_surfaces <- policy_gradient_uncertainty
     - loss_landscapes <- reward_surfaces
     - reward_surfaces <- critic_scaling
+    - off_policy_instability <- bairds_counter_example
+    - off_policy_instability <- large_networks_rl
+    - off_policy_learning <- off_policy_instability
+    - temporal_difference <- bairds_counter_example
