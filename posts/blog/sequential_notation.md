@@ -120,13 +120,66 @@ S_{t-1},a_{t-1} --[step]-> S_t,O_t,r_t,d_t
 O_t --[Value]-> V_t => V_{t-1} * gamma + r_t
 ```
 
-#### A2C with sepearate value and policy networks
+#### A2C with sepearate value and policy networks and 
 
 ```
+0.999 -> gamma
 reset() -> S_0
 S_{t-1} --[step]-> S_t,O_t,r_t,d_t
-V_{t-1} * 
+O_t --[Value]-> V_t => V_{t-1} * gamma + r_t
+V_{t+1}*gamma + r_t - V_t -> A_t
+O_t --[clip_grad(Policy)]-> pi_t $ A_t * log(pi_t) 
 ```
+
+#### A2C with generalized advantage
+
+This one is interesting because there is forward looking logic: very hard to implement 
+in a general and efficient way (likely there would have to be some point where gamma^nlam^n is rounded to 0 and ignored.... However, it is fairly easy to write down.
+
+```
+0.999 -> gamma
+0.95 -> lam
+reset() -> S_0
+S_{t-1} --[step]-> S_t,O_t,r_t,d_t
+O_t --[Value]-> V_t => V_{t-1} * gamma + r_t
+V_{t+1}*gamma + r_t - V_t -> TD_t
+TD_t + gamma * lam * A_{t+1} * (1-d_t) -> A_t
+O_t --[clip_grad(Policy)]-> pi_t $ A_t * log(pi_t) 
+```
+
+
+#### TD Learning with GRU 
+
+Taking the `Enc` definition from the GRU implementation:
+
+
+```
+0.999 -> gamma
+reset() -> S_0
+S_{t-1} --[step]-> S_t,O_t,r_t,d_t
+0 -> h_0
+O_t,h_{t-1} --[Enc]-> h_t
+h_t --[Value]-> V_t => V_{t-1} * gamma + r_t
+```
+
+#### DQN
+
+DQN requires a buffer, which is a bit of a weird sort of function/parameter combo
+
+Specialized buffer functions include:
+
+* Add_B(O, a, O', d) -> none
+* Get_B() -> O, a, O', d
+
+There is also a small complexity of adding an action sampling method....
+
+```
+0.999 -> gamma
+reset() -> S_0
+S_{t-1} --[step]-> S_t,O_t,r_t,d_t
+O_{t-1} --[Q]-> q_{t-1} $ r_t + one_hot(argmax(q_t))
+```
+
 
 
 ## Low level syntax
@@ -169,12 +222,12 @@ If f is a stateless function (like relu) then Update() will accept and return an
 
 Builtin functions include:
 
-* dense(x)
-* conv(x) 
-* add(x,y) 
-* exp(x)
-* batch\_norm(x)
-* dropout(x)
+* `dense_M`(x)
+* `conv_K`(x) 
+* `add`(x,y) 
+* `exp`(x)
+* `batch_norm`(x)
+* `dropout`(x)
 
 ### Transforms
 
@@ -192,6 +245,50 @@ Some special transform include:
  
 
 ### Syntax transformation rules
+
+```
+
+
+```
+
+## Implementation
+
+Implementation should be able to generate any low level tensor code, for example: pytorch code.
+
+### Syntax transformations
+
+AST manipulations, transformation rules, and static optimization proceedures should occur in a proper functional language, such as OCaml.
+
+### C extension functions
+
+Features like RL environments and replay buffers should use C extensions to execute the functions. Proper support for these may include required type definitions and code generation. 
+
+Decent library support to wrap these into functions is required.
+
+### Proposed batch implementation
+
+* Each state has a batch dimention. 
+* This batch dimention can take on any power of 2. 
+* Data will alway be contiguous in the batch dimention.
+* Each seperate state computation can have a different batch size.
+    * If a dependent function requests a larger batch size, then it can wait until the function is executed multiple times, and the data placed in contiguous memory.
+    * If a dependent function requests a smaller batch size, it can execute multiple times before waiting on the data to be generated
+
+### Context/time implementation
+
+* A backwards and forwards horizon should be specified to handle edge cases in implementation.
+* Conceptually, this should generate an infinite sequence of variables, and rely on garbage collection to free up memory.
+* Practically, this should only roll out for horizon steps.
+
+###  Caching vs Recomputation
+
+There are performance/memory tradeoffs which occur when doing recurrent or RL methods on whether caching or recomputation is best. 
+
+The static optimizer should try some combinations and determine what is the best tradeoff.
+
+
+
+
 
 
 
