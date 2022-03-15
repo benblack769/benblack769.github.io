@@ -10,7 +10,7 @@ post_date: "2022"
 ---
 
 
-[CAS-Offinder](https://github.com/snugel/cas-offinder) is a genomic search tool developed by the Genome Engineering Laboratory at Seoul National University. This tool has few users, but a flexible interface and a fast GPU accelerated implementation that makes it quite attractive. I decided that this tool could be even more useful if it was many times faster...
+[CAS-Offinder](https://github.com/snugel/cas-offinder) is a genomic search tool developed by the Genome Engineering Laboratory at Seoul National University. This tool has a flexible interface and a fast GPU accelerated implementation that makes it quite attractive, both from a biological perspective, as it can be used for many gene technologies, [such as TALENs](https://github.com/snugel/cas-offinder#advanced-usage) and so it seems to have potential for its users to grow. But of course, this tool could be even more useful and attractive if it was many times faster...
 
 Over the course of this effort, I:
 
@@ -20,20 +20,20 @@ Over the course of this effort, I:
 * Decreased memory consumption with data pipelining (total memory utilitzation on both CPU and GPU is now consistently under 500MB)
 * Added signficiant unit testing for all key logical modules (improving confidence in the accuracy of the implementation)
 
-The final implemention is in my fork of the project [here](https://github.com/benblack769/cas-offinder).
+The final implementation is in my fork of the project [here](https://github.com/benblack769/cas-offinder).
 
 ## The tool
 
 ### The use case
 
-CAS-Offinder is primarily designed to find off-target sites for CRISPR gene editing technologies. When using this technology, treatment developers choose 1) a protein system and 2) A guide RNA sequence. If the protein and the guide sequence approximately matches the DNA strand in the genome, then the DNA will be cut. 
+CAS-Offinder is primarily designed to find off-target sites for CRISPR gene editing technologies. When using this technology, treatment developers choose 1) a protein system and 2) A guide RNA sequence. If the protein and the guide sequence approximately matches the DNA strand in the genome, then the DNA will be cut.
 
 Through its flexible interface, CAS-Offinder can perform searches to find possible cut points for a wide variety of these protein systems.
 
 
-### Genetic search complexities 
+### Genetic search complexities
 
-A genome is a series of nucleotides: A,C,T, or G. So 4 possiblities.
+A genome is a series of nucleotides: A,C,T, or G. So 4 possibilities.
 
 We can see where the string "ATCGC" appears in the genome with a simple string search. The complexity arises with 3 problems
 
@@ -58,7 +58,7 @@ So we must search both possible representations, as both versions are of equal b
 #### Complexity 2: Unequal nucleotide treatment
 
 
-Now, not all nucleotides are created equally, sometimes two nucleotides are accepted by protein systems, while the others are rejected. To capture this notion of similar treatment, we should be able to specify combinations of nucleotides which are allowed. The interface allows this to be specified easily through mixed-base pairs. So the letter "R" means that it could be A or G. The letter "N" means it could be any nucleotide.
+Not all nucleotides are created equally, sometimes two nucleotides are accepted by protein systems with roughly equal probability, while the others are rejected with high probability. To capture this notion of similar treatment, we should be able to specify combinations of nucleotides which are allowed. The interface allows this to be specified easily through mixed-base pairs. So the letter "R" means that it could be A or G. The letter "N" means it could be any nucleotide, which is very useful, as it represents empty space which is ignored by the CRISPR technology.
 
 
 |   A   |    C   |   G   |   T   |
@@ -75,7 +75,7 @@ Now, not all nucleotides are created equally, sometimes two nucleotides are acce
 
 #### Complexity 3: Fuzziness
 
-Now, genetic systems are highly random, taking place in a complex environment afflicted by kinetic, electrical and even quantum forces by surrounding molecules.
+Genetic systems are highly random, taking place in a complex environment afflicted by kinetic, electrical and even quantum forces by surrounding molecules.
 
 To take into account this final bit of randomness, we should allow some number of mismatches, so that we don't miss any possible cut sites.
 
@@ -108,7 +108,7 @@ for (j=0; j<patternlen; j++) {
 }
 ```
 
-While the compiler will likely optimize a complex condition like this into something reasonably efficient, and it is honestly a totally reasonable approach, we can do much better by rethinking the data structure. 
+While the compiler will likely optimize a complex condition like this into something reasonably efficient, and it is honestly a totally reasonable approach, we can do much better by rethinking the data structure.
 
 ### A bitpacked data structure
 
@@ -157,7 +157,7 @@ And finally a "popcount" operation which checks the number of set bits.
 
 ```
 popcount(0000,0001,0010,1000,1000,0001,0100,0000)
-= 
+=
 6
 ```
 
@@ -184,9 +184,9 @@ From a performance standpoint, this has several advantages from the original imp
 
 1. The memory access pattern is local, regular, and easily cachable
 2. There are no unpredictable branches anywhere
-3. Several comparisons happen in parallel
-4. popcount is hardware accelerated on almost all modern hardware platforms, and is very fast.
- 
+3. Several comparisons happen in parallel in a single instruction
+4. popcount is hardware accelerated on almost all modern hardware platforms, and is very fast (almost as fast as integer multiplication).
+
 
 The complete, highly optimized inner loop is still extremely simple:
 
@@ -221,9 +221,9 @@ for (size_t k = 0; k < blocks_avail; k++) {
 }
 ```
 
-The reason this is so incredibly efficient is that the `blocks_per_pattern` is typically small (<5) and is known at startup time when OpenCL is compiled, so the inner loop can be fully unrolled, and the `shifted_blocks` array can be replaced by a series of registers.
+The reason this is so incredibly efficient is that the `blocks_per_pattern` is typically small (<=4) and is known at startup time when OpenCL is compiled, so the inner loop can be fully unrolled, and the `shifted_blocks` array can be replaced by a series of registers. In fact, the `pattern_blocks` accesses can also be replaced by register access, so the inner loop will likely be left with no memory accesses at all, only register arithmetic.
 
-With this near-optimal hardware setup, we are able to achive truely incredibe comparison throughputs:
+With this near-optimal hardware setup, we are able to achive truly incredible comparison throughputs:
 
 On a test input file with 91 nucleotides, 50 patterns, and on the human genome with ~3.2 billion base pairs, (and it is symmetric), that is `91*50*3.2*2=29000` billion comparisons.
 
@@ -235,7 +235,7 @@ Dual RTX-2060 GPUs | 5.9545s | 4984 b/s
 Intel(R) UHD Graphics 620 (on laptop) | 141s | 205 b/s   
 12-core, 24 thread 1920x Ryzen threadripper CPU | 350.145s | 83.2 b/s
 
-Note that on this input set, the performance is 10x or greater than the original cas-offinder tool all tested hardware platforms.
+Note that on this input set, the performance is 10x or greater than the original cas-offinder tool all tested hardware platforms except the popencl CPU platform.
 
 ### Whole program optimization
 
@@ -245,9 +245,8 @@ The inner loop is not the only performance consideration. We also need to spend 
 
 In order to maximize GPU performance, we should make sure that all GPUs are operating all of the time:
 
-1. If possile, file parsing and data preprocessing should not impede core compute proceedure.
+1. If possible, file parsing, data preprocessing, postprocessing and file output should not impede core compute procedure.
 2. Multiple GPUs should execute concurrently and independently to maximize compute efficiency.
-3. Postprocessing and file/pipe buffering should not impeed GPU execution.
 
 In order to keep memory utilization predictable:
 
@@ -259,9 +258,9 @@ To solve all of the above goals, a data pipeline is created. This data pipeline 
 
 ![data pipeline](/images/cas-offinder/data_pipeline.png)
 
-With this simple archtecture, all the performance goals are satisfied. 
+With this simple architecture, all the performance goals are satisfied.
 
-1. File processing happens asynchronously, not impeeding computation
+1. File processing happens asynchronously, not impeding computation
 2. Each GPU is controlled via its own thread, operating independently.
 3. Postprocessing file writing operates asynchronously
 4. Data is not read if the input channel's buffer is full, minimizing memory consumption.
@@ -272,7 +271,7 @@ Under the `test` directory are a number of unit tests, orchestrated through a cu
 
 These tests check many edge cases in conversions to and from the 4bit data format, file parsing, searching, and more.
 
-These tests made optimizing certain proceedures (file parsing, searching, format conversions) extremely easy and fast---most of the optimiztions were implemented in a single day.
+These tests made optimizing certain procedures (file parsing, searching, format conversions) extremely easy and fast---most of the optimizations were implemented in a single day.
 
 ### Benchmark
 
@@ -335,4 +334,3 @@ C | 100 | 3 | NNGRRT | 25 | 197.9326527118683 | **38.36330270767212**
 C | 100 | 3 | TTTN | 20 | 197.84042501449585 | **68.67597556114197**
 C | 100 | 3 | TTTN | 25 | 198.83449029922485 | **73.39102458953857**
 C | 100 | 3 | NNN | 20 | **199.13335537910461** | 1149.2943522930145
-
