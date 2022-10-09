@@ -1,7 +1,7 @@
 ---
 title: "Fast, Simple Rectangular Search"
 slug: rect-search
-under_construction: true
+under_construction: false
 excerpt: "Using Rust to implement simple, extremely fast data structures and algorithms for rectangular intersection problems"
 comments: false
 share: false
