@@ -86,8 +86,13 @@ And fit a new matrix to minimize $$ M^\prime =  \sum_i^n (M^\prime((a_i - \beta_
 
 For a hand-wavy argument to why batch normalization can improve the conditioning of the problem, consider the emperical condition number of the data:
 
-Emperical condition number: $$ \max_{i,j} \frac{|a_i|}{|z_i|}\frac{|a_j|}{|z_j|} = \max_{i} \frac{|a_i|}{|z_i|} \max_j \frac{|a_j|}{|z_j|} $$
-Batch normalized emperical condition number: $$ \max_{i,j} \frac{|(a_i - \beta_a) \odot \alpha_a|}{|)z_i - \beta_z) \odot \alpha_z|}\frac{|(a_j - \beta_a) \odot \alpha_a|}{|z_j - \beta_z) \odot \alpha_z|} =  \max_{i}\frac{|(a_i - \beta_a) \odot \alpha_a|}{|(z_i - \beta_z) \odot \alpha_z|} \max_{j}\frac{|(a_j - \beta_a) \odot \alpha_a|}{|(z_j - \beta_z) \odot \alpha_z|} $$
+Emperical condition number: 
+
+$$ \max_{i,j} \frac{|a_i|}{|z_i|}\frac{|a_j|}{|z_j|} = \max_{i} \frac{|a_i|}{|z_i|} \max_j \frac{|a_j|}{|z_j|} $$
+
+Batch normalized emperical condition number: 
+
+$$ \max_{i,j} \frac{|(a_i - \beta_a) \odot \alpha_a|}{|(z_i - \beta_z) \odot \alpha_z|}\frac{|(a_j - \beta_a) \odot \alpha_a|}{|(z_j - \beta_z) \odot \alpha_z|} =  \max_{i}\frac{|(a_i - \beta_a) \odot \alpha_a|}{|(z_i - \beta_z) \odot \alpha_z|} \max_{j}\frac{|(a_j - \beta_a) \odot \alpha_a|}{|(z_j - \beta_z) \odot \alpha_z|} $$
 
 Handwavy argument for why this improves condition number:
 
@@ -118,3 +123,14 @@ Thus inspiring the following debugging technique:
 
 1. Does increasing number of parameters (in particular width of network layers) improve or harm performance?
 2. If not, then you are not in the overparamertized regime, and something is very wrong.
+
+### Neural Tangent Kernel
+
+Neural network $$ f $$ with parameters $$ \theta $$ evaluated on input $$ x $$ is $$ f(\theta, x) $$
+
+Then first order taylors approximation is 
+
+$$ \nabla_\theta f(\theta)(x) = f(x,\theta_0) + \nabla f(x, \theta_0) (\theta - \theta_0) $$
+
+Note that 
+
