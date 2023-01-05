@@ -124,13 +124,29 @@ Thus inspiring the following debugging technique:
 1. Does increasing number of parameters (in particular width of network layers) improve or harm performance?
 2. If not, then you are not in the overparamertized regime, and something is very wrong.
 
+<!--
+
 ### Neural Tangent Kernel
 
 Neural network $$ f $$ with parameters $$ \theta $$ evaluated on input $$ x $$ is $$ f(\theta, x) $$
 
-Then first order taylors approximation is 
+Then first order Taylor's approximation is 
 
-$$ \nabla_\theta f(\theta)(x) = f(x,\theta_0) + \nabla f(x, \theta_0) (\theta - \theta_0) $$
+$$ f(\theta)(x) = f(x,\theta_0) + \nabla f(x, \theta_0) (\theta - \theta_0) $$
 
-Note that 
+Like all first order Taylor's approximations, the function is linear in $$ \theta $$.
+However, it is non-linear in $$x$$, as $$$$ is non-linear.
 
+Interestingly, this means that we can use this approximation to define a kernel
+
+$$ K(x, x^\prime) =\big(f(x,\theta_0) + \nabla f(x, \theta_0) (\theta - \theta_0)\big)^T\big(f(x^\prime,\theta_0) + \nabla f(x^\prime, \theta_0) (\theta - \theta_0)\big) $$
+
+And use a kernel method, like support vector machines, over this kernel. 
+
+Note that this is tractable for real world neural networks. Two forward passes and 2 backwards passes over the neural network to compute a kernel value, similar to gradient descent.
+
+
+In practice people have done this, and achieved state of the art results in kernel methods.
+
+Interestingly, in the infinite width neural network case, these kernel functions converge to a particular value. 
+-->
