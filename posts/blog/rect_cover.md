@@ -64,11 +64,18 @@ This algorithm has close relationships to two better known algorithms:
 
 Set-cover is a nice analogue because our problem can be directly reduced to it. In our problem, the total set you want to cover is the set of all annotations. The subsets you wish to select from are the tiles which contain them. Unfortunately, [set-cover is known to be NP-hard](https://en.wikipedia.org/wiki/Set_cover_problem)
 
-The NP-hardness of set-cover should give us pause. Even though the geometric simplicity of rectangular cover means that it is possibly not NP-hard, it will still likely be expensive to compute an exact solution. Note that radial cover is also thought to be fairly hard to find exactly optimal solutions to.
+The NP-hardness of set-cover should give us pause. Even though the geometric simplicity of rectangular cover means that it is probably not NP-hard, it will still likely be expensive to compute an exact solution. Note that radial cover is also thought to be fairly hard to find exactly optimal solutions to.
 
-So we can turn to approximation algorithms with a good concience that we are probably not passing by some efficient exact solution. Luckily, set-cover is known to have a provably effective and simple approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply iteratively choosing the tile which covers the most so-far uncovered objects. And the correspondence to set-cover's approximation bounds proof is suggestion that this algorithm is good enough to achive good results.
+So we can turn to approximation algorithms with a good concience that we are probably not passing by some efficient exact solution. Luckily, set-cover is known to have a provably effective, simple, and fast approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply iteratively choosing the tile which covers the most so-far uncovered objects. And the correspondence to set-cover's provable approximation bounds of `O(log(N))` is suggestion that this algorithm is good enough to achive good results. Interestingly, there is also theory that within a constant, this is the optimal polynomial time algorithm for set-cover, suggesting that we would need to utilize the geometric structure of rectangular cover to perform better. Which I didn't try today. But if you want to give it a shot, I encourage you to!
 
+Now that we have settled (for now) on this broad greedy strategy, we just need to find a way to execute this strategy quickly. 
 
+The strategy chosen is a simple strategy which minimizes the quantity of extra memory, data structures, and code required, at a constant time computational cost. 
 
-Naively scoring the tiles using the intersection checker is an `O(N * M^2 * log(N)))` operation, as there are `O(N * M)` tiles, as there are `O(M)` tiles generated for each object in the densest areas of the region, and each scoring operation takes `O(M log(N))` to count all the containments. In a sparse enough system, where `M` is below 50, this complexity is quite acceptable.
+1. construct a priority queue of the best scoring tiles. 
+2. Pick best tile off of queue
+3. Re-compute that tile's score, masking out chosen boxes
+4. If that 
+
+Naively scoring the tiles using the intersection checker is an `O(N * M^2 * log(N)))` operation, as there are `O(N * M)` tiles, as there are `O(M)` tiles generated for each object in the densest areas of the region, and each scoring operation takes `O(M log(N))` to count all the containments. In a relatively sparse system, where `M` is below 50, this complexity is quite acceptable. 
 
