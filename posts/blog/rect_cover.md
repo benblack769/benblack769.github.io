@@ -7,6 +7,7 @@ comments: false
 share: false
 post_date: "2023"
 img: /images/rect_cover/rect_cover_splash.png
+priority: 4
 ---
 
 
@@ -65,7 +66,9 @@ Set-cover is a nice analogue because our problem can be directly reduced to it. 
 
 The NP-hardness of set-cover should give us pause. Even though the geometric simplicity of rectangular cover means that it is possibly not NP-hard, it will still likely be expensive to compute an exact solution. Note that radial cover is also thought to be fairly hard to find exactly optimal solutions to.
 
-So we can turn to approximation algorithms with a good concience. Luckily, set-cover is known to have an effective and simple approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). Simply choosing the best tile every time is good enough to achive good results.
+So we can turn to approximation algorithms with a good concience that we are probably not passing by some efficient exact solution. Luckily, set-cover is known to have a provably effective and simple approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply iteratively choosing the tile which covers the most so-far uncovered objects. And the correspondence to set-cover's approximation bounds proof is suggestion that this algorithm is good enough to achive good results.
 
-Naively scoring the tiles the first time around using the intersection checker is an `O(N * M^2 * log(N)))` operation, as there are `O(N * M)` tiles, as there are `O(M)` tiles generated for each object in the densest areas of the region, and each scoring operation takes `O(M log(N))` to count all the containments. In a sparse enough system, where `M` is below 50, this complexity is quite acceptable.
+
+
+Naively scoring the tiles using the intersection checker is an `O(N * M^2 * log(N)))` operation, as there are `O(N * M)` tiles, as there are `O(M)` tiles generated for each object in the densest areas of the region, and each scoring operation takes `O(M log(N))` to count all the containments. In a sparse enough system, where `M` is below 50, this complexity is quite acceptable.
 
