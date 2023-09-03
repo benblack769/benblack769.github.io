@@ -64,7 +64,7 @@ This algorithm has close relationships to two better known algorithms:
 
 Set-cover is a nice analogue because our problem can be directly reduced to it. In our problem, the total set you want to cover is the set of all annotations. The subsets you wish to select from are the tiles which contain them. Unfortunately, [set-cover is known to be NP-hard](https://en.wikipedia.org/wiki/Set_cover_problem)
 
-The NP-hardness of set-cover should give us pause. Even though the geometric simplicity of rectangular cover means that it is probably not NP-hard, it will still likely be expensive to compute an exact solution. Note that radial cover is also thought to be fairly hard to find exactly optimal solutions to.
+The NP-hardness of set-cover should give us pause. Even though the geometric simplicity of rectangular cover means that it might not be NP-hard, it will still likely be expensive to compute an exact solution. Note that radial cover is also thought to be fairly hard to find exactly optimal solutions to.
 
 So we can turn to approximation algorithms with a good concience that we are probably not passing by some efficient exact solution. Luckily, set-cover is known to have a provably effective, simple, and fast approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply iteratively choosing the tile which covers the most so-far uncovered objects. And the correspondence to set-cover's provable approximation bounds of `O(log(N))` is suggestion that this algorithm is good enough to achive good results. Interestingly, there is also theory that within a constant, this is the optimal polynomial time algorithm for set-cover, suggesting that we would need to utilize the geometric structure of rectangular cover to perform better. Which I didn't try today. But if you want to give it a shot, I encourage you to!
 
@@ -79,3 +79,37 @@ The strategy chosen is a simple strategy which minimizes the quantity of extra m
 
 Naively scoring the tiles using the intersection checker is an `O(N * M^2 * log(N)))` operation, as there are `O(N * M)` tiles, as there are `O(M)` tiles generated for each object in the densest areas of the region, and each scoring operation takes `O(M log(N))` to count all the containments. In a relatively sparse system, where `M` is below 50, this complexity is quite acceptable. 
 
+### Left to Right strategy
+
+The problem with the global greedy strategy comes from the O(N^2) number of canidate tiles, especially in the case of dense, small objects.
+
+Consider this alternative strategy:
+
+1. Take the left-most object in the entire scene (with arbitrary tie-breaks)
+2. Take the whole region of possible canidate tiles, and go through the objects left to right, fitting in tiles, and adjusting the possible region as necessary to fit them
+
+### Approximation bound
+
+Theorem: This bound is an 1.5 approximation.
+
+### Approximation lower bound
+
+Here is a worst case example where the greedy algorithm gives 3 tiles to the optimal solution's 2 tiles, giving a lower bound of a 1.5 approximation. Consider the following arrangement of 5 tiles. 
+
+![](/images/rect_cover/rect-cover-worst-case-sample.svg)
+
+Given the below tile size, the greedy algorithm produces 3 tiles:
+
+![](/images/rect_cover/rect-cover-worst-case-greedy.svg)
+
+Wheras the optimal solution is clearly to produce 2 tiles, for example:
+
+![](/images/rect_cover/rect-cover-worst-case-opt.svg)
+
+### Algorithm upper bound
+
+This sort of example is also the worst case.
+
+Proof:
+
+Take an optimal solution to the rect covering of boxes *B*. Now, this optimal solution must include 1
