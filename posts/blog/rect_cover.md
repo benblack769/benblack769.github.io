@@ -1,7 +1,7 @@
 ---
 title: "Fast, Simple, Effective Rectangle coverage"
 slug: rect-cover
-under_construction: false
+under_construction: true
 excerpt: "Using Rust, R-Trees, submodular optimization theory, and clever tricks to implement fast, simple, effective, rectangle covering strategy."
 comments: false
 share: false
@@ -83,6 +83,10 @@ Naively scoring the tiles using the intersection checker is an `O(N * M^2 * log(
 
 The problem with the global greedy strategy comes from the O(N^2) number of canidate tiles, especially in the case of dense, small objects.
 
+Another problem is its poor performance in the worse case: consider this tiling, and the corresponding greedy (red) vs optimal (green) solutions. The greedy solution is a 9/4 approximation in this case.
+
+Which inspires a bit more thought into a more clever solution.
+
 Consider this alternative strategy:
 
 1. Take the left-most object in the entire scene (with arbitrary tie-breaks)
@@ -90,7 +94,7 @@ Consider this alternative strategy:
 
 ### Approximation bound
 
-Theorem: This bound is an 1.5 approximation.
+Theorem: This algorithm is an 2 approximation of the rectangle cover problem, in that if the optimal solution gives *N* tiles, this algorithm will give at most *2N* tiles.
 
 ### Approximation lower bound
 
@@ -108,8 +112,27 @@ Wheras the optimal solution is clearly to produce 2 tiles, for example:
 
 ### Algorithm upper bound
 
-This sort of example is also the worst case.
+This sort of example is also the worst case. This proof assumes the typical assumption in computational geometric of inexactl alignment (LOOK UP PROPER TERM FOR THIS)
+
+
 
 Proof:
 
-Take an optimal solution to the rect covering of boxes *B*. Now, this optimal solution must include 1
+Take a set of boxes *B*.
+
+The left-most box `lb = min_x(B)`, the region around which the tile must be selected for that box: `lr = {x1: lb.x1, y1:lb.y2 - tile_height, x2: lb.x1 + tile_width, y2: lb.y2 + tile_height}`.
+
+Now run the greedy algorithm until another box inside `lr` is chosen as the left-most remaining box.
+
+Without loss of generality, since the y axis is symmetric at this point in the argument, say that this box is higher in `y` than `lb`, and call it `lhb`.
+
+Keep running the algorithm until another box inside `lr` is chosen. Note that this box cannot also be higer than `lb`
+
+Note that 
+
+Note that the optimal solution of `B'` is at worst the same count as the optimal solution of `B`.
+
+Contained inside the region `lr`, examine the remaining boxes lower than, and greater than `lb`. If it exists, say left-most box which is lower in y than `lb` is `llb`, and the left-most box which is greater in y than `lb` call it `rlb`. If 
+
+Take an optimal solution to the rect covering of boxes *B*. Now, this optimal solution must include 1 tile which has its left-most edge be the edge of 
+
