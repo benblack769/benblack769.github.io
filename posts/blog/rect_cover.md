@@ -2,7 +2,7 @@
 title: "Fast, Simple, Effective Rectangle coverage"
 slug: rect-cover
 under_construction: false
-excerpt: "Walking through my thought process when creating a simple, effective, rectangle covering strategy."
+excerpt: "Using theoretical analysis, practical insights, and persistent optimization to create a simple, effective, rectangle covering strategy."
 comments: false
 share: false
 post_date: "2023"
