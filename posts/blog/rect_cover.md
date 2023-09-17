@@ -17,45 +17,13 @@ The inspiration for this problem comes from a real world challenge I encountered
 
 Neither humans nor standard deep learning systems can examine gigapixel images in one go---the task must be broken up into smaller tasks that can fit into memory. Typically, this is done through simple tiling strategies. However, since since annotations are not expected to be comprehensive, the deep learning system's loss function is customized to ignore all unlabeled objects during training. So tiling unlabeled areas is wasteful. And so efficient tile generation becomes a covering task, where we wish to generate tiles which cover all the areas of the image where there are human annotations, and to ignore all the areas which there are no human annotations. Furthurmore, our object detection problem is easier if each object is fully contained within the scene. So we require full containment as a constraint.  
 
-We can reduce this to an abstract problem as follows: Given a tile size of `(X, Y)` and a set of boxes `{(x, y, w, h)...}`, we must generate a set of tile coordinates such that every object is contained within at least one tile, and within those constraints, we hope to minimize the number of tiles.
+We can reduce this to an abstract constrained minimiztation problem as follows: Given a tile size of `(X, Y)` and a set of boxes `{(x, y, w, h)...}`, we must generate a set of tile coordinates such that every object is contained within at least one tile, and within those constraints, we hope to minimize the number of tiles.
 
 A sneak peak of the algorithm in action is shown below:
 
 ![algorithm-sneak-peak](/images/rect_cover/rect_cover_norm.gif)
 
-## Algorithmic approach
-
-First, we can decompose this problem along the typical optimizatation method of generate->score->optimize:
-
-1. **Canidate selection**: How to find and generate promising tile canidates?
-2. **Fast Containment**: How can we do these containment checks quickly to score/rank canidate tiles based on how many objects they contain?
-3. **Optimization**: What fast and effective strategies can we use to prune the set of canidates down to an approximately minimal set?
-
-#### Canidate selection
-
-Canidate selection is made much easier by the rectangular structure of the problem. It is furthur simplified by the fixed width and hight of the tiles.
-
-These two constaints mean that each tile is fully specified by its left and top edges. To reduce the set of optimal canidates furthur, a analysis and cleverness is needed. Note that every tile has an object that is furthur left than every other object in the tile, and an object that is furthur up. 
-
-![rect-cover-orig](/images/rect_cover/rect-cover-orig.svg)
-
-Now, that tile can be shifted down and right to the very edges of those extremal objects.
-
-![rect-cover-shifted](/images/rect_cover/rect-cover-shifted.svg)
-
-And you end up with a tile which contains *at least* as many objects as the original.
-
-Since all optimal tiles are equivalent to a tile which has a left-most and top-most object, we can generate a set of possible optimal canidates by simply considering all top edges and left edges of all boxes, and considering canidate tiles which fully contain the boxes which generated it (not necessarily distinct). This operation is `O(N^2)` where `N` is the number of boxes. This is already polynomial, a good start, but not quite fast enough. 
-
-To reduce the complexity of this generation problem furthur, we can utilize the geomeric sparsity of objects. In the problem domain of consideration, labels are fairly sparse over a huge gigapixel region. So we should only consider object pairs which are are close enough that they could fit in the same tile. To do this, we can choose the left-most object first, and then only choose top-most objects which can be contained in the same area as the left-most object. This area to look is exactly the region `(x1: b1.x1, y1: b1.y1 + b1.height - tile_height, width: b1.width + tile_width, height: tile_height * 2 - b1.height)` where `b1` is the left-most object. Any objects which are not contained in this region cannot be successfully contained in the same tile as the left-most object `b1`. And we can use the fast containment checking method described in the next section to find all such objects in approximately `O(M*log(N))`, where `M` is the number of objects which intersect with that region. Yielding an algorithm with `O(M*N*log(N))` where `M` roughly represents the greatest number of objects in the same tile-sized area. Still quadratic in the worst case, but much smaller in practice.
-
-#### Fast containment
-
-At a high level, we hope to construct a fixed tree-based data structure of all your boxes (human annotations) so you can quickly check how many objects any given tile canidate contains. Luckily, I just did [a project on fast rectangle intersection](/posts/blog/box_search/) to solve similar problems for the same company. And containment can be solved efficiently with brute force checking once intersection is established.
-
-The data structure described in that post is clever, but is known in the literature, and does not require much code. A high level overview follows: each node in the tree is a bounding box of all the objects in the tree below it. This data structure is known as an R-Tree. This can reduce the size of the search problem because if a tile doesn't overlap with that bounding box, then you don't need to check any of the objects underneath that node of the tree. To generate nodes with small bounding boxes it is standard to use recursive sorting (alternating sorting and partioning along x and y axis) to group objects together. This is known as Recursive Tile Sort. More details are in the [original post](/posts/blog/box_search/), but hopefully this gives an idea.
-
-#### Optimization
+## Analogous problems
 
 This algorithm has close relationships to two better known algorithms:
 
@@ -64,28 +32,77 @@ This algorithm has close relationships to two better known algorithms:
 
 Set-cover is a nice analogue because our problem can be directly reduced to it. In our problem, the total set you want to cover is the set of all annotations. The subsets you wish to select from are the tiles which contain them. Unfortunately, [set-cover is known to be NP-hard](https://en.wikipedia.org/wiki/Set_cover_problem)
 
-The NP-hardness of set-cover should give us pause. Even though the geometric simplicity of rectangular cover means that it might not be NP-hard, it will still likely be expensive to compute an exact solution. Note that radial cover is also thought to be fairly hard to find exactly optimal solutions to.
+The NP-hardness of set-cover should give us pause. Even though the geometric limitations of rectangular cover means that it might not be NP-hard, this correspondence to set-cover means that it will still likely be expensive to compute an exact solution. Note that radial cover problems are also generally fairly hard to find exactly optimal solutions to.
 
-So we can turn to approximation algorithms with a good concience that we are probably not passing by some efficient exact solution. Luckily, set-cover is known to have a provably effective, simple, and fast approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply iteratively choosing the tile which covers the most so-far uncovered objects. And the correspondence to set-cover's provable approximation bounds of `O(log(N))` is suggestion that this algorithm is good enough to achive good results. Interestingly, there is also theory that within a constant, this is the optimal polynomial time algorithm for set-cover, suggesting that we would need to utilize the geometric structure of rectangular cover to perform better. Which I didn't try today. But if you want to give it a shot, I encourage you to!
+So we can turn to approximation algorithms with a good concience that we are probably not passing by some efficient exact solution. Set-cover is known to have a simple, and fast approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply choosing the tile which covers the most so-far uncovered objects, removing those objects, and repeating. Unfortunately, this greedy algorithm is known to have a worst case bound of `O(log(N))`. Even worse, it is a tight lower bound for polynomial time algorithms: set-cover has an inaproxiability result that states that simply achiving better than `O(log(N))` is also NP-hard.
 
-Now that we have settled (for now) on this broad greedy strategy, we just need to find a way to execute this strategy quickly. 
+While again, it is unlikey that this inapproximability result is valid in the 2d case, you can construct some pretty bad examples of the greedy algorithm for our rectangular cover problem. For example:
 
-The strategy chosen is a simple strategy which minimizes the quantity of extra memory, data structures, and code required, at a constant time computational cost. 
+Take the following arrangement of squares, and the following simple green tiling that produces the optimal solution of 4 tiles.
 
-1. construct a priority queue of the best scoring tiles. 
-2. Pick best tile off of queue
-3. Re-compute that tile's score, masking out chosen boxes
-4. If that 
+![greedy-case-opt](/images/rect_cover/greedy_case_opt.png)
 
-Naively scoring the tiles using the intersection checker is an `O(N * M^2 * log(N)))` operation, as there are `O(N * M)` tiles, as there are `O(M)` tiles generated for each object in the densest areas of the region, and each scoring operation takes `O(M log(N))` to count all the containments. In a relatively sparse system, where `M` is below 50, this complexity is quite acceptable. 
+Now, consider that the greedy algorithm will start with the densest area in the center and edges, and work its way to the sparser areas on the corners, generating this inefficient 9 tile solution.
+
+![greedy-case-greedy](/images/rect_cover/greedy_case_greedy.png)
+
+So at the very least, the greedy algorithm is a 9/4 solution. Which isn't ideal. It is also a bit tricky to implement this global greedy algorithm efficiently, as there are many possible canidate tiles to choose from when trying to find the globally best tile each iteration.
+
+So we cannot rely on the correspondence to set-cover to find a good approximation algorithm, and instead must find some specific geometric properties which allow for better approximations with simpler, faster implmentations. However, we are pragmatic people not geomtry wizards, and the greedy solution isn't bad, so what we can do is explore the problem by trying to find efficient implementations and heuristics for the greedy solution.
+
+## Geometric analysis
+
+To understand this problem more closely, we can identify and solve a bunch of related sub-problems to understand the full problem better.
+
+### Canidate selection
+
+One good question inspired by the greedy solution is: Question 1, *How would we go about finding the best single tile that covers the most rectangle, in a scene?*
+
+Well, one way to do this is to narrow down all the possibly optimal tiles, to a finite set, and check them all. Giving us a new problem, Question 2 *How can we enumerate all possibly optimal tiles*?
+
+To start, consider this set of rectangles and associated tile:
+
+![rect-cover-orig](/images/rect_cover/rect-cover-orig.svg)
+
+Notice that this tile can be shifted around by a considerable amount without changing which tiles it includes. It can be shifted even more if we allow it to include at least all the same tiles it started with, and possibly more. 
+
+To reduce the set of possible tiles so can hope to enumerate all of the possibly optimal ones, we can try to normalize each tiles to a similar tile that includes at least as many objects as the orignal.
+
+Raising the Question 3: *How can we take any given tile, and generate an equivalent, easily defined tile, that includes at least as many objects?*
+
+Well, one simple way would be to shift the tile down and right to the very edges of tho extremal objects contained in the original tile, e.g.
+
+![rect-cover-shifted](/images/rect_cover/rect-cover-shifted.svg)
+
+And you end up with a tile which contains *at least* as many objects as the original. Answering Question 3.
+
+Since all optimal tiles are equivalent to a tile which has a left-most and top-most object, we can generate a set of possible optimal canidates by simply considering all top edges and left edges of all boxes, and considering canidate tiles which fully contain the boxes which generated it (not necessarily distinct). This operation is `O(N^2)` where `N` is the number of boxes. This is already polynomial, a good start to Question 2. But N can  be in the hundreds of thousands in the problem domain, so `O(N^2)` just is too slow in practice.
+
+To reduce the complexity of this generation problem furthur, we can utilize the geomeric sparsity of objects. In the problem domain of consideration, labels are fairly sparse over a huge gigapixel region. So we should only consider object pairs which are are close enough that they could fit in the same tile. To do this, we can choose the left-most object first, and then only choose top-most objects which can be contained in the same area as the left-most object. This area can extend in the y axis until the tile can no longer contain the lower edge of the chosen left-most object. Similar for the lower bound. So the area to look is exactly the region `(x1: b1.x1, y1: b1.y1 + b1.height - tile_height, width: b1.width + tile_width, height: tile_height * 2 - b1.height)` where `b1` is the left-most object. We can use a fast containment checking method to find all objects inside that region, such the method described in [my earlier post](posts/blog/box_search/). This allows us to find all viable left-top pairs of objects which define a possibly optimal tile in approximately `O(M*N*log(N))` time, where `M` is the number of objects which intersect with the worst. Which is still quadratic in the dense case, but much smaller in the sparse case. So this is a still better answer to question 2.
+
+However, we will need to check each canidate tile again to count how many objects are contained within each tile. Which will take at least M time, if done naively, yeilding a complexity of `O(M*M*N*log(N))` time, which is cubic, and is asking for trouble. When you go through the logic, you start to feel that it seems inefficient to iterate through the `M` objects in the given region to enumerate canidate tiles, just to iterate over those same objects again when evaluting those canidate tiles. Yielding question 4: Can we generate canidate optimal tiles and evaluate them at the same time?
+
+The trick to question 4 is realizing the simplicity of the x dimension in our region of search. Every possibly optimal tile has the same x coordinate. So we only have to search along the y coordinate. So we can reduce this 2 dimensional rectangle cover problem to a 1 dimentional interval cover problem. The one-dimensionality means we can utilize sorting and counting to perform this evaluation exactly in `O(N*log(N))`. The details get a bit complicated, but the idea is powerful, and allows us to get a solution to question 2 in `O(M*N*log(N)*log(M))` time.
+
+This final trick is pretty cool. It means that given a left-most box, we can find the tile that includes the most rectangles very quickly.
 
 ### Left to Right strategy
 
 The problem with the global greedy strategy comes from the O(N^2) number of canidate tiles, especially in the case of dense, small objects.
 
-Another problem is its poor performance in the worse case: consider this tiling, and the corresponding greedy (red) vs optimal (green) solutions. The greedy solution is a 9/4 approximation in this case.
+However, why start with the densest area of the region? In set-cover this is a logical approach because there is no other easily identifiable extrema to start from. But in a 2d region, we have other extrema. In particular, consider the globally left-most rectangle. Any solution will have at least one tile which includes this rectangle, and of course, this rectangle will be the left-most rectangle in that tile, since it is the left-most rectangle globally. 
 
-Which inspires a bit more thought into a more clever solution.
+Also, we have an efficient method, answered in question 4, of finding the locally optimal tile, given the left-most object. So instead of proceeding our greedy algorithm globally, we can instead proceed greedily from left to right.
+
+Unfortunately, the theoretical worst-case bound that we inherited from set-cover no longer applies. So we are left in theoretical limbo, uncertian to how good this solution is, in the worst case. We could generate some synthetic benchmarks, and see what the results are. And on the benchmarks I generated, it does indeed out-perform global greedy solutions by some margin. But without worst-case analysis I am left nervous that it will generate some really embarassingly poor solutions.
+
+So I tried to construct a worst-case solution, and got this:
+
+![left-to-right-worst-case](/images/rect_cover/left_to_right_worst_case.png)
+
+A bit more examination reveals that this type of construction can yield a solution arbitrarily bad.
+
+
 
 Consider this alternative strategy:
 
