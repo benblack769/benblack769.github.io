@@ -36,26 +36,26 @@ The NP-hardness of set-cover should give us pause. Even though the geometric lim
 
 So we can turn to approximation algorithms with a good conscience that we are probably not passing by some efficient exact solution. Set-cover is known to have a simple, and fast approximation algorithm: [Greedy selection](https://en.wikipedia.org/wiki/Set_cover_problem#Greedy_algorithm). In our language, greedy selection means simply choosing the tile which covers the most so-far uncovered objects, removing those objects, and repeating. Unfortunately, this greedy algorithm is known to have a worst case bound of `O(log(N))`. Even worse, it is a tight lower bound for polynomial time algorithms: set-cover has an inapproximability result that states that simply achieving better than `O(log(N))` is also NP-hard.
 
-While again, it is unlikely that this inapproximability result is valid in the 2d case, you can construct some pretty bad examples of the greedy algorithm for our rectangular cover problem. For example:
+While again, it is unlikely that this inapproximability result is valid in the 2d case, you can construct some pretty bad examples of the greedy algorithm for our rectangular cover problem. 
 
-Take the following arrangement of blue boxes, and the following simple green tiling that produces the optimal solution of 4 tiles.
+For example: Take the following arrangement of blue boxes, and the following simple green tiling that produces the optimal solution of 4 tiles.
 
 ![greedy-case-opt](/images/rect_cover/greedy_case_opt.png)
 
-Now, consider that the greedy algorithm will start with the densest area in the center and edges, and work its way to the sparser areas on the corners, generating this inefficient 9 tile solution.
+Now, consider that the greedy algorithm will start with the densest area in the center and edges, and work its way to the sparser areas on the corners, generating this 9 tile solution.
 
 ![greedy-case-greedy](/images/rect_cover/greedy_case_greedy.png)
 
-So at best, the greedy algorithm is a 9/4=2.5 approximation. Which isn't ideal. It is also a bit tricky to implement this global greedy algorithm efficiently, as there are many possible candidate tiles to choose from when trying to find the globally best tile each iteration.
+So at best, the greedy algorithm is a 9/4=2.5 approximation. Which isn't ideal. It is also a bit tricky to implement this global greedy algorithm efficiently, as there are many possible candidate tiles to choose from when trying to find the globally best tile each iteration. However, it does have the same theoretical bound as set-cover, and it also raises some interesting implementation challenges.
 
 
 ## Geometric analysis
 
-It would be interesting to explore alternative strategies which utilize specific geometric properties which allow for better approximations than set-cover with simpler, faster implementations. However, we are pragmatic people not geometry wizards, and the greedy solution isn't bad, so what we can do is explore the problem by trying to find efficient implementations and heuristics for the greedy solution.
+It would be interesting to explore alternative strategies which utilize specific geometric properties which allow for better approximations than set-cover with simpler, faster implementations. However, we are pragmatic people not geometry wizards, and the greedy solution isn't bad, so instead of beating our head against the wall, we can just try to find efficient implementations and heuristics for the greedy solution, and see if we get any useful geometric insights.
 
-### Three questions inspired by greedy idea
+### Four questions inspired by global greedy idea
 
-One good question inspired by the greedy solution is: **Question 1:**, *How would we go about finding the best single tile that covers the most boxes, in a scene?*
+One good question inspired by the greedy solution is: **Question 1:**, *How would we go about finding the best single tile that covers the most boxes in a scene?*
 
 Well, one way to do this is to narrow down all the possibly optimal tiles to a finite set and check them all. Giving us a new problem, **Question 2:** *How can we enumerate all possibly optimal tiles*?
 
@@ -69,13 +69,13 @@ To reduce the set of possible tiles so can hope to enumerate all of the possibly
 
 Raising **Question 3:** *How can we take any given tile, and generate an equivalent, easily defined tile, that includes at least as many boxes?*
 
-Well, one simple way would be to shift the tile down and right to the very edges of tho extremal boxes contained in the original tile, e.g.
+Well, one simple way would be to shift the tile down and right to the very edges of the left-most and top-most boxes contained in the original tile, e.g.
 
 ![rect-cover-shifted](/images/rect_cover/rect-cover-shifted.svg)
 
-And you end up with a tile which contains *at least* as many boxes as the original. Answering Question 3.
+And you end up with a tile which contains *at least* as many boxes as the original. Answering Question 3 quite nicely.
 
-Since all optimal tiles are equivalent to a tile which has a left-most and top-most object, we can generate a set of possibly optimal candidates by simply considering all top edges and left edges of all boxes and their respective tiles, eliminating invalid tiles. This operation is `O(N^2)` where `N` is the number of boxes. This is already polynomial, a good start to Question 2. But `N` can be in the hundreds of thousands in the problem domain, so `O(N^2)` is too slow in practice.
+Since all optimal tiles are equivalent to a tile which has a left-most and top-most object, we can construct a set of possibly optimal candidates by simply considering all top edges and left edges of all boxes and their respective tiles, eliminating invalid tiles. This operation is `O(N^2)` where `N` is the number of boxes. This is already polynomial, a good start to Question 2. But `N` can be in the hundreds of thousands in the problem domain, so `O(N^2)` is too slow in practice.
 
 To reduce the complexity of this generation problem further, we can utilize the geometric sparsity of boxes. In the problem domain of consideration, labels are fairly sparse over a huge gigapixel region. So we should only consider box pairs which are are close enough that they could fit in the same tile. To do this, we can choose the left-most box first, and then only choose top-most boxes which can be contained in the same area as the left-most box. This area can extend in the y axis until the tile can no longer contain the lower edge of the chosen left-most box. Similar for the lower bound. So the area to look is exactly the region:
 
