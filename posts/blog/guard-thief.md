@@ -71,7 +71,7 @@ Note that the limitations of this map (such as the starting locations being fixe
 
 A solid, efficient, effective solution, that improves with the more computation time you give it is essential, for both practical and scientific usecases. It is also not easy, and requires a variety of techniques in optimization, planning, game theory, and parallel programming. So its worth going into detail go into detail about how one solves a game like this.
 
-At the highest level, the "Best Population Response" method is used for multi-player optimization. The idea is to calculate the best response for one player against to the existing set of solutions for the other player. Once that best response is calculated, it will be added to the population of strategies for that player. For zero-sum games like this one, This method which was proven in the 1950s to produce a uniquely scored nash equilibria[CITATION], i.e. a global minima. This means that after convergence, neither agent could benefit from switching strategies.
+At the highest level, the "Best Population Response" method is used for multi-player optimization. The idea is to calculate the best response for one player against to the existing set of solutions for the other player. Once that best response is calculated, it will be added to the population of strategies for that player. Further, we use a simple variant of where the opponents in the population are weighted uniformly, called Fictitious self-play. This method which was analyzed by Brown, G. W. in *Iterative solution of games by fictitious play* (1951), and was proven to converge to produce a uniquely scored nash equilibria, i.e. a global minima. This means that after convergence, neither agent could benefit from switching strategies.
 
 ### Best response optimization
 
@@ -86,11 +86,52 @@ The scoring is done by checking all paths in the opponent population one by one.
 
 ### Implementation
 
-The full implementation can be found [on github](https://github.com/benblack769/robotics_project) with some instructions in the readme which can be used to reproduce the most of the plots and videos in this post. Map construction and pre-computation is performed in python, and the optimization is performed in c++.
+The full implementation can be found [on github](https://github.com/benblack769/robotics_project) with some instructions in the Readme which can be used to reproduce the most of the plots and videos in this post. Map construction and pre-computation is performed in python, and the optimization is performed in c++.
 
 ## Results/Discussion
 
+In the [above section](#example-maps) we have determined that the agents seem to be discovering reasonable strategies, and seem to be producing a good mixture of good strategies. 
 
+#### Instability report
+
+Running the algorithm overnight, the unstable learning behavior at the top of the post emerges:
+
+![Instability report](/images/guard_thief/many_guards.json_report.csv.png)
+
+This is clearly not converging very quickly. In fact, it seems to be continuing to experience instability pretty far into training. However, the theory from *Brown, G. W (1951)* suggests that it should be converging, if we actually find the best response. However, we don't find the best response because we are using an approximate optimization method with the genetic algorithm. So one of the key assumptions we pulled from the theory turned out not to be true. Furthermore, we are biasing the response by using the population of existing strategies to seed the genetic algorithm. 
+
+These differences between theory and practice give us two hypotheses:
+
+1. An imperfect optimization method, with or without bias, will result in learning instability and a sub-optimal strategy at every stage of learning.
+1. Any bias-free algorithm, even an approximate one, will converge, but perhaps to a sub-optimal strategy.
+
+#### Zero-bias algorithm alterative
+
+To isolate the effect of the bias, we can create an alterative algorithm without any bias. 
+
+The culpability of bias in creating learning instability can be observed clearly if we simply replace this population seed, and with a fully random seed. The following plot below shows the learning rate where each best response is sampled independently of the existing population response:
+
+![Stabile, zero bias report](/images/guard_thief/no_prior/many_guards.json_report.csv.png)
+
+Note that unlike in the population seeded plot above, this plot shows fast population convergence. However, also note that the thief is having a hard time finding a best response, which is causing the spiky behavior in the marginal gain of the thief. Perhaps this could be solved by running the genetic algorithm for a much longer time, but that would make the computational complexity significantly harder.
+
+#### Explaining convergence difficulties
+
+This intrinsic difficulty in finding good paths for the thief, regardless of guard behavior, is also an explanation for the learning instability. It suggests that with or without biased seeding, the genetic algorithm will also struggle to find a novel best response for the thief. So if the genetic algorithm is seeded with the thief's current set of paths, the algorithm might have great difficulty finding any better solution than one of the seed paths. This highly optimized seed path would then be added the thief's strategy population over and over. You can imagine that the thief population might eventually start to simply sample from into, say, 4 highly optimized paths. The guard would then start to optimize to respond to that small set of paths, and would not take into account any alternative strategies. Then, if the thief finally stumbles across a novel strategy (perhaps hiding in a room for a few time-steps), then the thief would now have 5 paths to choose from, but the 5th path is so poorly represented in the population, that even if it is highly performing, it won't budge the guard's overall reward calculations until the thief samples this strategy hundreds of times. After which, it becomes a key optimization consideration for the guard, which might then sample a counter-strategy hundreds of times before the thief finally starts choosing the alternative strategies again. 
+
+#### The existence of persistent exploiting strategies 
+
+Observe another feature of the biased plot [](#instability-report) that is in need of explanation: the consistently large difference between the marginal returns of the newly added strategy (**bold** lines), and the average return of the population (*shaded* lines). Under convergence, we would expect that these two lines should converge, as the population reaches the nash equilibria, and it becomes impossible to find a better individual response than the population response. In the un-biased plot, we see a sort of approximate convergence, whereas in the biased plot, we see consistently greater marginal score than the average score.
+
+This lack of convergence between the marginals and averages in the biased plot suggests that there is an exploiting strategy available to both agents at all times, but this exploiting strategy is heavily under-represented in their respective populations, due to sub-optimal strategies being selected over and over. 
+
+However, in the unbiased response, the genetic algorithm is unable to clone old strategies, and so there is no cause of a delay between the population set and the marginal response, so the marginal and average lines do indeed converge quickly, as there is no exploiting strategy which can be accessed and copied over and over again.
+
+### Is bias or variance more important overall?
+
+To any pragmatic mind (including my professor's), the question of "well which one is better overall: biased or unbiased response", is the first thing to ask. Unfortunately, this is a difficult question to answer in general, as it depends on the relative difficulty of responding to the other agent's choices, vs the difficulty in achieving adequate results in one's goal independently of the other player (i.e. the thief has to actually find the waypoints).
+
+However, for this particular guard-theif setup, it shouldn't be hard to answer, just run the strategies each method uses against each other to get a score.
 
 ## Appendix
 
@@ -120,7 +161,7 @@ Additional important optimizations include:
 
 ### Appendix B: More results
 
-So you can get a better idea of how training progression works visually, here are a full sample video from different steps in the population accumulation process.
+So you can get a better idea of how training progression works visually, here are a full sample video from different steps in the population accumulation process. You can observe that as learning continues, more different sorts of strategies are added to the set, and occasionally some strategies lose importance as the opponent adapts to them, and no longer appear in our sample of 50. However, remember that no strategy is completely forgotten in Fictitious self-play; all historical strategies are weighted equally when computing best responses.
 
 #### Video Step 4
 <video width="600" height="400" controls>

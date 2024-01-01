@@ -35,7 +35,72 @@ The constraints were:
 
 ### Pipeline abstraction
 
-A common parallelism pattern for efficient, latency sensitive, memory sensitive, variable sized work like this is a simple, linear pipeline processing with configurable backpressure. My research couldn't come up with anything adequate, so 
+A common parallelism pattern for efficient, latency sensitive, memory sensitive, variable sized work like this is a simple, linear pipeline processing with configurable backpressure. 
 
-So I hoped to create a simple, parallelism
+
+An easily composable, extensible pipeline processing code pattern in native, sequential python is by composing generators. An example of what this looks like is shown below. In the below example, there are 
+
+```python
+import urllib
+from collections import Counter
+from typing import Dict, Iterable, List, Tuple
+
+import numpy as np
+import torch
+from PIL import Image
+
+
+def run_model(
+    img_data: Iterable[np.ndarray], model_source: str, model_name: str
+) -> Iterable[np.ndarray]:
+    model = torch.hub.load(model_source, model_name)
+    for img in img_data:
+        results = model(img)
+        yield results
+
+
+def load_images(imgs: List[str]) -> Iterable[np.ndarray]:
+    for img in imgs:
+        with urllib.request.urlopen(img) as response:
+            img_pil = Image.open(response, formats=["JPEG"])
+            img_numpy = np.array(img_pil)
+            yield img_numpy
+
+
+def remap_results(
+    model_results: Iterable[np.ndarray], classmap: Dict[int, str]
+) -> Iterable[Tuple[str, float]]:
+    for result in model_results:
+        result_pd = result.pandas().xyxy[0]
+        print(result_pd)
+        best_row_idx = np.argmax(result_pd.loc[:,'confidence'])
+        best_conf = result_pd.loc[best_row_idx,'class']
+        result_model_idx = result_pd.loc[best_row_idx,'class']
+        best_class = classmap[result_model_idx % (1+max(classmap.keys()))]
+        yield (best_class, best_conf)
+
+
+def aggregate_results(classes: Iterable[Tuple[str, float]]) -> None:
+    results = list(classes)
+    class_stats = Counter(clas for clas, conf in results)
+    print(class_stats)
+
+def main():
+    imgs = [
+        'https://ultralytics.com/images/zidane.jpg',
+        'https://ultralytics.com/images/zidane.jpg',
+        'https://ultralytics.com/images/zidane.jpg'
+    ]
+    img_iter = load_images(imgs)
+    model_results = run_model(img_iter, model_name="yolov5s", model_source="ultralytics/yolov5")
+    post_processed_results = remap_results(model_results, classmap= {0: "cat", 1: "dog"})
+    final_result = aggregate_results(post_processed_results)
+    print(final_result)
+
+main()
+```
+
+This method has every perk of a pipelining system except parallelism: It has has perfect backpressure, never loading more than one image at a time, and extremely low overhead, as it is natively supported by the language runtime.
+
+So I decided to use this generator composition method as the programming model for the parallelized pipelining system. The only difference would be a framework would intake the relevant generators and compose them, rather than simply composing them in python as above. 
 
