@@ -9,7 +9,7 @@ img: /images/pipeline-processing/pipeline_diagram.svg
 post_date: "2024"
 ---
 
-Every software development advice usually starts with: *"Don't reinvent the wheel"*. I like this advice, but it isn't perfect. Occasionally, appropriate high level tooling just doesn't exist, or is simply overly complex, and requires reinvention. I was quite please with how this pipeline processing project turned out, and I hope it can be used as a model for developing a clean, foolproof-by-default, feature-light-but-flexible, high-performance interface using stable low level tooling.
+Every software development advice usually starts with: *"Don't reinvent the wheel"*. I like this advice, but it isn't perfect. Occasionally, appropriate high level tooling just doesn't exist, or is simply overly complex, and requires reinvention. I was quite pleased with how this pipeline processing project turned out, and I hope it can be used as a model for developing a clean, foolproof-by-default, feature-light-but-flexible, high-performance interface using stable low level tooling.
 
 ### When should we reinvent the wheel?
 

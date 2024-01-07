@@ -11,7 +11,6 @@ priority: 4
 ---
 
 
-
 https://benblack769.github.io/hashlife-rust/
 
 https://github.com/benblack769/hashlife-rust
