@@ -17,3 +17,4 @@ images/deep_learning_basics/qudratic_regression/*.png
 *.aux
 *.gz
 images/backprop/diagram-tix/*.pdf
+.vscode
