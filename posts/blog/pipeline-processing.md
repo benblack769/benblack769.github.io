@@ -1,7 +1,7 @@
 ---
 title: "High Performance Pipeline Processing in Python"
 slug: pipeline-processing
-under_construction: false
+under_construction: true
 excerpt: "Building a new high performance pipeline processing tool in python, using low-level multi-processing features and advanced python pickling protocols."
 comments: false
 share: false
