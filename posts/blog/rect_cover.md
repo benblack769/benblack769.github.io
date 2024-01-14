@@ -7,7 +7,7 @@ comments: false
 share: false
 post_date: "2023"
 img: /images/rect_cover/rect_cover_splash.png
-priority: 4
+priority: 2
 ---
 
 
