@@ -5,6 +5,7 @@ under_construction: false
 excerpt: "Using Rust to implement simple, extremely fast data structures and algorithms for rectangular intersection problems"
 comments: false
 share: false
+priority: 1
 post_date: "2022"
 img: /images/box_search/GIF_Frame-63.png
 ---
@@ -170,3 +171,7 @@ query_box = (0,0,2,2)
 intersecting_idxs = detector.find_intersections(*query_box)
 print(intersecting_idxs) # [0, 1]
 ```
+
+## Follow up projects
+
+Note that this project has inspired others, including [this one about rectangle cover](/posts/blog/rect_cover.md)

@@ -5,6 +5,7 @@ under_construction: false
 excerpt: "Accelerating an open source genome fuzzy search tool."
 comments: false
 share: false
+priority: 1
 img: /images/cas-offinder/data_pipeline.png
 post_date: "2022"
 ---
