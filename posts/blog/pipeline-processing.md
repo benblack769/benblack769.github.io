@@ -1,7 +1,7 @@
 ---
 title: "High Performance Pipeline Processing in Python"
 slug: pipeline-processing
-under_construction: true
+under_construction: false
 excerpt: "Building a new high performance pipeline processing tool in python, using low-level multi-processing features and advanced python pickling protocols."
 comments: false
 share: false
@@ -41,7 +41,7 @@ When designing the high level API, I thought of the most familiar way of achievi
 $ cat sample.a | grep -v dog | sort -r
 ```
 
-I remembered this idea from my previous employer that python generators are the most pythonic equivalent of unix pipes. Each "command" is turned into a generator which accepts an iterator, and returns an iterator:
+I remembered this idea I got from my previous employer that python generators are the most pythonic equivalent of unix pipes. Each "command" is turned into a generator which accepts an iterator, and returns an iterator:
 
 ```python
 img_iter = load_images(imgs)
@@ -111,9 +111,9 @@ main()
 
 </details>
 
-Unfortunately, unlike unix pipes, python iterators are evaluated totally sequentially. Fortunately, this means we will have way more control over backpressure and parallelism when configuring the pipeline.
+The bad news is that, unlike unix pipes, python iterators are evaluated completely sequentially. The good news is that iterators work on high level objects, which means we will have way more control over buffering, backpressure and parallelism when configuring the pipeline.
 
-To maximize the amount of control over message passing and error propagation (which is surprisingly hard to do right in a multiprocessed system), I went ahead and wrapped the whole pipeline in a big execute command, which allows the system resources to be configured. Like so:
+To maximize the amount of control over message passing and error propagation (which is surprisingly hard to do right in a multi-processed system), I went ahead and wrapped these generators in a big task definition, which is passed to an execute command that runs the whole pipeline. Like so:
 
 ```python
 imgs = [
@@ -153,18 +153,71 @@ execute(tasks=[
 ])
 ```
 
+The main design goals were:
+
+1. Foolproof by default: infinite buffer support, zero backpressure (no parallelism) by default, etc.
+2. Options to make it as fast and as parallelized as possible, even at the cost of some leaky abstractions (i.e. opt-in shared memory buffers that can be clobbered if not used properly).
+3. Simple but flexible API, encouraging high level feature addition by composition, not extension.
+
+The main challenges that required low level involvement were:
+
+* Ultra-fast message passing between processes.
+* Negative-sized buffering: See [Appendix B](#appendix-b) for details
+
+
+
+### Low level design
+
+While the code is a better place to go if you want to see all the low level details, I can outline the broad low level features I used and various traps that needed to be avoided:
+
+#### Low level Goals
+
+* No busy loop: Minimizes overhead and maximizes responsiveness of pipeline
+* Maximize data throughput efficiency
+* Reasonable message passing overhead 
+
+#### Low level Technologies
+
+* Preallocated shared memory using [`multiprocessing.RawArray`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.sharedctypes.RawArray) and [`multiprocessing.Value`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Value)
+* [Pickle v5 out-of-band-buffer protocol](https://peps.python.org/pep-0574/) to maximize read/write efficiency to that shared memory. Only supported in python 3.8 and above. Gets 3-4x performance improvement for large buffers vs ordinary pickling.
+
+#### Custom components
+
+* Runtime type checking to ensure that the pipeline steps are consistent with each other
+* A fixed size shared memory buffer for fast, asynchronous communication
+* A slower, pipe-based asynchronous communication system for unbounded, foolproof communication.
+* Custom ring buffer protocol to match up many producers to many consumers via a fixed number of buffers. This protocol also enables the negative backpressure capabilities of the system using clever semaphore usage.
+* Unit tests testing a variety of hard cases and crashing behavior, including sigkill and sigint handling.
+
+#### Traps
+
+* python's standard library [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue) spawns a new thread ([source](https://github.com/python/cpython/blob/635184212179b0511768ea1cd57256e134ba2d75/Lib/multiprocessing/queues.py#L94)) on the writer end of the queue to push messages through. While this brings nice performance and simplicity benefits, this thread introduces some nasty race conditions if the reader or writer process suddenly exits. This was solved by re-implementing the queue except optimized for one-to-one communication and robust error handling, and then adding a second ring buffer layer on top of it to coordinate the many-to-many connections. 
+* Segfaults and Sigaborts triggered by native C packages bypass python's exception handling system, and are quite common when working with GPU packages, so we need to be able to detect and respond to process exits regardless of the reason. The low level [`multiprocessing.connection.wait`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.wait) function was used to detect process exiting under any conditions without a busy loop.
+
+### Full framework configuration 
+
+The complete list of the configuration for a pipeline task is simply:
+
+* `num_workers`: Number of parallel workers spun up to assist in this pipeline task. (Default: 1)
+* `packets_in_flight`: Allowed backpressure before the writer processes start blocking. If set to `num_workers`, then the reader process has to request the next packet before the writer thread even starts processing, disabling parallelism completely for the reader process. Must be at least `num_workers`.
+* `max_message_size`: If set, it uses the fast fixed size shared buffers instead of a pipe to transfer data. Improves transfer speed by ~3-4x for large packages and ~2x for small latency driven packages (Default: None, i.e. infinite)
+* `shared_buffer`: Only configurable once `max_message_size` is set. If set to true, disables copying the shared memory buffer to a local buffer on read. If set, the user must understand that any references to earlier pipeline steps might be invalidated once the read iterator steps. (Default: False)
+
 
 ### Justifying the framework
 
-Real world code is always developed in the context of a team of talented individuals with differing ideas of what considerations are most important when developing code.
+At this point, the framework was more or less ready to use from a technical perspective. The next barrier to built it into our system was a human one. 
 
-I ended up receiving pushback about the creation of a high level framework from the CTO, and also pushback about the pipelined parallelism model from my direct supervisor.
+Real world code is always developed in the context of a team of talented individuals with differing ideas of what considerations are most important when developing code. I ended up receiving pushback from:
+
+1. *The CTO:* Thought that a high level framework like this would decay in quality and increase in maintenance cost over time due to feature-creep.
+2. *My supervisor:* Thought that the pipelined parallelism model created more complexities than it was worth, preferred his own custom parallelism that he implemented in a prototype.
 
 To move forwards, I had to craft a solid argument explaining:
 
 1. Why pipelining was the best way to parallelize this system, given the alternatives?
-2. Why a new framework was needed to be successful in all cases?
-3. Why this framework wouldn't degrade into something unmaintainable and awful in the long term?
+2. Why would new framework was needed to be successful in meeting project goals?
+3. Why wouldn't this framework degrade into something unmaintainable and awful in the long term?
 
 I abstracted this detailed system into its higher level components: 6 main steps: Pulling, pre-processing, GPU inference, post-processing, and Upload. Pre-processing and post-processing were CPU intensive, pulling, download, and upload were high latency, and GPU inference was clearly GPU heavy. 
 
@@ -194,475 +247,46 @@ The idea being that different processing jobs pulled from the distributed queue 
 
 This parallelism model uses minimal memory, and also is quite simple, implementing all parallelism with a single construct.
 
-Unfortunately, python doesn't have great three new challenges:
+Unfortunately, the pipeline model introduces two new difficulties that don't occur in independent parallelization:
 
-1. 
-2. **Robust Error Propagation:** When one pipeline step crashes, the other pipeline steps need to be shut down and the whole process needs to exit nicely with an informative error message. 
-3. **Error handling:** One job encountering a recoverable, job-specific error, such as an API failure during upload or download, should not interrupt the other commands running in parallel. This was solved outside the high level framework using a code pattern described in the appendix [TODO: MAKE THIS PAGE AND LINK TO IT].
-
-Note that to get good parallelization, different steps of the pipeline need to be handling different commands at the same time. However, jobs are of widely varying 
-
-### Pipeline abstraction
-
-A common parallelism pattern for efficient, latency sensitive, memory sensitive, variable sized work like this is a simple, linear pipeline processing with configurable backpressure. 
+1. **Logging:** Logging needed to be isolated per-command. So the information log information needs to be tracked from pipeline task to pipeline task. We ended up implementing this outside the pipeline framework by appending to a temporary files in the filesystem, using a coding pattern described in  [Appendix A](#appendix-a).
+2. **Error handling:** One job encountering a recoverable, job-specific error, such as an API failure during upload or download, or a decoding error on a corrupt image input, should not interrupt the other commands running in parallel. This was solved outside the high level framework using a code pattern described in [Appendix A](#appendix-a).
+3. **SQS visibility extension:** 
+4. **Autoscaling protection:** In the distributed queue, each instance is booted up with autoscaling rules. However, if it takes in a job that takes 20 minutes to process, then we risk the autoscaling system terminating the instance in the middle of the job. While SQS will restart the command after awhile, we observed 3-4x increased processing time and cost when not using autoscaling protection. However, we need to be very careful to shut down autoscaling protection when waiting for a new message to come in, so the cluster can be downsized according to the autoscaling rules. While autoscaling can be turned on easily when a new message is being read, how do we known when to turn it off? The way we ended up going with was to ocassionally clean up the whole processing buffer.
+5. **Batching:** The GPU's matrix multiplication operations work most efficiently when it is given as much work it can handle within its memory constraints. This requires batching. Luckily, almost all of our work was larger than a batch, so this became a work subdivision problem, rather than a grouping problem. The subdivision looked something like this: ![batching-diagram](/images/pipeline-processing/images/work-division.png) Work was subdivided into different pipeline jobs, and then grouped back together in later jobs. While having dependent jobs makes the programming paradigm somewhat more difficult, specifically, the grouping pipeline tasks need to be carefully handled, and only one such task can be spun up.
 
 
-An easily composable, extensible pipeline processing code pattern in native, sequential python is by composing generators. An example of what this looks like is shown below. In the below example, there are 
+## Appendix A
+
+Error handling/logging coding pattern.
 
 ```python
-import urllib
-from collections import Counter
-from typing import Dict, Iterable, List, Tuple
-
-import numpy as np
-import torch
-from PIL import Image
-
-
-def run_model(
-    img_data: Iterable[np.ndarray], model_source: str, model_name: str
-) -> Iterable[np.ndarray]:
-    model = torch.hub.load(model_source, model_name)
-    for img in img_data:
-        results = model(img)
-        yield results
-
-
-def load_images(imgs: List[str]) -> Iterable[np.ndarray]:
-    for img in imgs:
-        with urllib.request.urlopen(img) as response:
-            img_pil = Image.open(response, formats=["JPEG"])
-            img_numpy = np.array(img_pil)
-            yield img_numpy
-
-
-def remap_results(
-    model_results: Iterable[np.ndarray], classmap: Dict[int, str]
-) -> Iterable[Tuple[str, float]]:
-    for result in model_results:
-        result_pd = result.pandas().xyxy[0][:,'class']]
-        print(result_pd)
-        best_row_idx = np.argmax(result_pd.loc[:,'confidence'])
-        best_conf = result_pd.loc[best_row_idx,'class']
-        result_model_idx = result_pd.loc[best_row_idx,'class']
-        best_class = classmap[result_model_idx % (1+max(classmap.keys()))]
-        yield (best_class, best_conf)
-
-
-def aggregate_results(classes: Iterable[Tuple[str, float]]) -> None:
-    results = list(classes)
-    class_stats = Counter(clas for clas, conf in results)
-    print(class_stats)
-
-def main():
-    imgs = [
-        'https://ultralytics.com/images/zidane.jpg',
-        'https://ultralytics.com/images/zidane.jpg',
-        'https://ultralytics.com/images/zidane.jpg'
-    ]
-    img_iter = load_images(imgs)
-    model_results = run_model(img_iter, model_name="yolov5s", model_source="ultralytics/yolov5")
-    post_processed_results = remap_results(model_results, classmap= {0: "cat", 1: "dog"})
-    final_result = aggregate_results(post_processed_results)
-    print(final_result)
-
-main()
+def pipeline_step_generator(input_messages: Iterator[Message]): 
+    for input_msg in input_messages:
+        # the message_guard is a function on the message class
+        # that returns a context guard that opens up the
+        # message specific, cross-pipeline logger file for appends 
+        # this guard also catches exceptions in the __exit__ function to report 
+        # errors to the user more quickly
+        with input_msg.message_guard():
+            # do all processing here so that logs and errors are caught
+        # the yield statement is outside the context guard because:
+        # 1) the logger file should be closed before the next pipeline step re-opens it for appends
+        # 2) any exceptions should be reported by the context guard
+        # in the step that raised it, and shouldn't be reported here as well when the framework errors the process
+        yield output_msg
 ```
 
+## Appendix B
 
-This method has every perk of a pipelining system except parallelism: It has has perfect backpressure, never loading more than one image at a time, and extremely low overhead, as it is natively supported by the language runtime.
+### Negative buffering support
 
-So I decided to use this generator composition method as the programming model for the parallelized pipelining system. The only difference would be a framework would intake the relevant generators and compose them, rather than simply composing them in python as above. 
+Negative buffering allows the user to carefully control the total amount of buffering in a long pipeline with many steps, which was key in the application of a queue worker with many post-processing steps.
 
+What negative buffering does is disable parallelism in between steps, by blocking producers execution (when the producer sends a message) until consumers ask for another message. Since the producer will not start working on the next message until the consumer is asking for it, these two steps will operate in sequence. 
 
+This is implemented generically alongside regular buffering by a concept of slots, each of which is owned by either a producer or a consumer.  In the below case, the producers have filled all 7 slots, and so they are blocked, even though the consumers are actively working on two of the slots. Note that this buffer has a normal buffer size of 5. 
 
+![consumer-blocked](/images/pipeline-processing/images/consumer-blocked.png)
 
-
-
-Can we design a good parallelism strategy from the top down if we were to write the classifier from scratch?
-
-
-As part of the training v2 effort, we had an opportunity to try our hand at this while creating the training v2 classification service. While this is pretty much ready for training purposes, it is still in a prototype phase for production, and would benefit from review of those more familiar with production classification challenges. The current implementation is https://gitlab.com/techcyte/training/classifiers/efficientdet-classifier
-
-
-The first step to designing a parallelism strategy is examining the key data dependencies between all the tasks and all the units of work:
-
-
-
-
-Threading only (not recommended)
-
-
-The easiest way to parallelize any problem is with threading, to put each large chunk of work, (in this case, the command), onto a thread, where it will run sequentially to completion. However, the problems with this strategy are too great, and I cannot recommend it.
-
-
-
-
-Benefits
-
-OS schedules all parallelism; to programmer, all code looks sequential
-Problems:
-
-GPU memory strain
-Latency/throughput tradeoff: More workers mean slower individual processing
-Processing a single region happens sequentially—slow latency for processing an individual region
-
-
-Threaded + Separate GPU worker (not recommended)
-
-
-To deal with limited GPU memory, and to allow for concurrency between pre-processing and GPU classification on a single sample, we could have a separate GPU worker which is shared among the command threads. Unfortunately, this leads to difficult tuning of the number of workers, and complex error handling, and I believe there is a better strategy.
-
-
-
-
-Benefits:
-
-GPU memory conserved
-Pre-processing + GPU classification can happen in parallel even on a single region
-Problems:
-
-Latency/throughput tradeoff: More workers mean slower individual processing
-More complicated error handling
-How should the GPU process detect if there are errors in a worker it is sending a message to?
-How should worker processes detect if there is an error in the GPU process?
-
-
-Pipeline only (recommended)
-
-
-Instead of dividing work between commands, we could divide the work only between the execution steps, into a classical streamlined data pipeline. This strategy has a couple of implementation complexities, however it maximizes efficient resource utilization, and minimizes vertical specific tuning, so it is the proposed basic approach.
-
-
-
-
-Benefits:
-
-Simple, popular design means framework can handle multiprocessing for us—less need for custom multiprocessing logic
-Minimal memory consumption in GPU + CPU
-Backpressure principle (blocking upstream processes until downstream process buffers have enough room) manages throughput/latency tradeoff for us—- allows for a single configuration can efficiently process large samples and small samples
-Pure functional workers, easy to unit test
-Problems:
-
-Difficult to maintain consistent command status (logging, time to completion, metrics, alerts, early stopping, etc)
-
-Fine grained pipeline strategy
-
-
-To maximize pipelined parallelism within both large and small regions, the data can be broken up into its fundamental units, and spread out and gathered up at various steps in the pipeline. I.e, a GPU should start processing the first batch of a region as soon as it is available, before the other batches in a region are finished.
-
-
-
-
-Pipeline Execution Framework
-
-
-To support this fine-grained pipeline strategy, I developed a custom framework, the Pipeline Lib.
-
-
-In this framework, each worker is a python generator that iterates through inputs the upstream worker and yields results to the downstream worker.
-
-
-
-
-
-These workers are linked together in a list which is passed to the execution method
-
-
-
-
-
-Advantages:
-
-Since the interface is so simple, a number of parallelism methods and buffering strategies can be supported by the backend, and configured per-task.
-The tasks can be composed at runtime, allowing for easy mocking, reusable components
-The python generator syntax allows for the one-to-many and many-to-one steps that are required for the fine-grained parallelism concept
-Disadvantages:
-
-Need to maintain a homegrown framework
-
-
-Minimizing Turnaround Time
-
-
-If more work is pulled from the distributed SQS queue before it can be processed by the specific classifier instance, end user turnaround time will be impacted. Turnaround time is an essential engineering objective, and any compromises in this area should be taken carefully. The proposal takes a no-compromises approach to this important objective, with a near-optimal solution.
-
-
-The proposed solution is to maximize back-pressure in the pipeline by implementing a sort of negative queue size in the pipeline. That is, producers should block until consumers have finished.
-
-
-This is implemented via a unique feature of the Pipeline Lib. The idea is that the “packets_in_flight” argument is like a queue buffer size, but the consumers take up space on the queue. So if the process is consumer bound, it will look like this:
-
-
-
-
-
-
-Solution 2: Configure a single producer + pre-processing worker that sends messages to the GPU worker. (will download/preprocess all data sequentially). GPU worker has a finite length output queue which will block if post-processing is a bottleneck.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Can Pipeline Only Strategy Work Well?
-
-
-Pipeline parallelism has many practical complexities in the scope of production techcyte classification.
-
-
-First, consider the architectural constraints implied by a pipeline strategy (if it breaks any of these, it can’t be said to follow the architecture):
-
-
-No information about a command’s processing status can be passed back to previous processing stage
-All information about a command’s status must be passed on to next stage of processing
-No multi-processing with a pipeline stage (kind of defeats the architecture)
-Only very simple multithreading within a stage (e.g. multithreading pool to download model files)
-
-These constraints have pose a number of concrete problems:
-
-
-Problem 1: Logging/Error status
-
-
-If you include the command logs and the command exit status in the above dependency graph, it looks more like this:
-
-
- 
-
-The proposed solution it to simply explicitly use a python context guard to capture the logging and send it to a system-wide file:
-
-
-
-
-This context guard needs to be explicitly activated in every worker. Note that it can also catch errors and patch error statuses to the command, if necessary. It can also attempt to occasionally upload logs (though this can hurt performance, and is not implemented currently)
-
-
-Problem 2: Autoscaling protection
-
-
-Autoscaling protection needs to be turned on whenever there is work being processed somewhere on the machine, and turned off when there is no work.
-
-
-The proposed solution is to simply stop reading SQS messages every few minutes.
-
-
-
-
-
-
-Problem 3: Batching
-
-
-How to send messages to GPU in batches of scenes/tiles? How to gather up results coming back from the GPU into full region/command level data?
-
-Solution: Similar to maintaining state:
-Batch contains full region/command level metadata
-Post-processing steps collects all results belonging to a region
-If they don’t get as many results as they would like before the next region comes along, error
-See tile_crop_batch_regions and merge_tiles_into_regions functions in the implementation for more details
-
-
-
-Testing Strategy
-
-
-Risks to production classification:
-
-
-Major reduction in model accuracy—model results completely unreliable
-Small reduction in accuracy in production model: any new false positives or false negatives
-Any changes at all to classification, including individual pixel changes or 1e4 changes in confidence (is this important for some human verticals that have stringent regulation)?
-Existing production model breaks/can’t load after code changes
-Classification is much slower than before
-Metrics/logging/etc don’t work (but don’t crash)
-
-Test suite concepts:
-
-
-Regression test with locked model (Risk 2+3)
-E.g. gold-standard tests
-Sanity check against production model (Risk 1)
-E.g. region with 15 objects, make it finds at least 5 true positives and 0 false positives
-Smoke test against production model (Risk 4)
-Things work start to finish, accuracy not evaluated
-(Risk 5) Can we make classification infrastructure less sensitive to performance degradation? I.e. boot classification instances faster + adjust autoscaling rules appropriately to react faster to queue messages?
-Integration tests + component tests (Risk 6)
-
-Practical concerns:
-
-
-Are regression tests too slow to run on CPU machines (can we make work small enough?)
-CPU machines may not have all features GPU machines can have
-Example: Fp16 convolution not implemented for CPU in pytorch, only GPU
-Small numerical error in implementation details might create large, hard to check regressions
-Can this be mitigated by approximate diffing?
-
-
-
-
-
-
-
-
-Unified training/production API
-
-
-Goals:
-
-
-Maximize batching capabilities
-Allow for classifying subsets of large samples
-Especially important for classification v2 concepts where upstream services will need to have a considerable degree of control over how classifier works
-Minimize number of cases to cover in testing
-
-Generic classifier format:
-
-
-Model-id
-Command-id
-results_location: Optional[str]    (if specified, uploads objects as json to s3)
-holdout_run_id: Optional[str] (if specified, objects are associated with a “training_run_id”)
-Regions (list)
-region_id
-z_stacked_regions
-quadrants
-[x_start,y_start,width,height]
-
-
-
-Legacy classifier format:
-
-
-Model-id
-Command-id
-results_location: Optional[str]    (if specified, uploads objects as json to s3)
-holdout_run_id: Optional[str] (if specified, objects are associated with a “training_run_id”)
-region_id
-z_stacked_region
-sample_id
-
-
-
-
-
-
-
-
-
-
-
-
-
-Experimental Classifier Deployment
-
-
-Objective: ML research team should be able to deploy prototype model architecture changes to classifiers for testing inside training tier without merging in code to production classifiers.
-
-
-Solution 1: Fork repository
-
-
-ML research team maintains experimental fork of classifiers in a separate repository https://gitlab.com/techcyte/training/classifiers 
-
-
-This repository will only deploy to training, and will deploy to a slightly different endpoint. The training pipeline will be able to
-
-
-Solution 2: Deploy experimental branches
-
-
-Do what the frontend does and deploy real infrastructure from experimental branches:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Appendix 1: Alternate parallelism strategies
-
-
-Instead of focusing on pipelining, you can also utilize other parallelism strategies. However, these have problems
-
-
-Threading only (not recommended)
-
-
-The easiest way to parallelize any problem is with threading, to put each large chunk of work, (in this case, the command), onto a thread, where it will run sequentially to completion. However, the problems with this strategy are too great, and I cannot recommend it.
-
-
-
-
-Benefits
-
-OS schedules all parallelism; to programmer, all code looks sequential
-Problems:
-
-GPU memory strain
-Latency/throughput tradeoff: More workers mean slower individual processing
-Processing a single region happens sequentially—slow latency for processing an individual region
-
-
-Threaded + Separate GPU worker (not recommended)
-
-
-To deal with limited GPU memory, and to allow for concurrency between pre-processing and GPU classification on a single sample, we could have a separate GPU worker which is shared among the command threads. Unfortunately, this leads to difficult tuning of the number of workers, and complex error handling, and I believe there is a better strategy.
-
-
-
-
-Benefits:
-
-GPU memory conserved
-Pre-processing + GPU classification can happen in parallel even on a single region
-Problems:
-
-Latency/throughput tradeoff: More workers mean slower individual processing
-More complicated error handling
-How should the GPU process detect if there are errors in a worker it is sending a message to?
-How should worker processes detect if there is an error in the GPU process?
-
-
-Appendix 2: Python-dl classifier data dependencies
-
-
-While I was learning how the python-dl classifier worked, I tried to figure out all the data dependencies and config each step in the pipeline, assuming you wrote it as a pipeline, rather than a knot of threads passing data back and forth over queues. This diagramming effort was a significant inspiration for this work. This is only a partial part of the pipeline, and misses some complexities.
-
-
+Note that this pattern also allows the consumers to read directly from the slot's shared memory buffer, without copying, although this does introduce some risk of reference clobbering if references to the memory are stored between pipeline step executions.
