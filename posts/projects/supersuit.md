@@ -3,7 +3,7 @@ title: "SuperSuit"
 slug: supersuit
 under_construction: false
 excerpt: "General environment transformation wrappers for PettingZoo and Gym. (100+ github stars)"
-code: "https://github.com/PettingZoo-Team/SuperSuit"
+code: "https://github.com/Farama-Foundation/SuperSuit"
 comments: false
 share: false
 post_date: "2020"
@@ -12,11 +12,11 @@ img: /images/pettingzoo/SuperSuit_Icon.png
 ---
 
 
-[SuperSuit](https://github.com/PettingZoo-Team/SuperSuit) makes common environment preprocessing very easy to use for [OpenAI Gym](https://gym.openai.com/) and [PettingZoo](https://www.pettingzoo.ml/) environments. Interesting use cases include applying the [large set of wrappers](https://www.pettingzoo.ml/atari#preprocessing) needed for learning Atari to both Gym and PettingZoo Atari environments without any code changes. This library has been popular with users new to RL and has been an essential tool internally to the PettingZoo team.
+[SuperSuit](https://github.com/Farama-Foundation/SuperSuit) makes common environment preprocessing very easy to use for [OpenAI Gym](https://gym.openai.com/) and [PettingZoo](https://pettingzoo.farama.org/) environments. Interesting use cases include applying the [large set of wrappers](https://pettingzoo.farama.org/atari#preprocessing) needed for learning Atari to both Gym and PettingZoo Atari environments without any code changes. This library has been popular with users new to RL and has been an essential tool internally to the PettingZoo team.
 
 My contribution involved taking a poorly designed god-class for observation transformation, and turn it into its current modular form, implementing all the necessary code, tests, and helping write documentation.
 
-I also designed and implemented the vector environment transformation in SuperSuit [documented here](https://github.com/PettingZoo-Team/SuperSuit/#parallel-environment-vectorization) which allows multi-agent environments to be trained with [Stable Baselines](https://stable-baselines3.readthedocs.io/en/master/), a simple and popular RL framework. This trick (and other supersuit wrappers) powers the popular towards data science [PettingZoo tutorial](https://towardsdatascience.com/multi-agent-deep-reinforcement-learning-in-15-lines-of-code-using-pettingzoo-e0b963c0820b). The code for this article is shown below:
+I also designed and implemented the vector environment transformation in SuperSuit [documented here](https://github.com/Farama-Foundation/SuperSuit/#parallel-environment-vectorization) which allows multi-agent environments to be trained with [Stable Baselines](https://stable-baselines3.readthedocs.io/en/master/), a simple and popular RL framework. This trick (and other supersuit wrappers) powers the popular towards data science [PettingZoo tutorial](https://towardsdatascience.com/multi-agent-deep-reinforcement-learning-in-15-lines-of-code-using-pettingzoo-e0b963c0820b). The code for this article is shown below:
 
 
 ```python

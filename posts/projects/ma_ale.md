@@ -3,7 +3,7 @@ title: "Multi-Agent Arcade Learning Environment"
 slug: ma_ale
 under_construction: false
 excerpt: "A multi-agent extension to the Arcade Learning Environment"
-code: "https://github.com/PettingZoo-Team/Multi-Agent-ALE"
+code: "https://github.com/Farama-Foundation/Multi-Agent-ALE"
 publication: "https://arxiv.org/pdf/2009.09341.pdf"
 comments: false
 share: false
@@ -16,12 +16,12 @@ The Multi-Agent Arcade Learning Environments are a multi-agent extension to the 
 The original environments were used to develop many of the innovations in Deep Reinforcement Learning (DRL), including the Deep Q Network (DQN), the first DRL algorithm.
 We added multi-agent support to these environments out of the hope that these environments could prove a reliable testing ground for multi-agent algorithm development.
 
-* Code at https://github.com/PettingZoo-Team/Multi-Agent-ALE
+* Code at https://github.com/Farama-Foundation/Multi-Agent-ALE
 * Publication on [arxiv](https://arxiv.org/pdf/2009.09341.pdf)
-* A nice display of the environments is in the [pettingzoo documentation](https://www.pettingzoo.ml/atari).
+* A nice display of the environments is in the [pettingzoo documentation](https://pettingzoo.farama.org/atari).
 * Code to train environments code [using RLLIB](https://github.com/justinkterry/MA-ALE-paper) and [using ALL](https://gist.github.com/benblack769/cbf4c0a674ad24d0e095263a0b553726).
 
-The core code is written in C++ (written by myself). A low level python interface is included, and high level python interface and documentation is available through [PettingZoo](https://www.pettingzoo.ml/atari).
+The core code is written in C++ (written by myself). A low level python interface is included, and high level python interface and documentation is available through [PettingZoo](https://pettingzoo.farama.org/atari).
 
 ### Training efforts
 
