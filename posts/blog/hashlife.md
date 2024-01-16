@@ -15,15 +15,13 @@ Awhile ago, I wanted to play around with web-centric computing using webassembly
 The app looks like this (<a href="https://benblack769.github.io/hashlife-rust/" target="_blank" rel="noopener noreferrer">click to go to deployed demo!</a>):
 
 <a href="https://benblack769.github.io/hashlife-rust/" target="_blank" rel="noopener noreferrer">
-
 ![screenshot](/images/hashlife/full_app_screenshot.png)
-
 </a>
 
 To test the full power of the hashlife algorithm, I would recommend:
 
 1. "Select builtin pattern" and selecting either "twinprimes.rle"
-2. pressing both fast-forward buttons a few times
+2. Pressing both "fast-forward" button and the "skip" button a few times
 3. Increasing the brightness to the max
 4. Waiting for a few seconds.
 
