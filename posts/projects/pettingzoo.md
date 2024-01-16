@@ -2,7 +2,7 @@
 title: "PettingZoo"
 slug: pettingzoo
 under_construction: false
-excerpt: "Gym for Multi-Agent RL. 200+ Academic citations, 2000+ github stars, 300+ resolved issues."
+excerpt: "Gym for Multi-Agent RL. 200+ Academic citations, 2000+ github stars."
 website: "https://pettingzoo.farama.org/"
 publication: "https://arxiv.org/abs/2009.14471"
 code: "https://github.com/Farama-Foundation/PettingZoo"

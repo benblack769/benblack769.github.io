@@ -2,7 +2,7 @@
 title: "Hashlife w/webassembly"
 slug: robotics-project
 under_construction: false
-excerpt: "A simple, effective hashlife algorithm in rust and viewer in javascript/webassembly. 
+excerpt: "A simple, effective hashlife algorithm in rust and viewer in javascript/webassembly. "
 comments: false
 share: false
 post_date: "2023"

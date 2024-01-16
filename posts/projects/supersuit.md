@@ -2,7 +2,7 @@
 title: "SuperSuit"
 slug: supersuit
 under_construction: false
-excerpt: "General environment transformation wrappers for PettingZoo and Gym. (100+ github stars)"
+excerpt: "General environment transformation wrappers for PettingZoo and Gym. (400+ github stars)"
 code: "https://github.com/Farama-Foundation/SuperSuit"
 comments: false
 share: false
@@ -12,7 +12,7 @@ img: /images/pettingzoo/SuperSuit_Icon.png
 ---
 
 
-[SuperSuit](https://github.com/Farama-Foundation/SuperSuit) makes common environment preprocessing very easy to use for [OpenAI Gym](https://gym.openai.com/) and [PettingZoo](https://pettingzoo.farama.org/) environments. Interesting use cases include applying the [large set of wrappers](https://pettingzoo.farama.org/atari#preprocessing) needed for learning Atari to both Gym and PettingZoo Atari environments without any code changes. This library has been popular with users new to RL and has been an essential tool internally to the PettingZoo team.
+[SuperSuit](https://github.com/Farama-Foundation/SuperSuit) makes common environment preprocessing very easy to use for [OpenAI Gym](https://gym.openai.com/) and [PettingZoo](https://pettingzoo.farama.org/) environments. Interesting use cases include applying the [large set of wrappers](https://pettingzoo.farama.org/environments/atari#preprocessing) needed for learning Atari to both Gym and PettingZoo Atari environments without any code changes. This library has been popular with users new to RL and has been an essential tool internally to the PettingZoo team.
 
 My contribution involved taking a poorly designed god-class for observation transformation, and turn it into its current modular form, implementing all the necessary code, tests, and helping write documentation.
 
