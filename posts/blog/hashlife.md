@@ -10,9 +10,9 @@ img: /images/hashlife/hashlife_splash.png
 priority: 0
 ---
 
-Awhile ago, I wanted to play around with web-centric computing using webassembly and rust. For a project, I picked out the hash-life algorithm an unintuitive fast and powerful algorithm for simulating Conway's Game of life. 
+Awhile ago, I wanted to play around with web-centric computing using webassembly and rust. For a project, I picked out the hash-life algorithm, an super-fast algorithm for simulating Conway's Game of life. 
 
-The app looks like this (<a href="https://benblack769.github.io/hashlife-rust/" target="_blank" rel="noopener noreferrer">click to go to deployed demo!</a>):
+The app looks like this (<a href="https://benblack769.github.io/hashlife-rust/" target="_blank" rel="noopener noreferrer">click to go to deployed demo</a>):
 
 <a href="https://benblack769.github.io/hashlife-rust/" target="_blank" rel="noopener noreferrer">
 ![screenshot](/images/hashlife/full_app_screenshot.png)
@@ -29,6 +29,11 @@ You should see the results look something like this:
 
 ![twinprimes-screenshot](/images/hashlife/twinprimes.png)
 
-Note that the dots coming out of the machine correspond one to one with the twin primes! This machine is a prime sieve! 
+Note that the dots coming out of the machine correspond one to one with the twin primes! This works because the machine acts like a prime sieve, eliminating all non-primes, and then also eliminating unpaired primes.
 
-Code here: https://github.com/benblack769/hashlife-rust
+Code here: [https://github.com/benblack769/hashlife-rust](https://github.com/benblack769/hashlife-rust)
+
+#### Key learnings
+
+* The toolchain for developing wasm and js bindings from rust is pretty mature. I was able to do everything without any trouble. 
+* It is easiest to start out without build tooling, and add that it later if you need to plug it into a larger project.
