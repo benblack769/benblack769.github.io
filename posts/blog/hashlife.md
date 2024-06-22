@@ -31,9 +31,13 @@ You should see the results look something like this:
 
 Note that the dots coming out of the machine correspond one to one with the twin primes! This works because the machine acts like a prime sieve, eliminating all non-primes, and then also eliminating unpaired primes.
 
-Code here: [https://github.com/benblack769/hashlife-rust](https://github.com/benblack769/hashlife-rust)
+* Code here: [https://github.com/benblack769/hashlife-rust](https://github.com/benblack769/hashlife-rust)
+* You can learn more about hashlife here: https://www.dev-mind.blog/hashlife/ 
 
 #### Key learnings
 
 * The toolchain for developing wasm and js bindings from rust is pretty mature. I was able to do everything without any trouble. 
 * It is easiest to start out without build tooling, and add that it later if you need to plug it into a larger project.
+* Remember that webassembly doesn't have great support for garbage collection. Programming in rust helps with this.
+* It is fun to implement an algorithm like this without frameworks
+
