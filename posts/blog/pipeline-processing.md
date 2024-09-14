@@ -10,27 +10,94 @@ img: /images/pipeline-processing/pipeline_diagram.svg
 post_date: "2024"
 ---
 
-Every software development advice usually starts with: *"Don't reinvent the wheel"*. I like this advice, but it isn't perfect. Occasionally, appropriate high level tooling just doesn't exist, or is simply overly complex, and requires reinvention. I was quite pleased with how this pipeline processing project turned out, and I hope it can be used as a model for developing a clean, foolproof-by-default, feature-light-but-flexible, high-performance interface using stable low level tooling.
+Every software development advice usually starts with: *"Don't reinvent the wheel"*. I like this advice, but it isn't perfect. Occasionally, there seems to be a gap in the tooling: you want a wheel, but there only seem to be sleds or Conestoga wagons available. i.e. the appropriate high level tooling just doesn't exist (everyone custom-builds their own solutions), or is simply overly complex (existing tooling requires complex configuration with many sharp edges and potential bugs).
 
-### When should we reinvent the wheel?
+Once the opportunity to add something new is identified, then there is the challenge of implementing it in a way that can be useful in real projects with all the challenges and constraints of real world software. I was quite pleased with how this pipeline processing project turned out, and I'm hoping to share this experience in incremental tooling development. 
+
+### The Call to Adventure: Encountering costly but rewarding problems
+
+Every new idea starts with a challenge, an uncomfortable situation, where there is uncertainty, risk, and potential rewards. A call to adventure.
+
+In this case, there was this dungeon of complexity around this ML inference pipeline that I worked on in 2021. This inference system was a distributed queue-worker based system. Each GPU worker was also optimized to maximize efficiency and reduce costs. However, the worker was optimized in a half-hazard manner, using knots of deeply nested and overlapping mess of multi-processing, multi-threading, pipes, queues, events, error handling, etc. After the original developer was promoted out of the team, the code was broadly viewed as incomprehensible and unmaintainable, and every one of us warrior coders gave up on solving the existing race conditions, unintuitive dependencies, infinite loops, deadlocks that were probably in the code, and instead hacked on an increasingly deep nest of timeouts, retries, and other failsafes to whack the sputtering engine into chugging along as best as possible.
+
+But at the end of the tunnel was treasure---in this case:
+
+1. The ability to actually change the code to be more general and more future-proof without fearing the goblins overwhelming us during the process (shocker)
+2. The hope of a more robust system with fewer intermitted stalls and crashes. 
+3. Clear, measurable inefficiencies in GPU utilization, with immediate AWS cost savings on the order of tens of thousands of dollars a month.
+
+This treasure was clearly valuable across the engineering group, and quite visible to leadership, so the hurdles to adoption 
+
+Despite this potential treasure, and its visibility, simply formulating a plan to solve the problem perfectly was beyond any of us working there, as there were too many constraints, and too many technical issues. Business and regulatory commitments to never change any results of any existing models, a codebase that couldn't be iterated on without breaking something, and a lack of a clear mission stymied any serious planning. 
+
+However, I am not the type of person to stop when things seem uncertain or impossible in the world of software. Instead, I am compelled to push forward into the unknown. So I traced every logical codepath, and diagrammed it out into what seemed like the logical abstraction: a data processing pipeline (below). It wasn't pretty, but it made me understand the inherent simplicity to the logic. The cave was dark, but not too deep. 
+
+![Classifier-diagram](/images/pipeline-processing/images/techcyte-pipeline.png)
+
+At this point, without a clear directive, and with other tasks pulling at my mind, I sat on this for about 6 weeks, pondering it occasionally, and slowly gaining confidence for the next step. 
+
+### Gearing for the Last Boss: Prioritizing the hardest problem 
+
+"Python multiprocessing bug". This phrase tends to strike anxiety into the hearts of even those software developers experienced with multithreading in other computer languages or systems. It certainly struck some anxiety to all of us working on this system. 
+<!-- Even Guido Von Rossum, the creator of python seems to view this subject with a bit of hesitation, in an interview after leaving his position as the BDLF of python, Guido von Rossum mentioned the relief he felt of not having to triage bug severity of (a random example he mentions) "multiprocessing bugs".  -->
+
+And it isn't just that we were particularly bad at it. Most python-based high performance data processing frameworks includes "multiprocessing support" as a cool add-on feature to improve performance (i.e. pandas, scikit-learn, dagster, ray, etc). Unfortunately, in seemingly every single one of those systems, this feature has an long trail of bug reports, performance concerns, and other usage difficulties. These difficulties often add up to hundreds of hours of wasted effort from downstream developers, and stress that could have been avoided simply by using another language. And so python multiprocessing is often one of the major issues that pushes developers to look for an alternative to python, even at great expense and losing the great advantages of python's incredible computational ecosystem.
+
+But what if we started from scratch, and built a micro-framework architected specifically around python multiprocessing difficulties, rather than trying to add in support later? What if we geared up to face the last boss, from the very beginning?
+
+Luckily, I had a great deal of prior experience with python multiprocessing, from my prior experience building [PettingZoo multiprocessing wrappers](https://benblack769.github.io/posts/projects/supersuit/). I also had solid academic knowledge of low-level OS provided primitives to share data and synchronize processes, from TAing a course on the subject during grad school. And some basic knowledge of the underlying guarantees the hardware provides for cross-thread memory consistency. 
+
+The experience led me to know some of the core issues that cause most of the pain, bugs, and poor performance that other libraries encounter. I.e. I had scouted the last Boss's special attacks:
+
+* **Unhandled Segfault:** Many computational tools in the python ecosystem are C/C++ extensions prone to segfaults. These segfaults completely bypass all normal python exception handling, and ruin most multiprocessing error handling schemes.
+* **Mismatched error propagation:** Even with normal python exceptions which are handled by all libraries, propagated errors when multiprocessing is enabled can look different than errors when multiprocessing is disabled, often leading to discrepancies in test and production environments. 
+* **Excessive memory cloning:** When a new process forks, it takes a copy of the entire process image, even the stuff it will never access and doesn't need. This often leads to programmers limiting the amount of parallelism far below the capacity of the CPU, just because memory is constrained instead. And no, in python, the OS support for copy-on-write memory clones does not fix this very well for some reason, perhaps due to python's cyclic garbage collector passes.
+* **Spawn multiprocessing overlooked:** Spawn multiprocessing is the only officially supported method on MacOS, and is also the preferred method on Windows. However, spawn multiprocessing re-constructs the entire python runtime environment, resolving imports which requires running the script section of the python code, meaning that stateful behaviors in the script section of the python environment are vulnerable to bugs and problems. Combined with linux-heavy dev teams, this overlooked technical challenge can lead to lots of mac/windows specific bugs occurring.
+* **Excessive usage of unix pipes for bulk data transfer**: Unix pipes are a powerful abstraction for inter-process communication. However, they are built on-top of a 65k buffer, which creates a lot of unnecessary back-and-forth process chatter which slows down the data transfer significantly. Their implementation also includes a large set of locks, kernel context switches, and other sources of overhead that reduces their performance even for smaller data transfers.
+
+With a commitment to focus on these system/runtime problems, rather than ease of use or software design principles, the design fell into place quickly.
+
+1. This would be a microframework that fully controls how and when processes are spawned, errors are handled, and messages are passed. Users will only have access to a fixed set of configuration to change semantic behavior. This decision goes against many of my closely held software design principles, but it seemed like the only way to make sure every one of those failure cases were handled. 
+2. The core microframework would only support a single very simple concept: linear async message passing between workers. All other features and functionality would be built on top, either in the form of coding patterns, or in the form of wrappers with a higher level interface with more features. 
+
+With this basic design in place, the implementation of the core functionality, while low-level and tricky due to the optimizations implemented <!-- TODO: Add reference to low-level tricks in readme -->, was possible to implement in only a few hundred lines of code in a single. Even more importantly, this simplicity allowed for fairly exhaustive testing of configuration options and many exceptional cases of segfaults, spawn multiprocessing, and error catching. 
+
+Performance turned out pretty good as well: when fixed-size buffers are enabled, tens of thousands of short messages can be passed per second, and several gigabytes of total message bandwidth for larger messages. Process spawn time is typically well under a second, and shutdown triggered by either exceptions or segfault typically also typically well under a second. There are no busy loops, so CPU overhead is very low. All with a pure-python implementation with only pure-python dependencies.
+
+With a customized build and gear designed specifically to tackle the last boss, it should be a breeze. Now it is time to turn our attention to everything else. 
+
+### The Dungeon Needs a Walkthrough: Building implicit feature support with examples and tutorials
+
+Software development is much like game development: there are a few hardcore devs out there who want to solve every problem themselves, but most people just want to complete the challenge, regardless of what help they receive. So when you have a micro-framework like this, it needs to have easy, established ways to solve most common problems brought to it. This does not always require code: typically documentation, examples, and tutorials provide the necessary solutions just as effectively. 
+
+The easiest, and in my experience, the only way that really works well is to just write guides for the rooms and minibosses in rooms that you and your collaborators have already explored, and hope that they are useful to others. 
+
+So after some dungeon crawling through the exiting production codebase that inspired the project, trying to smash my head against every single feature of the existing code, even if minor, or a convenience feature, or a significant performance optimization and translated it to this pipeline concept, I ended up with a less detailed, but more functional diagram of everything that easily fit into the pipeline concept, and the few things that didn't:
+
+![job monitoring diagram](/images/pipeline-processing/images/job-breakup-monitoring.png)
+
+
+
+This means that the whole problem needs to be scouted, so we know we aren't going to drop the ball on a lesser challenge. 
+
+When dealing with incomprehensible code, it can be good to try to roughly sketch out each conceptual component, i.e. de-construct the code, and try to re-conceptualize of the problem the code is trying to solve. First, I modeled the code as a pipeline, as any pipeline worker will be mostly stateless, and the processing took many steps. Second, I dived into the code, and tried my best to manually translate the crazy mess of queues and multiprocessing into this rough processing diagram:
+
+
+I sat on this diagram for a few weeks while I focused on other tasks, and when I turned back to this problem, this diagram gave me the mental structure and confidence I needed to really invest in building out this high level pipeline processing framework.
+
+
+
+In this case, 
 
 This phrase *"Don't reinvent the wheel"* is typically used to encourage people to research existing technologies and existing high level tooling. The end goal is to get engineering teams focused on business problems, which have innumerable nuance, over technical problems, which usually have been modeled abstractly and solved pretty darn well in some surprisingly general situations.
 
-I try to follow this advice as closely as possible:  to use high level tooling, to keep code simple and free of low level complications, and to optimize performance within the limitations of common usage patterns with those high level tools. However, I occasionally see tremendous value in deviating and building out new, abstract high level systems with low level tooling. However, I only do so when:
+However, I occasionally see value in deviating from this norm and building out new, abstract high level systems with low level tooling. However, it is best to ensure that:
 
-1. There doesn't seem to be any solid solution to the problem in the open source world. So some complex creativity is needed anyways, either in workarounds or compromises.
+1. There doesn't seem to be any solid solution to the problem in the open source world. Complex creativity seemed to be needed in one form or another, either in the form of workarounds or compromises.
 1. This problem can be modeled with some (perhaps novel) high level abstract framework, and separated into a library in a distinct codebase with its distinct set of tests and release process. So the low level complexity can be contained to one codebase, and other codebases will not need to know the low level implementations details.
 1. To avoid leaky abstractions, this abstract problem should be robust to a variety of errors, and should be solved in full generality with high efficiency and low absolute resource utilization.  Again, the importance of building this high level interface is to get engineering teams discussing and researching business problems, rather than nuances in implementation, so it has to work well out of the box. 
 
 ### Problem inspiration
-
-The inspiration for this problem comes from a ML inference pipeline that I worked on in 2021. This inference system was a distributed queue-worker based system. Each worker was also optimized to maximize efficiency and reduce costs. However, during this optimization process, the implementation was optimized in a half-hazard manner, using knots of deeply nested and overlapping mess of multi-processing, multi-threading, pipes, queues, events, error handling, etc. After the original developer left the team, the code was viewed as incomprehensible and unmaintainable.
-
-When dealing with incomprehensible code, it can be good to try to roughly sketch out each conceptual component, i.e. de-construct the code, and try to re-conceptualize of the problem the code is trying to solve. First, I modeled the code as a pipeline, as any pipeline worker will be mostly stateless, and the processing took many steps. Second, I dived into the code, and tried my best to manually translate the crazy mess of queues and multiprocessing into this rough processing diagram:
-
-![Classifier-diagram](/images/pipeline-processing/images/image12.png)
-
-I sat on this diagram for a few weeks while I focused on other tasks, and when I turned back to this problem, this diagram gave me the mental structure and confidence I needed to really invest in building out this high level pipeline processing framework.
 
 ### The high-level pipeline-processing API
 
