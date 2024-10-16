@@ -63,6 +63,7 @@ With a commitment to focus on these concrete system/runtime problems, rather tha
 
 1. This would be a microframework that fully controls how and when processes are spawned, errors are handled, and messages are passed. Users will only have access to a fixed set of configuration to change semantic behavior. This decision goes against many of my closely held software design principles, but it seemed like the only way to make sure every one of those failure cases were handled. 
 2. The core microframework would only support a single very simple concept: linear async message passing between workers. All other features and functionality would be built on top, either in the form of coding patterns, or in the form of wrappers with a higher level interface with more features. This decision to only support linear message passing rather than general directed graphs like some competitor systems was mostly to make backpressure (the killer feature of any low-latency pipeline processing system) easier to implement and analyze. 
+3. Default parameters would be set to maximize stability and accuracy over performance, allowing users to opt-into performance gains only when necessary.
 
 ### Sketching out the API:
 
@@ -82,7 +83,7 @@ final_result = aggregate_results(post_processed_results)
 print(final_result)
 ```
 
-### Refining the gear: low-level tips and tricks
+### Refining the gear: Low-level tips and tricks
 
 With this basic design in place, the basic implementation of the core functionality was fairly simple. Simple enough that a bunch of optimizations and tricky components could be added while keeping the whole implementation under 1000 lines of code, making it relatively easy to code-review. These tricks included the following optimizations:
 
@@ -90,7 +91,7 @@ With this basic design in place, the basic implementation of the core functional
 * Configuration to enable the use of a custom-built, fixed size, preallocated process-shared memory buffer with the [`multiprocessing.RawArray`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.sharedctypes.RawArray) python interface for fast, high bandwidth communication
 * [Pickle v5 out-of-band-buffer protocol](https://peps.python.org/pep-0574/) to maximize read/write efficiency to the shared memory buffer. Only supported in python 3.8 and above. Gets 3-4x performance improvement for large buffers vs ordinary pickling.
 * Support for multiple workers in each pipeline step to allow data parallelism to occur efficiently in the same framework.
-* Custom ring buffer protocol to match up many producers to many consumers via a fixed number of buffers (of either type). This custom protocol enables the critical infinite backpressure feature of the system using clever semaphore usage.
+* Custom ring buffer protocol to match up many producers to many consumers via a fixed number of buffers (of either type). This custom protocol enables the critical parallelism suppression feature of the system using clever semaphore usage allowing for infinite multi-step backpressure.
 
 Even more importantly, this simplicity allowed for fairly exhaustive testing of configuration options and many exceptional cases of segfaults, spawn multiprocessing, and error catching. 
 
@@ -100,7 +101,7 @@ With a customized build and gear designed specifically to tackle the last boss, 
 
 ## Awaiting the Arrival of the Hero: Leadership Comes from Above
 
-While individual bosses might be soloed by the well prepared, whole dungeons cannot be so easily soloed, as a wide variety of skills, knowledge, relationships, and centers of focus are needed to win every battle and evade every trap (the real world does not have save points or respawns). So Dungeon clearing parties need leaders to establish common objectives and bring people together, and sometimes, we are not the right person to do that. Sometimes, we have to just wait to be hired in by an ambitious party. 
+While individual bosses might be soloed by the well prepared, whole dungeons cannot be so easily soloed, as a wide variety of skills, knowledge, relationships, and centers of focus are needed to win every battle and evade every trap (the real world does not have save points or respawns). So Dungeon clearing parties need leaders to establish common objectives and bring people together, and sometimes, we are not the right person to do that. Sometimes, we have to just wait to be hired into a party. 
 
 In my case, I was lucky, as a leader arrived only a few weeks after I had done the above preparation. He came quietly, but quickly: secretly building out a prototype ML model for our most successful product in a couple of weeks, revealing the secret prototype to select influential executives to buy support for his project, quietly inviting a hand-picked team of engineers to work on the plan, all while continuing his prior role as a backend team lead and evading the inevitable pushback from the normal engineering management hierarchy until momentum had developed. 
 
@@ -113,7 +114,7 @@ But sure enough, a couple of months later, the team members' focus had shifted, 
 1. Team lead: Why is your pipeline design better than my design in the prototype? 
 2. CTO: Did you do a literature review of the alternative technologies? Can you submit a short writeup of these alternatives and why they aren't adequate?
 
-My solution to the first one trap was pretty standard: a slew of design diagrams, bottleneck analysis, tradeoff documents, etc. But all of these arguments were ultimately unconvincing (he told me later he wasn't convinced by my arguments or by the pipeline lib design until several months later when it was deployed into our fully scaled production system with no problems). The real outcome of this whole slew of documents ended up being a simple demonstration of my commitment to the design and the heart to see it through to a successful completion. 
+My solution to the first one trap was pretty standard: a slew of design diagrams, bottleneck analysis, tradeoff documents, etc. But all of these arguments were ultimately unconvincing. Later, he revealed that was was unconvinced by my arguments or by the pipeline lib design until several months later when it was deployed into our fully scaled production system with no problems. So instead, the primary outcome of this whole slew of documents ended up being a simple demonstration of my commitment to the design and the heart to see it through to a successful completion. 
 
 The second issue I ignored. Ultimately, the CTO was too far away from the project to control its course, and he had already signed off on the basic principle. All he was doing with this suggestion was trying save us time and sorrow by making sure we weren't reinventing the wheel. But I was already convinced that there was no such wheel, only the aforementioned logs and Conestoga wagons so I just ignored it, and the issue was dropped because implementation progress was steady. 
 
@@ -121,7 +122,7 @@ After everything was said and done, several months later, the actual production 
 
 ## The Dungeon Needs a Walkthrough: Implicit feature support via examples and tutorials
 
-Software development is much like game development: there are a few hardcore devs out there who want to solve every problem themselves, but most people just want to complete the challenge, regardless of what help they receive. So if you want to make a micro-framework like this popular, it needs to have easy, established ways to solve most common problems brought to it. This does not always require code: typically documentation, examples, and tutorials provide the necessary solutions just as effectively as coded features. 
+Software development is much like game development: there are a few hardcore devs out there who want to solve every problem themselves, but most people just want to complete the challenge, regardless of what help they receive. So if you want to make a micro-framework like this successful, it needs to have easy, established ways to solve most common problems brought to it. This does not always require code: typically documentation, examples, and tutorials provide the necessary solutions just as effectively as coded features. 
 
 The only way that consistently works is to just write guides for the rooms and minibosses in rooms that you and your collaborators have already explored, encourage others to do the same, and hope that they are useful to others. 
 
@@ -129,11 +130,11 @@ So after some dungeon crawling through the exiting production codebase that insp
 
 ![job monitoring diagram](/images/pipeline-processing/images/job-breakup-monitoring.png)
 
-This diagram tries to communicate 3 not critical, but rather nice features I encountered that do not fit easily into the pipeline processing concept effectively:
+This diagram tries to communicate two important features I encountered that do not fit easily into the pipeline processing concept effectively because they require tracking state across pipeline steps:
 
-1. Effective data parallelism across small chunks of work. (regular data parallelism frameworks, like the standard library's `multiprocessing.Pool` can be nested within pipeline steps to do this, but only if you are willing to deal with the latency overhead of batching, or the complexities of pipelined work within a single worker, which defeats the whole point of the framework).
-2. Un-retryable errors properly updating the database and notifying the command that it failed. (The distributed queue system has its own retry policy, but it has huge overhead if every failure has to retry many times)
-3. Logs being collected across all pipeline steps and uploaded per job, rather than a stream of all jobs.
+1. Chunking bigger parts of work into smaller ones for consistent pipelining performance across a wide range of input sizes.
+2. Short-circuiting on errors
+2. Job-specific log-capture/occasional log uploading.
 
 All three are great examples of real-world complexities that come up all the time and cause consternation and concern when trying to adopt this sort of framework in a team environment in the real world.
 
@@ -172,6 +173,7 @@ if job_part_results:
 
 It becomes somewhat more complicated if there are multiple workers per task in any of the processing steps, but the idea is the same, except it has to handle out of order sub-tasks, especially who's parents occur out of order. So one has to track how many sub-tasks each job was split into so we know when it is fully finished.
 
+
 ### Problem 2: Short-circuiting on errors
 
 If we don't want to kill the whole pipeline on an error, but also can't continue processing because the data is simply missing, or we want to save CPU time, we can skip downstream processing tasks very simply like this:
@@ -202,7 +204,7 @@ for new_job in task_generator:
         ....
 ```
 
-### Problem 3: Log separation
+### Problem 3: Job-level log upload
 
 If we want to have some state mutated constantly throughout the pipeline, like an error log, we can just pass around a file pointer, and have a coding convention to append to a file like this:
 
@@ -216,46 +218,7 @@ for new_job in task_generator:
     # if it hasn't been uploaded in awhile
 ```
 
-Unfortunately, the pipeline model introduces two new difficulties that don't occur in independent parallelization:
+This context guard can redirect the global logger or stdout to a file just for this process, just for this particular timeframe, allowing different jobs in different parallel workers to append to fully separate log files. A different file for keeping track of the last uploaded time was also maintained so that the log could be updated if the context guard exits, and if there has been a 30s gap since the last timeout, whichever one comes first, implementing the occasional log upload efficiently but synchronously.
 
-1. **Logging:** Logging needed to be isolated per-command. So the information log information needs to be tracked from pipeline task to pipeline task. We ended up implementing this outside the pipeline framework by appending to a temporary files in the filesystem, using a coding pattern described in  [Appendix A](#appendix-a).
-2. **Error handling:** One job encountering a recoverable, job-specific error, such as an API failure during upload or download, or a decoding error on a corrupt image input, should not interrupt the other commands running in parallel. This was solved outside the high level framework using a code pattern described in [Appendix A](#appendix-a).
-3. **SQS visibility extension:** 
-4. **Autoscaling protection:** In the distributed queue, each instance is booted up with autoscaling rules. However, if it takes in a job that takes 20 minutes to process, then we risk the autoscaling system terminating the instance in the middle of the job. While SQS will restart the command after awhile, we observed 3-4x increased processing time and cost when not using autoscaling protection. However, we need to be very careful to shut down autoscaling protection when waiting for a new message to come in, so the cluster can be downsized according to the autoscaling rules. While autoscaling can be turned on easily when a new message is being read, how do we known when to turn it off? The way we ended up going with was to occasionally clean up the whole processing buffer.
-5. **Batching:** The GPU's matrix multiplication operations work most efficiently when it is given as much work it can handle within its memory constraints. This requires batching. Luckily, almost all of our work was larger than a batch, so this became a work subdivision problem, rather than a grouping problem. The subdivision looked something like this: ![batching-diagram](/images/pipeline-processing/images/work-division.png) Work was subdivided into different pipeline jobs, and then grouped back together in later jobs. While having dependent jobs makes the programming paradigm somewhat more difficult, specifically, the grouping pipeline tasks need to be carefully handled, and only one such task can be spun up.
+## Current status
 
-
-## Appendix A
-
-Error handling/logging coding pattern.
-
-```python
-def pipeline_step_generator(input_messages: Iterator[Message]): 
-    for input_msg in input_messages:
-        # the message_guard is a function on the message class
-        # that returns a context guard that opens up the
-        # message specific, cross-pipeline logger file for appends 
-        # this guard also catches exceptions in the __exit__ function to report 
-        # errors to the user more quickly
-        with input_msg.message_guard():
-            # do all processing here so that logs and errors are caught
-        # the yield statement is outside the context guard because:
-        # 1) the logger file should be closed before the next pipeline step re-opens it for appends
-        # 2) any exceptions should be reported by the context guard
-        # in the step that raised it, and shouldn't be reported here as well when the framework errors the process
-        yield output_msg
-```
-
-## Appendix B
-
-### Negative buffering support
-
-Negative buffering allows the user to carefully control the total amount of buffering in a long pipeline with many steps, which was key in the application of a queue worker with many post-processing steps.
-
-What negative buffering does is disable parallelism in between steps, by blocking producers execution (when the producer sends a message) until consumers ask for another message. Since the producer will not start working on the next message until the consumer is asking for it, these two steps will operate in sequence. 
-
-This is implemented generically alongside regular buffering by a concept of slots, each of which is owned by either a producer or a consumer.  In the below case, the producers have filled all 7 slots, and so they are blocked, even though the consumers are actively working on two of the slots. Note that this buffer has a normal buffer size of 5. 
-
-![consumer-blocked](/images/pipeline-processing/images/consumer-blocked.png)
-
-Note that this pattern also allows the consumers to read directly from the slot's shared memory buffer, without copying, although this does introduce some risk of reference clobbering if references to the memory are stored between pipeline step executions.
