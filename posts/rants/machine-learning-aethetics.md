@@ -2,7 +2,7 @@
 title: "Visualize Everything: The Foundation of Machine Learning Aesthetics."
 slug: ml-aesthetics
 under_construction: true
-excerpt: "Machine learning in practice always seems to end up ugly. Learn how the young ML leaders of the deep learning revolution emphasized one particular rule to keep their systems beautiful and inspiring."
+excerpt: "Machine learning in practice always seems to end up ugly. Young ML leaders of the deep learning revolution emphasized one particular rule to keep their systems beautiful and inspiring."
 comments: false
 share: false
 post_date: "2024"
