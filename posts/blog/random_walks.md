@@ -136,4 +136,4 @@ So if you choose to try to improve this method, you can add new weights, origina
 
 In case you were wondering about the AI competition, my long distance movement code was one of the best, at least in my mind. The rest of my code was not so great, so I did poorly in the competition. But I did much better on the type of maps where this long distance movement was needed. So that is some evidence that in this computationally constrained world, this general strategy actually does quite well.
 
-Full code to generate the images is [on github](https://github.com/benblack769/pathgen). This code is not really meant to be looked at, but you still can if you want.
+Full code to generate the images is [on github](https://github.com/benblack769/small_projs/tree/master/maze_walk). This code is not really meant to be looked at, but you still can if you want.
