@@ -3,14 +3,16 @@ title: "Reward Surfaces"
 layout: single
 slug: reward-surfaces
 under_construction: false
-excerpt: "Visualizing the shape of the reinforcment learning objective."
+excerpt: "Visualizing the shape of the reinforcement learning objective."
 comments: false
 share: false
 post_date: "2021"
-img: https://github.com/benblack769/reward-surfaces/raw/master/demo/curvature_plot.png
+code: "https://github.com/RyanNavillus/reward-surfaces"
+publication: "https://arxiv.org/abs/2205.07015"
+img: /images/reward_surfaces/curvature_plot.png
 ---
 
-This project attempts to apply the methods of empirical numerical optimization to reinforcment learning.
+This project attempts to apply the methods of empirical numerical optimization to reinforcement learning.
 
 ## Introduction
 
@@ -18,7 +20,7 @@ Reinforcment learning has not yet been studied as a numerical optimization probl
 
 ### The episodic reinforcement learning problem
 
-Recall that ultimately, the objective of optimal control which reinforcment learning tries to solve is a simple optimization problem. Maximize the sum of rewards in the episodic trajectory, typically denoted:
+Recall that ultimately, the objective of optimal control which reinforcement learning tries to solve is a simple optimization problem. Maximize the sum of rewards in the episodic trajectory, typically denoted:
 
 $$ J(\theta) = \sum_t R_t $$
 
@@ -29,11 +31,11 @@ The field of numeric optimization studies how to most quickly optimize an object
 
 ### Loss Landscapes
 
-Loss landscapes are a simple method to visualize an optimization landscape. Typically, this is done by projecting the optimization domain to a small space around a point in the full, high dimentional optimization landscape, and visualizing that point. This method was successfully refined to understand properties of neural networks by [Li et. al.](https://arxiv.org/abs/1712.09913). They successfully identified many qualitative attributes of these local, low dimentional visualizations, and argued that these characteristics affected learning performance and stability.
+Loss landscapes are a simple method to visualize an optimization landscape. Typically, this is done by projecting the optimization domain to a small space around a point in the full, high dimensional optimization landscape, and visualizing that point. This method was successfully refined to understand properties of neural networks by [Li et. al.](https://arxiv.org/abs/1712.09913). They successfully identified many qualitative attributes of these local, low dimensional visualizations, and argued that these characteristics affected learning performance and stability.
 
-### Reward landscapes for Reinforcment Learning
+### Reward landscapes for Reinforcement Learning
 
-We hoped to similarly adapt the technique of low dimentional optimization landscape visualization to reinforcment learning.
+We hoped to similarly adapt the technique of low dimensional optimization landscape visualization to reinforcement learning.
 
 ## Experiments
 
@@ -41,9 +43,9 @@ We hoped to similarly adapt the technique of low dimentional optimization landsc
 
 At first, we hoped to just use the techniques used for analyzing loss landscapes in neural networks and apply them directly to reinforcement learning.
 In this first experiment, trained models were taken from [RL baselines zoo](https://github.com/araffin/rl-baselines-zoo) to use as the central points in the local visualization.
-Filter normalized random directions (suggested by [Li et. al.](https://arxiv.org/abs/1712.09913)) was used to project the parameters onto a 2 dimentional space. The 3rd dimention was an objective.
+Filter normalized random directions (suggested by [Li et. al.](https://arxiv.org/abs/1712.09913)) was used to project the parameters onto a 2 dimensional space. The 3rd dimension was an objective.
 
-We plotted a number of these visualizations for a number of environments and reinforcment learning methods in [stable baselines](https://github.com/hill-a/stable-baselines).
+We plotted a number of these visualizations for a number of environments and reinforcement learning methods in [stable baselines](https://github.com/hill-a/stable-baselines).
 
 The following visualization plots the average episodic reward in the atari BeamRider environment. The objective is plotted vs two random normalized directions (the axis labels should be ignored). The center point is evaluated on the pretrained model learned with A2C, every other point is an offset off that model.
 
@@ -56,7 +58,7 @@ Note that the average episodic reward is not necessarily the objective, due to d
 As you can tell, this plot is very similar, but has a different Y axis, and also is shaped a bit differently, because it is a bit smoother.
 
 <!--
-Now, in RL, an agent estimates its future value. One interesting question is how does this estimate of its future value change when its policy parameters change randomly? Now, each state has a distict estimate. So in order to plot the parameters vs the estimated value, the value is averaged over all states the agent reaches. In other words, this is the agent's average estimate of its current value. One interesting (but possibly misleading) interpretation is that this is the agent's estimate of its average value. This interpretation is misleading because an RL agent is not trained to estimate its average value, and it is also not typically optimizing its estimate of its average value. None the less, these plots are deeply strange looking.
+Now, in RL, an agent estimates its future value. One interesting question is how does this estimate of its future value change when its policy parameters change randomly? Now, each state has a distinct estimate. So in order to plot the parameters vs the estimated value, the value is averaged over all states the agent reaches. In other words, this is the agent's average estimate of its current value. One interesting (but possibly misleading) interpretation is that this is the agent's estimate of its average value. This interpretation is misleading because an RL agent is not trained to estimate its average value, and it is also not typically optimizing its estimate of its average value. None the less, these plots are deeply strange looking.
 
 ![arg](https://github.com/benblack769/old-reward-surfaces/raw/main/vis/BeamRiderNoFrameskip-v4a2cmean_est_values_%3C17%2C17%3E_50_10000_3dsurface.png)
 -->
@@ -73,7 +75,7 @@ Pong | ![arg](https://github.com/benblack769/old-reward-surfaces/raw/main/vis/Po
 
 And the same environments, but trained with PPO:
 
-Environment | Averate Total Episodic Return | Mean Return
+Environment | Average Total Episodic Return | Mean Return
 --- | --- | ---
 Beam rider (shown above) | ![arg](https://github.com/benblack769/old-reward-surfaces/raw/main/vis/BeamRiderNoFrameskip-v4ppo2true_values_%3C17%2C17%3E_50_10000_3dsurface.png) | ![arg](https://github.com/benblack769/old-reward-surfaces/raw/main/vis/BeamRiderNoFrameskip-v4ppo2mean_values_%3C17%2C17%3E_50_10000_3dsurface.png)
 Breakout | ![arg](https://github.com/benblack769/old-reward-surfaces/raw/main/vis/BreakoutNoFrameskip-v4ppo2true_values_%3C17%2C17%3E_50_10000_3dsurface.png) | ![arg](https://github.com/benblack769/old-reward-surfaces/raw/main/vis/BreakoutNoFrameskip-v4ppo2mean_values_%3C17%2C17%3E_50_10000_3dsurface.png)
@@ -88,14 +90,14 @@ All of the plots are stored [here](https://github.com/benblack769/old-reward-sur
 
 ### Visualizing surfaces over training
 
-One of our core objectives is to understand learning instability in reinforcment learning. In particular, why RL is sometimes stable and sometimes unstable?
+One of our core objectives is to understand learning instability in reinforcement learning. In particular, why RL is sometimes stable and sometimes unstable?
 
-To study this, we visualized the landscape over training. To do this, a [thorough codebase](https://github.com/benblack769/reward-surfaces) with builtin reproducible00 visualizations was created to learn and evaluate reinforcment learning problems using [Stable baselines 3](https://stable-baselines3.readthedocs.io/en/master/#) and [Kaixhin's Rainbow DQN implementation](https://github.com/Kaixhin/Rainbow).
+To study this, we visualized the landscape over training. To do this, a [thorough codebase](https://github.com/RyanNavillus/reward-surfaces) with builtin reproducible00 visualizations was created to learn and evaluate reinforcement learning problems using [Stable baselines 3](https://stable-baselines3.readthedocs.io/en/master/#) and [Kaixhin's Rainbow DQN implementation](https://github.com/Kaixhin/Rainbow).
 
 
 The following gif visualizes the average return of the HalfCheetah pybullet environment as trained over 1 million timesteps by PPO (using original PPO hyperparameters from paper).
 
-![change over training gif](https://github.com/benblack769/reward-surfaces/raw/master/demo/half_cheetah_ppo_training.gif)
+![change over training gif](/images/reward_surfaces/half_cheetah_ppo_training.gif)
 
 Code to create gif:
 
@@ -114,7 +116,7 @@ So another visualization was created that plots a random direction on one axis a
 
 For example, below is InvertedDoublePendulumPyBulletEnv environment trained with SAC over its 1 million training steps and showing different random directions at each time step (ignore the part of the image where it says "Gradient step size". That should be "Random offset").
 
-![rand directions inv inv_double_pendulum](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/inv_double_pendulum.png)
+![rand directions inv inv_double_pendulum](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/inv_double_pendulum.png)
 
 Code to generate this plot:
 
@@ -133,9 +135,9 @@ However, other environments give very different looking results in this experime
 
 Environment | Plot | Notable features
 --- | --- | ---
-InvertedDoublePendulum (above) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/inv_double_pendulum.png) | Sudden dropoffs encountered in a mostly flat surface.
-Ant | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/ant.png) | Moving in random directions does not lead to clear gains or losses, rather the landscape is dominated by small wiggles in performance. This might make training difficult as there may be lots of local "canyons" in the optimization surface.
-Hopper | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/hopper.png) | Hopper becomes more sensitive to noise as training continues. This indicates the development of an increasingly fragile policy.
+InvertedDoublePendulum (above) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/inv_double_pendulum.png) | Sudden dropoffs encountered in a mostly flat surface.
+Ant | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/ant.png) | Moving in random directions does not lead to clear gains or losses, rather the landscape is dominated by small wiggles in performance. This might make training difficult as there may be lots of local "canyons" in the optimization surface.
+Hopper | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_rand_l/hopper.png) | Hopper becomes more sensitive to noise as training continues. This indicates the development of an increasingly fragile policy.
 
 
 ### Investigating the gradient direction
@@ -146,22 +148,22 @@ We visualized the gradient by plotting the gradient vs a random direction.
 
 Here is a diagram explaining the plots:
 
-![](https://github.com/benblack769/reward-surfaces/raw/master/demo/gradient_thingy_rand.png)
+![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/gradient_thingy_rand.png)
 
 Here is a plot of the surface of the Hopper environment trained for 32000 timesteps using PPO:
 
-![](https://github.com/benblack769/reward-surfaces/raw/master/demo/grad_vs_random.png)
+![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/grad_vs_random.png)
 
 Interestingly, while the gradient direction is the fastest direction to improve performance from the center, as expected, the absolute best direction is not in the direction of the gradient, because traveling too far in the gradient direction results in a steep dropoff in performance.
 
-Code to generate this plot, and many others is in [this ipython notebook](https://github.com/benblack769/reward-surfaces/blob/master/demo/optimization_issues_rand.ipynb).
+Code to generate this plot, and many others is in [this ipython notebook](https://github.com/RyanNavillus/reward-surfaces/blob/master/demo/optimization_issues_rand.ipynb).
 
 
 In order to more easily see how this gradient direction changes over training, we used the earlier visualization of direction vs training time, except this uses the unnormalized gradient.
 
-For example, below is InvertedDoublePendulumPyBulletEnv environment trained with SAC over its 1 million training steps and showing the gradient direction at each time step. Note that at different timesteps, the surface, and therefore the gradient direction, will be differnet.
+For example, below is InvertedDoublePendulumPyBulletEnv environment trained with SAC over its 1 million training steps and showing the gradient direction at each time step. Note that at different timesteps, the surface, and therefore the gradient direction, will be different.
 
-![rand directions inv inv_double_pendulum](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_sl/inv_double_pendulum.png)
+![rand directions inv inv_double_pendulum](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_sl/inv_double_pendulum.png)
 
 Code to generate this plot:
 
@@ -181,9 +183,9 @@ Other environments give very different looking results in this experiment:
 
 Environment | Plot | Notable features
 --- | --- | ---
-InvertedDoublePendulum (above) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_sl/inv_double_pendulum.png) | Sudden dropoffs encountered in a mostly flat surface.
-Ant | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_sl/ant.png) | Moving in the gradient direction does not lead to clear gains or losses (after the initial gains), rather the landscape is dominated by small wiggles in performance. This might make training
-Hopper | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/muj_sac_line_sl/hopper.png) | Sudden droppoff, smooth droppoffs, and no dropoffs are all present.
+InvertedDoublePendulum (above) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_sl/inv_double_pendulum.png) | Sudden dropoffs encountered in a mostly flat surface.
+Ant | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_sl/ant.png) | Moving in the gradient direction does not lead to clear gains or losses (after the initial gains), rather the landscape is dominated by small wiggles in performance. This might make training
+Hopper | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/muj_sac_line_sl/hopper.png) | Sudden droppoff, smooth droppoffs, and no dropoffs are all present.
 
 
 
@@ -194,16 +196,16 @@ One of the key insights from visualizing the gradient direction is that there is
 
 To study this question, we perform a line search to find the distance to travel along the gradient so that the at which the value is the same as the original value. Note that if the point is at a local maximum, this distance will be 0 and it is at a global minimum, it may be infinite.
 
-![](https://github.com/benblack769/reward-surfaces/raw/master/docs/plot2.png)
+![](https://github.com/RyanNavillus/reward-surfaces/raw/master/docs/plot2.png)
 
 To compare how this metric relates to training, I show the training curve and the reward curve side by side.
 
 Environment | Episodic Rewards | Maximum learning rate
 --- | --- | ---
-Hopper | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sachopperresultscsvepisode_rewards.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchhopperresultscsvoffset.png)
-Ant | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sacantresultscsvepisode_rewards.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchantresultscsvoffset.png)
-HalfCheetah | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sachalf_cheetahresultscsvepisode_rewards.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchhalf_cheetahresultscsvoffset.png)
-InvertedDoublePendulum | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sacinv_double_pendulumresultscsvepisode_rewards.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchinv_double_pendulumresultscsvoffset.png)
+Hopper | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sachopperresultscsvepisode_rewards.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchhopperresultscsvoffset.png)
+Ant | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sacantresultscsvepisode_rewards.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchantresultscsvoffset.png)
+HalfCheetah | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sachalf_cheetahresultscsvepisode_rewards.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchhalf_cheetahresultscsvoffset.png)
+InvertedDoublePendulum | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sacinv_double_pendulumresultscsvepisode_rewards.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/linesearch/generated_dirsmuj_sac_searchinv_double_pendulumresultscsvoffset.png)
 
 Code to generate the plots with Hopper specifically is:
 
@@ -226,13 +228,13 @@ python scripts/plot_traj.py  ./eval_reward/hopper/results.csv
 
 ### Investigating curvature of surfaces
 
-One of the key assumptions of gradient ascent optimization (and most improvements upon it) is convexity. While neural networks are not globally convex, optimization is often dominated by locally convex features, which makes learning efficient despite global non-convexity. One measure of local convexity is to what degree a point has curvature in the wrong direction. To investigate questions about the nature of this non-convexity, the we derived an algorithm to estimate the hessian-vector product. Then standard tools were to estimate the minimum and maximum eigenvalues of the estimate of the hessian. A PDF with formal mathematical derivation is included [here](https://github.com/benblack769/reward-surfaces/raw/master/docs/mathnotes/main.pdf).
+One of the key assumptions of gradient ascent optimization (and most improvements upon it) is convexity. While neural networks are not globally convex, optimization is often dominated by locally convex features, which makes learning efficient despite global non-convexity. One measure of local convexity is to what degree a point has curvature in the wrong direction. To investigate questions about the nature of this non-convexity, the we derived an algorithm to estimate the hessian-vector product. Then standard tools were to estimate the minimum and maximum eigenvalues of the estimate of the hessian. A PDF with formal mathematical derivation is included [here](https://github.com/RyanNavillus/reward-surfaces/raw/master/docs/mathnotes/main.pdf).
 
 In order to understand the significance of this curvature, the associated eigenvectors of the minimum and maximum eigenvalues were found and plotted.
 
 Here is the plot of the estimates of the minimum and maximum eigenvectors vs average total reward in the Hopper environment trained with PPO for 4000 timesteps. As you can tell, there is visible significant concavity and convexity. Having significant curvature in the wrong direction means that the gradient can step in the opposite direction from the local minimal, theoretically slowing down learning greatly.
 
-![](https://github.com/benblack769/reward-surfaces/raw/master/demo/curvature_plot.png)
+![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/curvature_plot.png)
 
 Code to generate plot:
 
@@ -262,16 +264,16 @@ Note that since RL is a maximization problem, as opposed to a minimization probl
 
 $$ \text{Local Convexity for RL} = -\tfrac{e_\max}{e_\min} $$
 
-Unfortunately, estimating the eigenvalues of the Hessian as described in section 4 of the [derivation document](https://github.com/benblack769/reward-surfaces/raw/master/docs/mathnotes/main.pdf) is a noisy, and not necessarily unbiased process (the hessian estimation is unbiased, but not the eigenvalue estimation). This means that sampling eigenvalues multiple times may not lead to convergence to the true eigenvalues. It also means that error bounds on the eigenvalue estimates are hard to generate. So specific values of the plots below should be taken with a grain of salt. However, broad trends in the plots most likely are not due to algorithmic bias, but due to real changes in the optimization surface.
+Unfortunately, estimating the eigenvalues of the Hessian as described in section 4 of the [derivation document](https://github.com/RyanNavillus/reward-surfaces/raw/master/docs/mathnotes/main.pdf) is a noisy, and not necessarily unbiased process (the hessian estimation is unbiased, but not the eigenvalue estimation). This means that sampling eigenvalues multiple times may not lead to convergence to the true eigenvalues. It also means that error bounds on the eigenvalue estimates are hard to generate. So specific values of the plots below should be taken with a grain of salt. However, broad trends in the plots most likely are not due to algorithmic bias, but due to real changes in the optimization surface.
 
 In the plots below, the X axis is training steps. The Y axis on the episodic reward plots is episodic reward. The Y axis on the convexity plots is convexity.
 
 Environment | Episodic reward over training | Convexity over training
 --- | --- | ---
-Ant | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalant_resultscsv.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirsant_calc_heshresultscsv.png)
-Hopper | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalhopper_resultscsv.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirshopper_calc_heshresultscsv.png)
-Half Cheetah | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalhalf_cheetah_resultscsv.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirshalf_cheetah_calc_heshresultscsv.png)
-Humanoid | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalhumanoid_resultscsv.png) | ![](https://github.com/benblack769/reward-surfaces/raw/master/demo/eig_vals/generated_dirshumanoid_calc_heshresultscsv.png)
+Ant | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalant_resultscsv.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirsant_calc_heshresultscsv.png)
+Hopper | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalhopper_resultscsv.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirshopper_calc_heshresultscsv.png)
+Half Cheetah | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalhalf_cheetah_resultscsv.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirshalf_cheetah_calc_heshresultscsv.png)
+Humanoid | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirsbullet_evalhumanoid_resultscsv.png) | ![](https://github.com/RyanNavillus/reward-surfaces/raw/master/demo/eig_vals/generated_dirshumanoid_calc_heshresultscsv.png)
 
 Code to generate the convexity plot for the Hopper environment is:
 
