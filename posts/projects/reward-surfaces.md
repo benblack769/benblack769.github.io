@@ -7,6 +7,7 @@ excerpt: "Visualizing the shape of the reinforcement learning objective."
 comments: false
 share: false
 post_date: "2021"
+priority: 1
 code: "https://github.com/RyanNavillus/reward-surfaces"
 publication: "https://arxiv.org/abs/2205.07015"
 img: /images/reward_surfaces/curvature_plot.png
