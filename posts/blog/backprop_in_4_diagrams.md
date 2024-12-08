@@ -8,14 +8,14 @@ img: /images/backprop/diagram-svg/whole-backprop.pdf.svg
 post_date: "2018"
 priority: 1
 ---
-#
+
 
 Backpropagation is a procedure at the center of deep learning, the method by which gradients of the complex non-linear functions are calculated for all parts of the network. It is often overlooked in explanations of deep learning, especially in the last few years. This is unfortunate, as some very important issues in deep learning techniques, such as the vanishing gradient problem, require a full understanding of backpropagation, while many other techniques and issues require a partial understanding, including Xavier initialization, training memory consumption, and loss scaling for mixed precision training.
 
 
 ## The four diagrams
 
-I made four diagrams which explain both the high level aspects and the low level aspects of backpropagation using simple and consistent notation and coloring schemes. At the end describing the vanishing gradient problem precisely using actual mathematics, rather than the usual handwaving, will be an easy exercise if you are familiar with the mathematical notation, rather than a serious chore only to be taken on by specialists.
+I made four diagrams which explain both the high level aspects and the low level aspects of backpropagation using simple and consistent notation and coloring schemes. At the end describing the vanishing gradient problem precisely using formal mathematics, rather than the usual handwaving, will be an easy exercise if you are familiar with the mathematical notation, rather than a serious chore only to be taken on by specialists.
 
 
 ### Forward propagation

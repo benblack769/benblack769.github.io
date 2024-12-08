@@ -1,5 +1,5 @@
 ---
-title: "Code 2.0 revisited"
+title: "Human-powered Code 2.0"
 slug: code-20-revisited
 under_construction: false
 excerpt: "The dream of Code 2.0 is only starting to be realized. "
@@ -8,9 +8,9 @@ share: false
 post_date: "2024"
 ---
 
-# Code 2.0
+# Human-powered Code 2.0
 
-Back in 2017, Andrej Karpathy wrote [an essay titled Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35) about how Deep Neural Networks are empowering a shift from building software from code to building software with data. In particular, when giving meaningful semantic interpretations to raw data coming in from the real world. Inspirational problems include:
+Back in 2017, Andrej Karpathy wrote [an essay titled Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35) about how Deep Neural Networks are empowering a shift from building software from code to building software with data. This shift is now referred to more often as Code 2.0. In particular, when giving meaningful semantic interpretations to raw data coming in from the real world. Inspirational problems include:
 
 1. Industrial production quality control: is this image of a good product or a faulty product?
 2. Digital diagnosis: Is this patient healthy, and if not, what is wrong with them? Where is the anomalous issue on the large/detailed scan?
@@ -29,6 +29,8 @@ Joy, excitement, tension, uncertainty, is what I feel when I read these lists as
 Code 2.0 offers a solution to this anxiety: I, as a computer scientist, don't have to run the show. I don't have to reason about every detail of the algorithm. I don't have to customize or tweak everything to the details of my issue. Rather, I can take a supportive secondary role where I provide the infrastructure that ingests and trains a model on the algorithm and someone else can worry about the details, by developing the data, and ensuring that the data is actually sufficient to solve the problem. 
 
 Its very similar to how a hardware developer, after the code 1.0 transformation caused by the development of the microchip, no longer has to drive every detail of the hardware's behavior. Instead, when confronted with a novel problem, they focus on assembling a platform, mostly from ready-made components, and simply ensure that the specs and configuration allows the software to do what it needs to do, without worrying about the details of how the software works or how it is developed.
+
+Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Code 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood Code 1.0 workflows + data.
 
 ## Barriers to Code 2.0 development
 
@@ -81,3 +83,18 @@ Code 2.0 is built ontop of Code 1.0, similarly to how Code 1.0 is built ontop of
 2. **Inference pipeline/Evaluation pipeline equivalence:** The inference pipeline that the data manager uses to evaluate the model must be near-identical to the production inference pipeline. Otherwise, unexpected behavior in production is a big risk.
 3. **Avoid lockin on pre-processing techniques:** Real world data often needs quite a bit of pre-processing to feed into an ML pipeline. Grabbing manageable subsets by cropping images, grabbing video/audio snippets, chopping up text into chunks, etc, is common. Compression pre-processing, such as generating audio spectrograms, static image/text embeddings with foundation models, etc, is also common. If your data labeling strategy locks you into the specific style of pre-processing, this can harm your ability to improve the system. These pre-processing choices have meaningful and significant impact on end performance. In my job, I made more end performance improvements tuning this pre-processing than any changes to loss function or architecture, and many other ML engineers have the same experience. Simply retaining the ability to re-generate these on demand is sufficient.
 4. **The Cloud is best for Code 2.0 development workflows:** For Code 2.0 workflows, the best parts of the cloud are shows at their very finest. The cloud's fast scalability and ephemeral qualities are perfect for the very spiky Code 2.0 GPU hardware demands, and ephemeral nature of most intermediate training artifacts. However, its important to not lock into a inference provider---cloud, on-premise or edge inference are all important capabilities.
+
+### The Code 2.0 Domain Specialist
+
+Another key role is domain specialist, a true expert in the domain. This role is key to building a robust product which is useful in practice and trustworthy. This role helps gauge the scope of the model, offers criticism of the model's performance, and helping find difficult cases and identify failures. 
+
+Generally speaking, this role needs to have the following philosophy in mind:
+
+1. **Deep practical experience:** The specialist is ultimately the main arbiter of feature priorities. So they must understand the risk/reward benefits of every feature, which requires a deep experience and understanding of the industry.
+2. **Distance from model development:** Sadly, whenever we collaborated with a specialist who knew a lot about machine learning from, reading, research, or academic projects, the project went much more slowly and painfully. The reason is that the specialist, out of curiosity, tends to and offer incorrect advice about what will work, what should be attempted, and other unnecessary meddling into the Data Management process which typically increased friction and reduced trust. One one person can truly own/lead the data development process, and that person needs to be in the data every day, following the image of the Data Manager above.
+3. **Education-Minded:** The domain specialist is an invaluable source of information for the other team members to learn about the details of the application. Having a teaching mindset is valuable for this purpose.
+
+
+## Code 2.0 in the future
+
+If these standards are adopted, and general purpose, public training platforms continue to improve and become more powerful, we can see much adoption of machine learning in increasingly obscure tasks, like fish-counting, areal inspections, and more. 
