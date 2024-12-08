@@ -5,7 +5,7 @@ main:
   - title: "Projects"
     url: /menus/projects
   - title: "Learnings"
-    url: /menus/blog
+    url: /menus/learnings
   - title: "Rants"
     url: /menus/rants
   #- title: "Intelligence Ideas"
