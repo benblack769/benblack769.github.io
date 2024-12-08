@@ -2,7 +2,7 @@
 title: "The economic problem of AI"
 slug: economic-problem
 under_construction: false
-excerpt: "An essay on the barriers to technological development of AI."
+excerpt: "An essay on the economic barriers to research and development in AI."
 comments: false
 share: false
 post_date: "2020"

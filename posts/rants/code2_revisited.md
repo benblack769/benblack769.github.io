@@ -2,7 +2,7 @@
 title: "Human-powered Code 2.0"
 slug: code-20-revisited
 under_construction: false
-excerpt: "The dream of Code 2.0 is only starting to be realized. "
+excerpt: "The dream of Code 2.0 is only starting to be realized. A human-centric framework of successful Code 2.0 teams is laid out."
 comments: false
 share: false
 post_date: "2024"
