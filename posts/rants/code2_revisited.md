@@ -2,13 +2,11 @@
 title: "Human-powered Code 2.0"
 slug: code-20-revisited
 under_construction: false
-excerpt: "The dream of Code 2.0 is only starting to be realized. A human-centric framework of successful Code 2.0 teams is laid out."
+excerpt: "The dream of Code 2.0 is only starting to be realized. A human-centric framework of successful Code 2.0 teams is starting to emerge."
 comments: false
 share: false
 post_date: "2024"
 ---
-
-# Human-powered Code 2.0
 
 Back in 2017, Andrej Karpathy wrote [an essay titled Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35) about how Deep Neural Networks are empowering a shift from building software from code to building software with data. This shift is now referred to more often as Code 2.0. In particular, when giving meaningful semantic interpretations to raw data coming in from the real world. Inspirational problems include:
 
@@ -17,20 +15,19 @@ Back in 2017, Andrej Karpathy wrote [an essay titled Software 2.0](https://karpa
 3. Agricultural optimization: Do these plants need more or less water/fertilizer? 
 4. Routine Infrastructure Inspections: Do these pipes/cables/etc have cracks/faults that are worth looking into more deeply?
 
-These simple semantic evaluation tasks can be enhanced with traditional code for more complex planning and control tasks like:
+These simple semantic evaluation tasks are powerful on their own, and can drive quality control and efficiency in many important industries. However, that is not the limit of Code 2.0, as it can be enhanced with traditional algorithms for more complex planning and control tasks like:
 
 1. Using high quality semantic positional evaluation to  efficiently search a game tree for optimal game play (AlphaGo)
 2. Judging similarity between robotic position and human position for robotic imitation learning 
 3. Judging design decisions for high level circuit-silicon block mapping for effective chip design.
 
+These tasks have traditionally been extremely challenging to machine learning professionals, with professional histories often registering more failed or underperforming projects than successes. Aligned industries tend to be somewhat risk-adverse, attracting more risk-adverse professionals, operating in a conservative, incremental manner. Leading to an overall under-utilization of the Code 2.0 stack, despite the hype and perhaps over-utilization in a more risk-seeking "Tech" industry.
 
-Joy, excitement, tension, uncertainty, is what I feel when I read these lists as a computer scientist. The tension between my desire to aid my fellow man by automating low-value, high volume analysis of our modern industrial landscape, and the huge difficulty of building robust software that actually solves the problems well enough to trust. It also brings up a little bit of trauma from when I almost failed a classical computer vision course in grad school.
-
-Code 2.0 offers a solution to this anxiety: I, as a computer scientist, don't have to run the show. I don't have to reason about every detail of the algorithm. I don't have to customize or tweak everything to the details of my issue. Rather, I can take a supportive secondary role where I provide the infrastructure that ingests and trains a model on the algorithm and someone else can worry about the details, by developing the data, and ensuring that the data is actually sufficient to solve the problem. 
+Code 2.0 offers a solution to this professional anxiety: I, as a computer scientist, don't have to run the show. I don't have to reason about every detail of the algorithm. I don't have to customize or tweak everything to the details of my issue. Rather, I can take a supportive secondary role where I build the platform and the infrastructure that ingests and trains a model on the algorithm and someone else can worry about the details, by developing the data, and ensuring that the data is actually sufficient to solve the problem. 
 
 Its very similar to how a hardware developer, after the code 1.0 transformation caused by the development of the microchip, no longer has to drive every detail of the hardware's behavior. Instead, when confronted with a novel problem, they focus on assembling a platform, mostly from ready-made components, and simply ensure that the specs and configuration allows the software to do what it needs to do, without worrying about the details of how the software works or how it is developed.
 
-Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Code 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood Code 1.0 workflows + data.
+Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Code 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood, but slower and more wasteful Code 1.0 workflows based on static dataset collection.
 
 ## Barriers to Code 2.0 development
 
@@ -41,7 +38,7 @@ Code 2.0 has several barriers to implementation, the biggest being:
 
 The second issue tends to get easier over time as the rest of the system matures. But the first issue does not get solved by time, rather it is driven by computer scientists running the show. Below, I'll explain the principles involved in making someone else the center of Code 2.0 workflows.
 
-## Code 2.0 in practice
+## The Code 2.0 Team
 
 In 2022, I joined a fascinating mid-stage startup that checked all the boxes. It did automated analysis of raw real world data, it had a real business model, and it was run by good, pragmatic people.
 
@@ -54,10 +51,10 @@ The lead Data Manager, a very talented individual, but with no machine learning 
 1. **Product Understanding:** The Data Manager must have a strong grasp of the application/product, and the significance of model performance/characteristics on the end product. 
     * "Co-developer of the product specifications" is the ideal.
     * Background in fields nearby the target application is helpful
-    * Independent research in best practices is critical 
+    * Independent research in best practices is useful 
 2. **Data Understanding:** The Data Manager must have an broad intuitive understanding of their entire dataset---what different looks/domains there are, what distribution the training data has over these looks/domains. 
     * "Hold the entire dataset in your head" is the ideal. 
-    * Various visualizations and reports are important to assist the human understanding, and become more important the larger the dataset is.
+    * Various visualizations and reports are important to assist the human understanding, and become more important the larger the dataset is. Datasets in the thousands can be managed with basic tooling, data in hundreds of thousands needs highly specialized tooling.
 3. **Model Understanding:** The Data Manager must have an understanding of how the model is actually behaving.
     * "Be able to guess the model's classification decision" is the ideal, allowing maximally good decision making of what to change.
     * Making simple, understandable, communicable data labeling decisions is the most important attribute here.
@@ -91,10 +88,62 @@ Another key role is domain specialist, a true expert in the domain. This role is
 Generally speaking, this role needs to have the following philosophy in mind:
 
 1. **Deep practical experience:** The specialist is ultimately the main arbiter of feature priorities. So they must understand the risk/reward benefits of every feature, which requires a deep experience and understanding of the industry.
-2. **Distance from model development:** Sadly, whenever we collaborated with a specialist who knew a lot about machine learning from, reading, research, or academic projects, the project went much more slowly and painfully. The reason is that the specialist, out of curiosity, tends to and offer incorrect advice about what will work, what should be attempted, and other unnecessary meddling into the Data Management process which typically increased friction and reduced trust. One one person can truly own/lead the data development process, and that person needs to be in the data every day, following the image of the Data Manager above.
+2. **Distance from model development:** Sadly, whenever we collaborated with a specialist who knew a lot about machine learning from, reading, research, or academic projects, the project went much more slowly and painfully. The reason is that the specialist, out of curiosity, tends to and offer incorrect advice about what will work, what should be attempted, and other unnecessary meddling into the Data Management process which typically increased friction and reduced trust. One one person can truly own/lead the data development process, and that person needs to be in the data every day, following the image of the Data Manager above. Of course if this person happens to also be a specialist, that can work, but its rare to have true expertise in two fields.
 3. **Education-Minded:** The domain specialist is an invaluable source of information for the other team members to learn about the details of the application. Having a teaching mindset is valuable for this purpose.
 
 
-## Code 2.0 in the future
+## The Code 2.0 Process
 
-If these standards are adopted, and general purpose, public training platforms continue to improve and become more powerful, we can see much adoption of machine learning in increasingly obscure tasks, like fish-counting, areal inspections, and more. 
+In our experience dealing with Code 2.0 problems and figuring out solutions, there have been some insights into what is even important to focus on, and what is secondary. The profile is very different than Code 1.0.
+
+### Reviewing Code 1.0
+
+To emphasize the differences and changes one can expect from a Code 1.0 process to a Code 2.0 process, lets review the basic Code 1.0 development process.
+
+1. Determine labeling strategy+classes
+2. Label training+test dataset, the larger and cleaner the better
+3. Determine metrics to evaluate model on
+4. Iterate on model/learning strategy, attempting to improve metrics
+5. Go back and review steps 1,2, and 3 if step 4 can't yield good enough results.
+
+### Code 2.0 process
+
+Meanwhile, the code 2.0 process emphasizes data iteration over model iteration, so it looks more like this.
+
+1. Determine labeling strategy+classes
+2. Determine model/learning strategy
+3. Iterate on training dataset, evaluating as one iterates
+4. Determine metrics to judge final model on
+5. Review steps 1, 2, and 3 if the model doesn't pass the bar.
+
+### Key findings:
+
+#### De-Emphasis of Metrics in Code 2.0
+
+The most surprising finding to an ML engineer is how *unimportant* metrics end up being in a Code 2.0 workflow. In Code 1.0, no solid progress on models can be made without solid metrics, so its become a *good* dogmatic assertion that metrics development comes before model development, and any model development is constrained by the capabilities of the metrics to measure the true performance.
+
+However, in Code 2.0, metrics are secondary. The reason is because the Data Manager is reviewing model results all day, every day, and they develop an intuition for model behavior independently of any metrics there may be. 
+
+Furthermore, this model understanding can often be *superior* in finesse to any metrics one might hope to design. If there are any downsides, it is that metrics look at a lot of data at once, vs a data management process that typically subsamples the data during review.
+
+#### De-Emphasis of Data Size in Code 2.0
+
+The second surprising finding is how little data one really needs in Code 2.0.
+
+#### Re-Emphasis of data inspection/visualization tooling
+
+#### Re-Emphasis of data 
+
+
+<!-- 
+## The Code 2.0 Business
+
+With these key roles in place, the Code 2.0 team starts to take place. 
+
+1. Lead Data Manager
+2. Assistant Data Managers (they also need to have very good data/model understanding, but defer on product-related decisions)
+3. Machine learning consultant/platform devops helper:
+4. Specialist domain consultant.
+5. Product lead -->
+
+
