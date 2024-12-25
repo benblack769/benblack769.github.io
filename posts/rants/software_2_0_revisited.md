@@ -64,13 +64,15 @@ The lead Data Manager, a very talented individual, but with no machine learning 
 
 These demanding requirements pave the way for a whole new skilled craft---the Software 2.0 data developer.
 
-### Processes in Software 2.0
+#### Data Manager Process Focus
 
-While all the intellectual demands above are important, there is a much greater degree of mind-numbing grind in Software 2.0 development than Code 1.0 development. Combined with the high degree of responsibility and focus of understanding on the Data Manager, second guessing/anxiety and decision exhaustion are huge problems. 
+While all the above intellectual demands have an important place, there is clearly a much greater degree of mind-numbing grind in Software 2.0 development than Code 1.0 development. Combined with the high degree of responsibility and focus of understanding on the Data Manager, second guessing and decision exhaustion are huge problems. 
 
-To minimize this second guessing and allow for the possibility of smooth flow in the labeling, targeted processes can be established to commit to workflows that are understood to work, and see changes through to where success can be determined.
+To minimize this second guessing and allow for the possibility of smooth flow in the labeling, targeted processes can be established to commit to workflows that are understood to work, and see changes through to where success can be determined. 
 
-However, it is important that processes take a second-place role behind the human Data Manager. Junior Data Managers can work with a more senior one to help work through tricky issues and to get ideas of effective processes to solve those issues.
+These processes will be a huge help to workflow efficiency and project timelines if well designed, and can stall a project if poorly designed. Thus, these processes should be large on the minds of anyone leading or directing such a project.
+
+However, it is important that processes take a second-place role behind the human Data Manager and others heavily involved in the project. The quality of the people matter more than the quality of the processes.  Junior Data Managers can work with a more senior ones to help work through tricky issues and to get ideas of effective processes to solve those issues. However, we found that bringing in outside expertise more distantly connected to the project to try to establish processes consistently caused churn and poor results. Instead, regular review of the process with those heavily involved yields the most consistent results.
 
 ### The Software 2.0 Platform Developer
 
@@ -92,13 +94,15 @@ Generally speaking, this role needs to have the following philosophy in mind:
 3. **Education-Minded:** The domain specialist is an invaluable source of information for the other team members to learn about the details of the application. Having a teaching mindset is valuable for this purpose.
 
 
-## The Software 2.0 Process
+## Software 2.0 Practices 
 
-In our experience dealing with Software 2.0 problems and figuring out solutions, there have been some insights into what is even important to focus on, and what is secondary. The profile is very different than Code 1.0.
+The success of any project is most closely related to the quality and dedication of the team that does the work, including both individual qualities and team meshing. However, there is still benefit to learning from past successes and failures. In particular, properly reflective experiences yield a principles to evaluate future strategic and tactical approaches. This cohesion onto particular strategies, tactics, and individual roles can boost team cohesion. This section is dedicated to the principles we have learned generally succeed in a Software 2.0 approach. This analysis is not complete, nor free of errors, as it is dependent on the mistakes and choices we made in our approach.
 
-### Reviewing Code 1.0
+To start, lets examine all the differences we found from best practices in Software 1.0 style machine learning.
 
-To emphasize the differences and changes one can expect from a Code 1.0 process to a Software 2.0 process, lets review the basic Code 1.0 development process.
+### Software 1.0 vs 2.0
+
+To emphasize the differences and changes one can expect from a Software 1.0 process to a Software 2.0 process, lets review the basic Software 1.0 development process.
 
 1. Determine labeling strategy+classes
 2. Label training+test dataset, the larger and cleaner the better
@@ -106,34 +110,82 @@ To emphasize the differences and changes one can expect from a Code 1.0 process 
 4. Iterate on model/learning strategy, attempting to improve metrics
 5. Go back and review steps 1,2, and 3 if step 4 can't yield good enough results.
 
-### Software 2.0 process
-
-Meanwhile, the Software 2.0 process emphasizes data iteration over model iteration, so it looks more like this.
+Meanwhile, the Software 2.0 process emphasizes data iteration over model iteration, so the main iteration loop is on the data, rather than the model, requiring a bit of a re-ordering of the steps to support this data iteration. 
 
 1. Determine labeling strategy+classes
 2. Determine model/learning strategy
-3. Iterate on training dataset, evaluating as one iterates
-4. Determine metrics to judge final model on
+3. Iterate on training dataset, evaluating model outcomes as one iterates
+4. Determine metrics to judge final model on and create test set. (Typically implemented concurrently with step 3)  
 5. Review steps 1, 2, and 3 if the model doesn't pass the bar.
 
-### Key findings:
+The key insights that were discovered upon implementing this process in practice are: 
 
 #### De-Emphasis of Metrics in Software 2.0
 
-The most surprising finding to an ML engineer is how *unimportant* metrics end up being in a Software 2.0 workflow. In Code 1.0, no solid progress on models can be made without solid metrics, so its become a *good* dogmatic assertion that metrics development comes before model development, and any model development is constrained by the capabilities of the metrics to measure the true performance.
+The most surprising finding to an ML engineer is how *unimportant* metrics end up being in a Software 2.0 workflow. In Software 1.0, no solid progress on models can be made without solid metrics, so a dogmatic assertion of the field is that metrics development needs to come before model development, and any model development is constrained by the capabilities of the metrics to measure the true performance. Because otherwise, any changes are shots in the dark, and unlikely to hit their mark by random chance.
 
 However, in Software 2.0, metrics are secondary. The reason is because the Data Manager is reviewing model results all day, every day, and they develop an intuition for model behavior independently of any metrics there may be. 
 
-Furthermore, this model understanding can often be *superior* in finesse to any metrics one might hope to design. If there are any downsides, it is that metrics look at a lot of data at once, vs a data management process that typically subsamples the data during review.
+Furthermore, this experience-driven model understanding can often be *superior* in finesse to any metrics one might design in complex practical cases. If there are any downsides, it is that metrics look at a lot of data at once, vs a data management process that typically subsamples the data heavily during review. And of course, good metrics are easily communicable to outside groups, and experience-based intuitions are not. But at a strategic level, metrics can take a second tier of importance in a Software 2.0 world, can come later in development and can be of lower quality than the training data.
 
 #### De-Emphasis of Data Size in Software 2.0
 
-The second surprising finding is how little data one really needs in Software 2.0.
+The second surprising finding is how training data size becomes a mixed bag in human-centric Software 2.0 workflows, and keeping datasets small and highly curated can be the way to go. In Software 1.0 workflows, more data is always better. Models can get more, better feedback from more data, even if its quality is relatively low. Especially in cross-modal datasets, more data allows models to find rare associations that simply wouldn't be present in smaller datasets.
+
+However, in human-centric Software 2.0, more data means more data to review for errors, more data to balance, more data to refactor if labeling strategy changes slightly. I.e. similar to how in Software 1.0, all code is a liability, and simplicity is key, in Software 2.0, all data is a liability, and simplicity is also key. 
+
+How to reconcile this concept of data liabilities with the success of huge datasets, such as the 400 million image/text pairs to train CLIP, or the 1 billion masks used to train the SAM model? Or the hundreds of terabytes of raw text used to train LLMs? 
+
+Its simple: those models were trained in a human-exploiting regime, rather than a human-centric regime. Human-exploiting regimes have an entirely distinct set of guiding principles that focus on the importance of a good architects to make good decisions at project inception, high quality "from the wild" data collection/filtering, and labeler arbitration routines to ensure consistency and cleanliness.
+
+The fundamental issue with human-exploiting training strategies, and the real-world failure of these large datasets in building good semantic analysis engines, is the loss of control implied by giving the dataset construction over to a particular process. The process takes control, and starts pushing the dataset in unexpected directions in cases of fundamental ambiguities or data domain discrepancies. Interestingly, all of the datasets meant for "general computer vision" (Imagenet) or "general object detection" (COCO) or "general segmentation" (Segment Anything), all fail with even slightly out of domain data, and have much less value in the real world than first thought.
+
+Interestingly, modern LLMs take an increasingly mixed approach, with an initial large-scale pretraining step focused on architecture and large-scale data, and also an increasingly human-centric RHFL fine-tuning stage, with much of the innovation in the field being identifying and fixing model biases with careful human expertise and attention, rather than large data. While the exact methods behind the most state of the art models is kept closed, it seems as if these reinforcement learning sets are kept relatively small, agile, with high-skill labelers. Dependency on hordes of unskilled data labelers is limited in such state of the art AI.
+
+This hybrid fine-tuning approach looks increasingly like the trend for real-world machine learning in the next 5-10 years. However, its important to note that other domains have yet to build out the very clean fine-tuning workflows and concepts that have been built for LLMs, and attempts in other domains have not had as much success so far. Innovation will be important to proving the value of hybrid systems in practice.
 
 #### Re-Emphasis of data inspection/visualization tooling
 
-#### Re-Emphasis of data 
+As datasets become larger, the Data Manager's idea of "holding the dataset in their head" is no longer realistic. Rather, advanced tool use is required to analyze, understand, and control the larger set of artifacts. Some of the visualizations which proved exceptionally valuable are:
 
+1. Presentations of the failure cases on the tuning or test set. Allows a quick review of the worse-performing identified examples. Especially useful if model performance suddenly gets worse during development.
+2. A whole dataset infinite scroll view: Critical for manual filtering/review. Idea is to use the intuitive part of our brain to quickly look for easily identifiable qualities. Ideally, one should be able to review a few hundred images, or a few dozen text sentences in a few minutes. Clicking through examples is unacceptable, multiple examples need to be on the screen at the same time. Advanced filtering/sorting tooling and tagging schemes to structure this view become very important as datasets grow in complexity. 
+3. Some visualization of the model's behavior at the feature-vector level. Either relative distance visualizations with a clustering visualization, or a PCA-style spatial dimensionality analysis, or both. Ideally, these visualizations are even interactive, and you can pull up individual data points and examine outliers in a unified workflow. 
+
+Many more advanced and domain-specific tools are possible, these are just the essentials for any Software 2.0 workflow. 
+
+Especially as tooling grows more advanced, substantial training and adaptation to the tool is needed. Ultimately, the human and the tools they use should greatly surpass the capabilities of any automated of either an fully automated or fully manual system, but this will require significant investment into true mastery of the technology, adapting to it as necessary. The ideal is a cyborg-like wholistic system, where the system prompts the human, and the human responds with solid, broad-based judgement.
+
+#### Continued emphasis on normal code debugging 
+
+An quote on an OpenAI blog for a reinforcement learning project (can't find it) said "how did we improve performance? By fixing bugs. And how did we improve performance even more? By fixing more bugs".
+
+Almost every problem in a principled, general purpose machine learning system looks like a bug, not a missing feature. Its seems like a bug when small objects get overlooked and aren't balanced in the loss compared to large objects. It seems like a bug when scenes fed to the neural network center every object perfectly. It seems like a bug when training data is broken apart into sentences when the inference data is a continuous stream. These types of "bugs" appear with equal frequency in Software 1.0 and 2.0 systems.
+
+Isolating, and resolving these sorts of "bugs" ended up being much of the value we ML Platform developers added once our platforms reached a certain level of maturity. There seemed to be no real end to them. The reason is because this is just what normal ML platform development looks like in a Software 2.0 world---new features just look like bug fixes. And if you continue to push the limits of the system, the need for more and more of these fixes and tweaks will surface.
+
+<!-- One tricky issue to watch out for, is that like any high-level software platform, bugs eventually become features, as people start to work around any issues they discover in a way that ends up depending on the issue itself, and their datasets or workflows end up depending on the issue, and so the user is actually harmed by the fix. Sometimes this is worked around by adding configuration in the short term, but in the long term, default settings need to all work as well as possible, and ideally, configuration that is never recommended for normal usage is slowly deprecated. -->
+
+### Responsive Labeling Schemas
+
+The first step in an ML process is to identify the semantic label schema. However, this labeling schema is too important to leave up to human judgement at a single point in time. Mid-project correction to labeling schema is key to continuous improvements in performance and utility. On the other hand, shorter-term commitments to particular labeling schemes is critical to ensure consistency. So making the best judgements possible at key junctures is a helpful pattern.
+
+The importance of the careful creation of labels cannot be understated. Here are some examples where a subtle change in label definition radically changed the outcome of a project:
+
+1. The Leela Chess Zero (Lc0) engine, originally an open source AlphaZero clone, started branching out in its goals. Where originally the project was all about establishing the best possible win/loss ratio against a strong opponent, with draws counting as neutral. So the labels were win=1, loss=-1, draw=0, modeled as different outcomes of a single variable. However, there was an increasing problem with draws: the engine often preferred drawn outcomes over risker, possibly lost outcomes. Not only does this drawish tendency lead to low performance in engine tournaments with weaker opponents, it also made human players question the utility of engine advice in worse positions and close endgames, where the engine's tendancy to draw might be at odds with the human's desire to win. Modeling the draw rate as a separate variable, learning to predict draw outcome consistently, and optimizing to reduce draws was a huge challenge that took years of development for the project to perfect. However, a fine-tuned version of Lc0 is now the strongest engine ever against human grandmasters, and this draw-score has also proven valuable in competitive chess engine tournaments.
+2. In our experience in object detection, we have seen radical change in performance from labeling part vs whole of an object. The reason seemed to be because whole objects were more unique than parts, and could be labeled more consistently, and have fewer confusions, yielding better results in both detection and confusion metrics.
+3. In RLHF LLM training and general LLM evaluation, one interesting characteristic in human rating has been determined: humans consistently rate longer, more verbose results higher in quality than shorter, more concise results. These longer passages human raters prefer include caveats to certainty, various supporting facts/references for the judgement, reasoning, etc, that make a human judge the passage as more accurate and more reliable (even when the supporting facts are hallucinated). However, many different use-cases, this verbosity is not desirable: so you see a difference in human judgement in the labeling process, from human judgement in the real world. So the trend is to try to simulate various human usecases to condition the review/rating protocol, rather than relying on a single wholistic judgement of accuracy.
+
+Thus, even in modern machine learning with large, synthetic datasets, labeling and modeling choices are key drivers of end project success. These decisions are also critical in smaller, data-scarce projects. In our experience with data scarcity, the following labeling characteristics are very helpful:
+
+1. **Distinguisability:** Clear distinction between classes/labels. This is helpful not only for the learning system to separate the classes, reducing the quantity of data required, but it is even more important for the sanity and efficiency of the human labeler. And even more important if labeling is done as a team, so that team members can review and come to agreement about all the labels.
+2. **Descriptive Labeling:** Subtyping and descriptive labeling is not only potentially useful in downstream tasks, but it is also helpful for the data manager to more easily reason about and organize their datasets. Whether the machine learning system ends up throwing this descriptive information away, or utilizing it to learn more about the environment, is less important. More important is the flexibility, understanding, and control that these descriptions offer, especially in cross-domain/source data. 
+3. **Arbitration:** When clear and easily agreed upon distinctions/schemes are not possible to arrive at, or when ambiguous cases arise, there is a benefit to incorporating an arbitrary element: a certain bias or tendency of a head data manager. As an analogy, consider a team of animators working on a cartoon: there is a single artist responsible for the overall style, and the other animators need to conform to it---a mix of styles is unpleasant. In real world ML applications, when the standard of clear distinguisability is not met, this consistency created with a wholistic vision of model behavior is more valuable than any sort of artificial consistency imposed by some sort of multi-labeler consistency protocol. This value is revealed in behavior on ambiguous objects, where some particular model behavior, is more desirable than another based on how the model is used, and average accuracy scores are unimportant. I.e., if 99% specificity is required for the system to act autonomously, no one cares that you increased accuracy from 90% to 95%----it needs to be specific, and data manager arbitration is the most powerful tool to design datasets with the capability of reaching these high targets. 
+
+
+### Active Learning Labeling Protocol
+
+The central process of Software 2.0 (the bulk of the middle part of the project) is an "active learning" loop. This training loop is key to 
 
 <!-- 
 ## The Software 2.0 Business
