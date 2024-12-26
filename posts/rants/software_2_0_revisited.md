@@ -2,7 +2,7 @@
 title: "Human-powered Software 2.0"
 slug: software-20-revisited
 under_construction: false
-excerpt: "The dream of Software 2.0 is only starting to be realized. A human-centric framework of successful Software 2.0 teams is starting to emerge."
+excerpt: "The dream of Software 2.0 is only starting to be realized. A human-centric framework of successful data development teams is starting to emerge."
 comments: false
 share: false
 post_date: "2024"
@@ -25,15 +25,15 @@ These tasks have traditionally been extremely challenging to machine learning pr
 
 Software 2.0 offers a solution to this professional anxiety: I, as a computer scientist, don't have to run the show. I don't have to reason about every detail of the algorithm. I don't have to customize or tweak everything to the details of my issue. Rather, I can take a supportive secondary role where I build the platform and the infrastructure that ingests and trains a model on the algorithm and someone else can worry about the details, by developing the data, and ensuring that the data is actually sufficient to solve the problem. 
 
-Its very similar to how a hardware developer, after the code 1.0 transformation caused by the development of the microchip, no longer has to drive every detail of the hardware's behavior. Instead, when confronted with a novel problem, they focus on assembling a platform, mostly from ready-made components, and simply ensure that the specs and configuration allows the software to do what it needs to do, without worrying about the details of how the software works or how it is developed.
+Its very similar to how a hardware developer, after the Software 1.0 transformation caused by the development of the microchip, no longer has to drive every detail of the hardware's behavior. Instead, when confronted with a novel problem, they focus on assembling a platform, mostly from ready-made components, and simply ensure that the specs and configuration allows the software to do what it needs to do, without worrying about the details of how the software works or how it is developed.
 
-Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Software 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood, but slower and more wasteful Code 1.0 workflows based on static dataset collection.
+Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Software 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood, but slower and more wasteful Software 1.0 workflows based on static dataset collection.
 
 ## Barriers to Software 2.0 development
 
 Software 2.0 has several barriers to implementation, the biggest being:
 
-1. Projects are still driven by computer scientists, accustomed to a code 1.0 workflow, especially in the U.S. (China's businesses are better about this) This means that data development has a waterfall workflow where large amounts of data is collected/cleaned according to some fixed scheme whereas algorithms are developed in a fast-iteration agile workflow. Which limits the amount of creativity and experimentation with data development. 
+1. Projects are still driven by computer scientists, accustomed to a software 1.0 workflow, especially in the U.S. (China's businesses are better about this) This means that data development has a waterfall workflow where large amounts of data is collected/cleaned according to some fixed scheme whereas algorithms are developed in a fast-iteration agile workflow. Which limits the amount of creativity and experimentation with data development. 
 2. Downstream and upstream challenges in edge hardware, networking, database integration, human review processes, business logic, and sales are often much higher than machine learning challenges, meaning that improving machine learning processes are treated as a second class problem.
 
 The second issue tends to get easier over time as the rest of the system matures. But the first issue does not get solved by time, rather it is driven by computer scientists running the show. Below, I'll explain the principles involved in making someone else the center of Software 2.0 workflows.
@@ -42,7 +42,7 @@ The second issue tends to get easier over time as the rest of the system matures
 
 In 2022, I joined a fascinating mid-stage startup that checked all the boxes. It did automated analysis of raw real world data, it had a real business model, and it was run by good, pragmatic people.
 
-They built remarkably human Software 2.0 workflow, centering on the humans labeling the data, the Data Managers (this is not an inflated title, they really managed a lot, and a lot of project success depended on their skill). Unlike Code 1.0 workflows, where the labelers simply hand off the data at some point, at this company, the data managers iterated with product advisors to determine the best way to label the data, actually labeled the data, trained the model, used the model to find good labels to add, evaluated the model, built out metrics, advised studies, and more. The remarkable scope of their responsibilities meant that relatively little time was spent on actually labeling or reviewing data, maybe 40% of their time on average.
+They built remarkably human Software 2.0 workflow, centering on the humans labeling the data, the Data Managers (this is not an inflated title, they really managed a lot, and a lot of project success depended on their skill). Unlike Software 1.0 workflows, where the labelers simply hand off the data at some point, at this company, the data managers iterated with product advisors to determine the best way to label the data, actually labeled the data, trained the model, used the model to find good labels to add, evaluated the model, built out metrics, advised studies, and more. The remarkable scope of their responsibilities meant that relatively little time was spent on actually labeling or reviewing data, maybe 40% of their time on average.
 
 ### The Software 2.0 Data Developer
 
@@ -66,7 +66,7 @@ These demanding requirements pave the way for a whole new skilled craft---the So
 
 #### Data Manager Process Focus
 
-While all the above intellectual demands have an important place, there is clearly a much greater degree of mind-numbing grind in Software 2.0 development than Code 1.0 development. Combined with the high degree of responsibility and focus of understanding on the Data Manager, second guessing and decision exhaustion are huge problems. 
+While all the above intellectual demands have an important place, there is clearly a much greater degree of mind-numbing grind in Software 2.0 development than Software 1.0 development. Combined with the high degree of responsibility and focus of understanding on the Data Manager, second guessing and decision exhaustion are huge problems. 
 
 To minimize this second guessing and allow for the possibility of smooth flow in the labeling, targeted processes can be established to commit to workflows that are understood to work, and see changes through to where success can be determined. 
 
@@ -76,7 +76,7 @@ However, it is important that processes take a second-place role behind the huma
 
 ### The Software 2.0 Platform Developer
 
-Software 2.0 is built ontop of Code 1.0, similarly to how Code 1.0 is built ontop of hardware. Which means that Software 2.0 still needs regular software developers to build the system that powers the Software 2.0 data management workflow above, help collect raw data from edge sources, and build out any inference pipelines in the application. The role of the Software 2.0 developer is to be a supportive engineering/data operations role that takes second-hurdle to the Data Manager. As this was my role, I identified a few principles which helped me be effective in this position:
+Software 2.0 is built ontop of Software 1.0, similarly to how Software 1.0 is built ontop of hardware. Which means that Software 2.0 still needs regular software developers to build the system that powers the Software 2.0 data management workflow above, help collect raw data from edge sources, and build out any inference pipelines in the application. The role of the Software 2.0 developer is to be a supportive engineering/data operations role that takes second-hurdle to the Data Manager. As this was my role, I identified a few principles which helped me be effective in this position:
 
 1. **Minimize ML Configuration:** Data Managers are not machine learning experts, and struggle to understand the details of all the knobs that ML Engineers typically build into their platforms (learning rate, batch size, etc). The number of knobs that need tuning for best performance, the less effective the Data Manager will be. Good defaults, effective heuristics, and automated hyperparameter selection are key to keep DM workflows efficient.
 2. **Inference pipeline/Evaluation pipeline equivalence:** The inference pipeline that the data manager uses to evaluate the model must be near-identical to the production inference pipeline. Otherwise, unexpected behavior in production is a big risk.
@@ -168,7 +168,7 @@ Isolating, and resolving these sorts of "bugs" ended up being much of the value 
 
 ### Responsive Labeling Schemas
 
-The first step in an ML process is to identify the semantic label schema. However, this labeling schema is too important to leave up to human judgement at a single point in time. Mid-project correction to labeling schema is key to continuous improvements in performance and utility. On the other hand, shorter-term commitments to particular labeling schemes is critical to ensure consistency. So making the best judgements possible at key junctures is a helpful pattern.
+The first step in an ML process is to identify the semantic label schema. However, this labeling schema is too important, and course correction later in the project will inevitably be required for improvements in performance and utility. On the other hand, shorter-term commitments to particular labeling schemes is critical to ensure consistency and second-guessing anxiety. So making the best judgements possible at key junctures, and backing those commitments until the next juncture is a helpful pattern.
 
 The importance of the careful creation of labels cannot be understated. Here are some examples where a subtle change in label definition radically changed the outcome of a project:
 
@@ -179,13 +179,29 @@ The importance of the careful creation of labels cannot be understated. Here are
 Thus, even in modern machine learning with large, synthetic datasets, labeling and modeling choices are key drivers of end project success. These decisions are also critical in smaller, data-scarce projects. In our experience with data scarcity, the following labeling characteristics are very helpful:
 
 1. **Distinguisability:** Clear distinction between classes/labels. This is helpful not only for the learning system to separate the classes, reducing the quantity of data required, but it is even more important for the sanity and efficiency of the human labeler. And even more important if labeling is done as a team, so that team members can review and come to agreement about all the labels.
-2. **Descriptive Labeling:** Subtyping and descriptive labeling is not only potentially useful in downstream tasks, but it is also helpful for the data manager to more easily reason about and organize their datasets. Whether the machine learning system ends up throwing this descriptive information away, or utilizing it to learn more about the environment, is less important. More important is the flexibility, understanding, and control that these descriptions offer, especially in cross-domain/source data. 
+2. **Descriptive Labeling:** Subtyping and descriptive labeling is helpful for the data manager to more easily reason about and organize their datasets. Whether the machine learning system ends up throwing this descriptive information away, or utilizing it to learn more about the environment, is less important. More important is the flexibility, understanding, and control that these descriptions offer, especially in cross-domain/source data. 
 3. **Arbitration:** When clear and easily agreed upon distinctions/schemes are not possible to arrive at, or when ambiguous cases arise, there is a benefit to incorporating an arbitrary element: a certain bias or tendency of a head data manager. As an analogy, consider a team of animators working on a cartoon: there is a single artist responsible for the overall style, and the other animators need to conform to it---a mix of styles is unpleasant. In real world ML applications, when the standard of clear distinguisability is not met, this consistency created with a wholistic vision of model behavior is more valuable than any sort of artificial consistency imposed by some sort of multi-labeler consistency protocol. This value is revealed in behavior on ambiguous objects, where some particular model behavior, is more desirable than another based on how the model is used, and average accuracy scores are unimportant. I.e., if 99% specificity is required for the system to act autonomously, no one cares that you increased accuracy from 90% to 95%----it needs to be specific, and data manager arbitration is the most powerful tool to design datasets with the capability of reaching these high targets. 
 
 
 ### Active Learning Labeling Protocol
 
-The central process of Software 2.0 (the bulk of the middle part of the project) is an "active learning" loop. This training loop is key to 
+The central process of Software 2.0 (the bulk of the middle part of the project), that can start immediately after an initial labeling strategy is determined, is an "active learning" labeling/training loop. Active learning is when the current iteration of the model is used to more efficiently label and curate data for the next iteration of the model. 
+
+At a basic level this loop improves labeling speed, because model predictions are often accurate, and can simply be verified. But we have found that the active learning loop can be much more than a labeling speed improvement, as model predictions allow data managers to understand what the model is already good at, and not add data which is already very high accuracy. To explain in more detail, here is a high-level description of this training process:
+
+1. Data Manager creates/loads starting dataset to train first iteration of a model (this starting dataset can be very small, i.e. dozens/hundreds of examples, if the hyperparamters are tuned for small data).
+2. The model is trained on this dataset.
+3. The model is used to predict labels on the raw, unlabeled training set.
+4. The data manager reviews these labels, editing or rejecting proposals that are incorrect or duplicates, creating a new iteration of the dataset.
+5. The model is retrained, going back to step 2.
+
+This labeling loop brings clear, identifiable benefits:
+
+1. **Efficient Positivity Correction:** If the model's predictions are sorted by confidence, the Data manager can easily identify and correct model false positives and other positive errors, such as high-confidence sentence mis-translations. These errors can can be corrected in a data efficient manner by including the source data and corrected labels for the model mis-predictions only.
+2. **Efficient Negative Correction:** In real-world data, most subtypes are rare, and must be purposefully sought out and collected for model training. During this collection process, basic labeling schemes can be applied, 
+3. **General Model Understanding:** The Data Manager gains an general understanding of the model's behavior and how it responds to changes in data labels. While this general intuition is not a replacement for principled labeling strategies, this intuition brings a greater understanding of the data that is actually required to achieve goals, and ultimately, brings knowledge and insights to the team. 
+
+
 
 <!-- 
 ## The Software 2.0 Business
