@@ -29,7 +29,7 @@ Its very similar to how a hardware developer, after the Software 1.0 transformat
 
 Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Software 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood, but slower and more wasteful Software 1.0 workflows based on static dataset collection.
 
-# Barriers to Software 2.0 development
+## Barriers to Software 2.0 development
 
 Software 2.0 has several barriers to implementation, the biggest being:
 
