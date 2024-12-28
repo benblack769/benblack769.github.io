@@ -187,7 +187,7 @@ Thus, even in modern machine learning with large, synthetic datasets, labeling a
 
 The central process of Software 2.0 (the bulk of the middle part of the project), that can start immediately after an initial labeling strategy is determined, is an "active learning" labeling/training loop. Active learning is when the current iteration of the model is used to more efficiently label and curate data for the next iteration of the model. 
 
-At a basic level this loop improves labeling speed, because model predictions are often accurate, and can simply be verified. But we have found that the active learning loop can be much more than a labeling speed improvement, as model predictions allow data managers to understand what the model is already good at, and not add data which is already very high accuracy. To explain in more detail, here is a high-level description of this training process:
+At a basic level this loop improves labeling speed, because model predictions are often accurate, and can simply be verified. But we have found that the active learning loop can be much more than a labeling speed improvement, as model predictions allow data managers to understand what the model is already good at, and not add data which is already very high accuracy, resulting in smaller, easier to modify datasets. To explain in more detail, here is a high-level description of this training process:
 
 1. Data Manager creates/loads starting dataset to train first iteration of a model (this starting dataset can be very small, i.e. dozens/hundreds of examples, if the hyperparamters are tuned for small data).
 2. The model is trained on this dataset.
@@ -200,18 +200,44 @@ This labeling loop brings clear, identifiable benefits:
 1. **Efficient Positivity Correction:** If the model's predictions are sorted by confidence, the Data manager can easily identify and correct model false positives and other positive errors, such as high-confidence sentence mis-translations. These errors can can be corrected in a data efficient manner by including the source data and corrected labels for the model mis-predictions only.
 2. **Efficient Negative Correction:** In real-world data, most subtypes are rare, and must be purposefully sought out and collected for model training. During this collection process, basic labeling schemes can be applied, 
 3. **General Model Understanding:** The Data Manager gains an general understanding of the model's behavior and how it responds to changes in data labels. While this general intuition is not a replacement for principled labeling strategies, this intuition brings a greater understanding of the data that is actually required to achieve goals, and ultimately, brings knowledge and insights to the team. 
+4. **Minimal Datasets:** Focusing labeling on problematic cases shrinks datasets and makes them easier to review and modify.
 
+### End to End Evaluation
 
+In Deep Learning, much hype is made about "End to End" learning, that is, a model that takes in raw data and outputs actions that drive a fully automated system, like a self-driving car. The benefit is that humans do not need to design the intermediate representations, these representations can be learned via backpropagation, and thus these representations can be much more informative and higher-dimensional than a human can visualize or review for accuracy.
 
-<!-- 
-## The Software 2.0 Business
+In practice, end-to-end training is still impractical in many concrete applications, due to a lack of data, computational limitations, and optimization challenges (overfitting, instability, etc). In these systems, the low-dimensional, highly structured, human reviewable intermediate representations becomes an advantage which allows humans to identify and fix problems with the system. This results in a system with one or more independently trained components, such as a semantic vision system, audio processing, and perhaps certain complex control components, with the rest handled with more handcrafted logic. 
 
-With these key roles in place, the Software 2.0 team starts to take place. 
+In such a mixed Software 1.0/2.0 system, it becomes important to evaluate whole system performance as best as possible. Whole system evaluation allows discovery of compounding failure cases, de-prioritization of issues when failures in one sub-system are corrected by another, and other cross-component concerns.
 
-1. Lead Data Manager
-2. Assistant Data Managers (they also need to have very good data/model understanding, but defer on product-related decisions)
-3. Machine learning consultant/platform devops helper:
-4. Specialist domain consultant.
-5. Product lead -->
+End to end evaluation is also practical much more often than end-to-end training, requiring much less data. It is also very valuable, as good understanding of these cross-component concerns end up being invaluable in making good decisions at key points during the development process, and so building out test sets is valuable, even if expensive.
 
+#### Special note on Human-in-the-loop systems
+
+ML Inference systems that expect a human to review results comprehensively, for example in medical diagnosis, true "end to end" evaluation might involve a human re-reviewing the results. While this is important to evaluate, running this test clearly has a high marginal cost, as opposed to the high fixed cost of setting up a fully automated test.
+
+Setting up permanent employees available to run these tests for the entire project duration is a good option, and is almost certainly necessary in the most complex projects (AlphaGo project had a professional Go player on staff to probe the AI for weaknesses, for example). 
+
+However, another option that can allow for cheaper but imperfect end-to-end testing on simpler projects is to simulate the human with another model that is trained on human expert actions. While not perfect, and not always advisable, general trends in results are likely to correlate between real human experts and simulated human experts.
+
+### Valuable Metrics
+
+While metrics are less important in Software 2.0, as mentioned earlier they can still provide significant value when they can be used to improve the dataset or make key decisions. The key characteristics that make a good metric include:
+
+1. **Traceable:** Regressions/changes in metrics are traceable to individual items in the test set that failed/changed. 
+2. **Actionable:** The above trace can be used to make changes to the training set to allow for better results. Sometimes, this means hooking up this error tracing system to a dataset suitable for inclusion in training, so that identified errors can be included or up-weighted in training processes.
+3. **Value-Aligned:** Metrics are most reliable if they reflect the true impact of error on the value of the end product, and not some artificial accuracy measure. Quite a bit of balancing/weighting might be necessary to achieve this value alignment. Some tools to align metrics include: grading errors on a multi-tier scale, up-weighting under-represented error cases in the test-set, or downsampling over-represented error-cases.
+
+The benefits of these principles apply in both end-to-end evaluation, and in single component evaluation, however, tracing and acting on errors is harder in end-to-end evaluation, allowing single-component evaluation to shine.
+
+## Software 2.0 Product
+
+Developing Software 2.0 can be a difficult, expensive and slow operation to undertake, and the resulting product must be well targeted and highly valuable. In the end, all ML projects without a strong business case eventually fail. ML projects require significant maintenance, computer infrastructure, and support, and need durable sources of income to support operations. Given these costs, driving projects from the business side, and working backwards, can be a much smoother process than trying to find applications for novel ML technologies. In fact, the entire Software 2.0 paradigm is about paving smoother, more consistent paths to business automation success, depending more on team quality and commitment, and less on luck and timing with experimental technologies. 
+
+While no complete guide on Software 2.0 products can be assembled, as there is limitless room for creativity and innovation, some decent principles for those just starting out in Software 2.0 are:
+
+1. Make sure you are getting the best fruit, whether it is low-hanging or not. Sometimes, low-hanging fruit is actually not valuable enough to change anyone's behavior and not valuable enough to sell your product at any price. For example, outsider perceptions of value, and insider's perception of value in an industry can be shockingly different. Insiders recognize that one well-trained, well-suited human might be able to outperform 20 poorly trained humans. So if as an outsider, you try to evaluate the value of automating a poorly trained human, you will get a very different value proposition than the insider's perception of value given a highly trained human.
+2. Make sure your product is not solvable with Software 1.0. Software 1.0 is easier to implement, more reliable, and easier to understand, especially if it sticks to strong statistical ML methods or deterministic algorithms. Sometimes difficult puzzles and challenges that seem impossible to solve perfectly, like NP complete problems like the famous traveling salesman problem, have very good heuristic approximations that actually outperform all data-centric methods. Finding the right specialist to identify the best heuristic or statistical technique can be tricky, but the long-term reliability of principled algorithmic systems will make up for it eventually.
+3. Make sure your problem does not add more burden to humans than it removes. Does the automation interrupt a previously smooth human workflow, by requiring data entry, application switching, or any other manual work that was previously unnecessary? If so, it can be harder to out-perform an expert human in the flow than you would think. These workflow issues may need to be resolved with hardware or software integrations before your Software 2.0 product can be successful in the market.
+4. If your product is a fully automated system that replaces a human, are you sure your model can generalize to edge cases as well as a human? Extreme sensitivity on edge cases or out-of-domain cases is necessary in most real-world applications. Even in lower-risk applications like industrial quality control, a heavy tail of failed edge cases might end up hurting your product's value. In safety-sensitive domains such as medicine, human-robot coordination, or safety inspections, failure on edge cases might be intolerable, and false alarms might be by far preferable. Evaluating on unseen domains or distinct instances can be a way of judging if your training strategy can really replace a human where it matters. Some sort of out-of-domain detection training strategy might also be necessary, as out of the box accuracy maximization strategies are unlikely to work well with unseen instances.
 
