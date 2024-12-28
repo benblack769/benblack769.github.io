@@ -29,7 +29,7 @@ Its very similar to how a hardware developer, after the Software 1.0 transformat
 
 Industry leaders like [Andrew Ng](https://landing.ai/) have been championing this concept and starting startups with the hope of powering this Software 2.0 development with powerful training/inference platforms. However, understanding of the philosophy of this workflow is still poorly understood, leading to defaulting to more well understood, but slower and more wasteful Software 1.0 workflows based on static dataset collection.
 
-## Barriers to Software 2.0 development
+# Barriers to Software 2.0 development
 
 Software 2.0 has several barriers to implementation, the biggest being:
 
@@ -38,13 +38,13 @@ Software 2.0 has several barriers to implementation, the biggest being:
 
 The second issue tends to get easier over time as the rest of the system matures. But the first issue does not get solved by time, rather it is driven by computer scientists running the show. Below, I'll explain the principles involved in making someone else the center of Software 2.0 workflows.
 
-## The Software 2.0 Team
+# The Software 2.0 Team
 
 In 2022, I joined a fascinating mid-stage startup that checked all the boxes. It did automated analysis of raw real world data, it had a real business model, and it was run by good, pragmatic people.
 
 They built remarkably human Software 2.0 workflow, centering on the humans labeling the data, the Data Managers (this is not an inflated title, they really managed a lot, and a lot of project success depended on their skill). Unlike Software 1.0 workflows, where the labelers simply hand off the data at some point, at this company, the data managers iterated with product advisors to determine the best way to label the data, actually labeled the data, trained the model, used the model to find good labels to add, evaluated the model, built out metrics, advised studies, and more. The remarkable scope of their responsibilities meant that relatively little time was spent on actually labeling or reviewing data, maybe 40% of their time on average.
 
-### The Software 2.0 Data Developer
+## The Software 2.0 Data Developer
 
 The lead Data Manager, a very talented individual, but with no machine learning background or education, over time, developed a strong philosophy of the true human demands of data management which surpass any particular data labeling processes used per-application: 
 
@@ -64,7 +64,7 @@ The lead Data Manager, a very talented individual, but with no machine learning 
 
 These demanding requirements pave the way for a whole new skilled craft---the Software 2.0 data developer.
 
-#### Data Manager Process Focus
+### Data Manager Process Focus
 
 While all the above intellectual demands have an important place, there is clearly a much greater degree of mind-numbing grind in Software 2.0 development than Software 1.0 development. Combined with the high degree of responsibility and focus of understanding on the Data Manager, second guessing and decision exhaustion are huge problems. 
 
@@ -74,7 +74,7 @@ These processes will be a huge help to workflow efficiency and project timelines
 
 However, it is important that processes take a second-place role behind the human Data Manager and others heavily involved in the project. The quality of the people matter more than the quality of the processes.  Junior Data Managers can work with a more senior ones to help work through tricky issues and to get ideas of effective processes to solve those issues. However, we found that bringing in outside expertise more distantly connected to the project to try to establish processes consistently caused churn and poor results. Instead, regular review of the process with those heavily involved yields the most consistent results.
 
-### The Software 2.0 Platform Developer
+## The Software 2.0 Platform Developer
 
 Software 2.0 is built ontop of Software 1.0, similarly to how Software 1.0 is built ontop of hardware. Which means that Software 2.0 still needs regular software developers to build the system that powers the Software 2.0 data management workflow above, help collect raw data from edge sources, and build out any inference pipelines in the application. The role of the Software 2.0 developer is to be a supportive engineering/data operations role that takes second-hurdle to the Data Manager. As this was my role, I identified a few principles which helped me be effective in this position:
 
@@ -83,7 +83,7 @@ Software 2.0 is built ontop of Software 1.0, similarly to how Software 1.0 is bu
 3. **Avoid lockin on pre-processing techniques:** Real world data often needs quite a bit of pre-processing to feed into an ML pipeline. Grabbing manageable subsets by cropping images, grabbing video/audio snippets, chopping up text into chunks, etc, is common. Compression pre-processing, such as generating audio spectrograms, static image/text embeddings with foundation models, etc, is also common. If your data labeling strategy locks you into the specific style of pre-processing, this can harm your ability to improve the system. These pre-processing choices have meaningful and significant impact on end performance. In my job, I made more end performance improvements tuning this pre-processing than any changes to loss function or architecture, and many other ML engineers have the same experience. Simply retaining the ability to re-generate these on demand is sufficient.
 4. **The Cloud is best for Software 2.0 development workflows:** For Software 2.0 workflows, the best parts of the cloud are shows at their very finest. The cloud's fast scalability and ephemeral qualities are perfect for the very spiky Software 2.0 GPU hardware demands, and ephemeral nature of most intermediate training artifacts. However, its important to not lock into a inference provider---cloud, on-premise or edge inference are all important capabilities.
 
-### The Software 2.0 Domain Specialist
+## The Software 2.0 Domain Specialist
 
 Another key role is domain specialist, a true expert in the domain. This role is key to building a robust product which is useful in practice and trustworthy. This role helps gauge the scope of the model, offers criticism of the model's performance, and helping find difficult cases and identify failures. 
 
@@ -94,13 +94,13 @@ Generally speaking, this role needs to have the following philosophy in mind:
 3. **Education-Minded:** The domain specialist is an invaluable source of information for the other team members to learn about the details of the application. Having a teaching mindset is valuable for this purpose.
 
 
-## Software 2.0 Practices 
+# Software 2.0 Practices 
 
 The success of any project is most closely related to the quality and dedication of the team that does the work, including both individual qualities and team meshing. However, there is still benefit to learning from past successes and failures. In particular, properly reflective experiences yield a principles to evaluate future strategic and tactical approaches. This cohesion onto particular strategies, tactics, and individual roles can boost team cohesion. This section is dedicated to the principles we have learned generally succeed in a Software 2.0 approach. This analysis is not complete, nor free of errors, as it is dependent on the mistakes and choices we made in our approach.
 
 To start, lets examine all the differences we found from best practices in Software 1.0 style machine learning.
 
-### Software 1.0 vs 2.0
+## Software 1.0 vs 2.0
 
 To emphasize the differences and changes one can expect from a Software 1.0 process to a Software 2.0 process, lets review the basic Software 1.0 development process.
 
@@ -120,7 +120,7 @@ Meanwhile, the Software 2.0 process emphasizes data iteration over model iterati
 
 The key insights that were discovered upon implementing this process in practice are: 
 
-#### De-Emphasis of Metrics in Software 2.0
+### De-Emphasis of Metrics in Software 2.0
 
 The most surprising finding to an ML engineer is how *unimportant* metrics end up being in a Software 2.0 workflow. In Software 1.0, no solid progress on models can be made without solid metrics, so a dogmatic assertion of the field is that metrics development needs to come before model development, and any model development is constrained by the capabilities of the metrics to measure the true performance. Because otherwise, any changes are shots in the dark, and unlikely to hit their mark by random chance.
 
@@ -128,7 +128,7 @@ However, in Software 2.0, metrics are secondary. The reason is because the Data 
 
 Furthermore, this experience-driven model understanding can often be *superior* in finesse to any metrics one might design in complex practical cases. If there are any downsides, it is that metrics look at a lot of data at once, vs a data management process that typically subsamples the data heavily during review. And of course, good metrics are easily communicable to outside groups, and experience-based intuitions are not. But at a strategic level, metrics can take a second tier of importance in a Software 2.0 world, can come later in development and can be of lower quality than the training data.
 
-#### De-Emphasis of Data Size in Software 2.0
+### De-Emphasis of Data Size in Software 2.0
 
 The second surprising finding is how training data size becomes a mixed bag in human-centric Software 2.0 workflows, and keeping datasets small and highly curated can be the way to go. In Software 1.0 workflows, more data is always better. Models can get more, better feedback from more data, even if its quality is relatively low. Especially in cross-modal datasets, more data allows models to find rare associations that simply wouldn't be present in smaller datasets.
 
@@ -144,7 +144,7 @@ Interestingly, modern LLMs take an increasingly mixed approach, with an initial 
 
 This hybrid fine-tuning approach looks increasingly like the trend for real-world machine learning in the next 5-10 years. However, its important to note that other domains have yet to build out the very clean fine-tuning workflows and concepts that have been built for LLMs, and attempts in other domains have not had as much success so far. Innovation will be important to proving the value of hybrid systems in practice.
 
-#### Re-Emphasis of data inspection/visualization tooling
+### Re-Emphasis of data inspection/visualization tooling
 
 As datasets become larger, the Data Manager's idea of "holding the dataset in their head" is no longer realistic. Rather, advanced tool use is required to analyze, understand, and control the larger set of artifacts. Some of the visualizations which proved exceptionally valuable are:
 
@@ -156,7 +156,7 @@ Many more advanced and domain-specific tools are possible, these are just the es
 
 Especially as tooling grows more advanced, substantial training and adaptation to the tool is needed. Ultimately, the human and the tools they use should greatly surpass the capabilities of any automated of either an fully automated or fully manual system, but this will require significant investment into true mastery of the technology, adapting to it as necessary. The ideal is a cyborg-like wholistic system, where the system prompts the human, and the human responds with solid, broad-based judgement.
 
-#### Continued emphasis on normal code debugging 
+### Continued emphasis on normal code debugging 
 
 An quote on an OpenAI blog for a reinforcement learning project (can't find it) said "how did we improve performance? By fixing bugs. And how did we improve performance even more? By fixing more bugs".
 
@@ -166,7 +166,7 @@ Isolating, and resolving these sorts of "bugs" ended up being much of the value 
 
 <!-- One tricky issue to watch out for, is that like any high-level software platform, bugs eventually become features, as people start to work around any issues they discover in a way that ends up depending on the issue itself, and their datasets or workflows end up depending on the issue, and so the user is actually harmed by the fix. Sometimes this is worked around by adding configuration in the short term, but in the long term, default settings need to all work as well as possible, and ideally, configuration that is never recommended for normal usage is slowly deprecated. -->
 
-### Responsive Labeling Schemas
+## Responsive Labeling Schemas
 
 The first step in an ML process is to identify the semantic label schema. However, this labeling schema is too important, and course correction later in the project will inevitably be required for improvements in performance and utility. On the other hand, shorter-term commitments to particular labeling schemes is critical to ensure consistency and second-guessing anxiety. So making the best judgements possible at key junctures, and backing those commitments until the next juncture is a helpful pattern.
 
@@ -183,7 +183,7 @@ Thus, even in modern machine learning with large, synthetic datasets, labeling a
 3. **Arbitration:** When clear and easily agreed upon distinctions/schemes are not possible to arrive at, or when ambiguous cases arise, there is a benefit to incorporating an arbitrary element: a certain bias or tendency of a head data manager. As an analogy, consider a team of animators working on a cartoon: there is a single artist responsible for the overall style, and the other animators need to conform to it---a mix of styles is unpleasant. In real world ML applications, when the standard of clear distinguisability is not met, this consistency created with a wholistic vision of model behavior is more valuable than any sort of artificial consistency imposed by some sort of multi-labeler consistency protocol. This value is revealed in behavior on ambiguous objects, where some particular model behavior, is more desirable than another based on how the model is used, and average accuracy scores are unimportant. I.e., if 99% specificity is required for the system to act autonomously, no one cares that you increased accuracy from 90% to 95%----it needs to be specific, and data manager arbitration is the most powerful tool to design datasets with the capability of reaching these high targets. 
 
 
-### Active Learning Labeling Protocol
+## Active Learning Labeling Protocol
 
 The central process of Software 2.0 (the bulk of the middle part of the project), that can start immediately after an initial labeling strategy is determined, is an "active learning" labeling/training loop. Active learning is when the current iteration of the model is used to more efficiently label and curate data for the next iteration of the model. 
 
@@ -202,7 +202,7 @@ To maximize the value of active learning processes, the following objectives sho
 3. **General Model Understanding:** The Data Manager should be gaining a general understanding of the model's behavior and how it responds to changes in data labels. While this general intuition is not a replacement for principled labeling strategies, this intuition brings a greater understanding of the data that is actually required to achieve goals, and ultimately, brings knowledge and insights to the team. 
 4. **Minimal Datasets:** Focusing labeling on problematic cases should be shrinking the required dataset size and making datasets easier to review and modify, relative to a labeling protocol free of this feedback.
 
-### End to End Evaluation
+## End to End Evaluation
 
 In Deep Learning, much hype is made about "End to End" learning, that is, a model that takes in raw data and outputs actions that drive a fully automated system, like a self-driving car. The benefit is that humans do not need to design the intermediate representations; these representations can be learned via backpropagation, and thus these representations can be much more informative and higher-dimensional than a human can visualize or review for accuracy.
 
@@ -212,7 +212,7 @@ In such a mixed Software 1.0/2.0 system, it becomes important to evaluate whole 
 
 End to end evaluation is also practical much more often than end-to-end training, requiring much less data. It is also very valuable, as good understanding of these cross-component concerns end up being invaluable in making good decisions at key points during the development process, and so building out test sets is valuable, even if expensive.
 
-#### Special note on Human-in-the-loop systems
+### Special note on Human-in-the-loop systems
 
 ML Inference systems that expect a human to review results comprehensively, for example in medical diagnosis, true "end to end" evaluation might involve a human re-reviewing the results. While this is important to evaluate, running this test clearly has a high marginal cost, as opposed to the high fixed cost of setting up a fully automated test.
 
@@ -220,7 +220,7 @@ Setting up permanent employees available to run these tests for the entire proje
 
 However, another option that can allow for cheaper but imperfect end-to-end testing on simpler projects is to simulate the human with another model that is trained on human expert actions. While not perfect, and not always advisable, general trends in results are likely to correlate between real human experts and simulated human experts.
 
-### Valuable Metrics
+## Valuable Metrics
 
 While metrics are less important in Software 2.0, as mentioned earlier they can still provide significant value when they can be used to improve the dataset or make key decisions. The key characteristics that make a good metric include:
 
@@ -230,7 +230,7 @@ While metrics are less important in Software 2.0, as mentioned earlier they can 
 
 The benefits of these principles apply in both end-to-end evaluation, and in single component evaluation, however, tracing and acting on errors is harder in end-to-end evaluation, allowing single-component evaluation to shine.
 
-## Software 2.0 Product
+# Software 2.0 Product
 
 Developing Software 2.0 can be a difficult, expensive and slow operation to undertake, and the resulting product must be well targeted and highly valuable. In the end, all ML projects without a strong business case eventually fail. ML projects require significant maintenance, computer infrastructure, and support, and need durable sources of income to support operations. Given these costs, driving projects from the business side, and working backwards, can be a much smoother process than trying to find applications for novel ML technologies. In fact, the entire Software 2.0 paradigm is about paving smoother, more consistent paths to business automation success, depending more on team quality and commitment, and less on luck and timing with experimental technologies. 
 
