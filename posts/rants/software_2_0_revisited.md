@@ -104,19 +104,19 @@ To start, lets examine all the differences we found from best practices in Softw
 
 To emphasize the differences and changes one can expect from a Software 1.0 process to a Software 2.0 process, lets review the basic Software 1.0 development process.
 
-1. Determine labeling strategy+classes
-2. Label training+test dataset, the larger and cleaner the better
-3. Determine metrics to evaluate model on
-4. Iterate on model/learning strategy, attempting to improve metrics
-5. Go back and review steps 1,2, and 3 if step 4 can't yield good enough results.
+1. **Specify:** Determine labeling strategy+classes
+2. **Data Development:** Label training+test dataset, the larger and cleaner the better
+3. **Evaluate:** Determine metrics to evaluate model on
+4. **Model Development:** Iterate on model/learning strategy, attempting to improve metrics
+5. **Review:** Go back and review steps 1,2, and 3 if step 4 can't yield good enough results.
 
 Meanwhile, the Software 2.0 process emphasizes data iteration over model iteration, so the main iteration loop is on the data, rather than the model, requiring a bit of a re-ordering of the steps to support this data iteration. 
 
-1. Determine labeling strategy+classes
-2. Determine model/learning strategy
-3. Iterate on training dataset, evaluating model outcomes as one iterates
-4. Determine metrics to judge final model on and create test set. (Typically implemented concurrently with step 3)  
-5. Review steps 1, 2, and 3 if the model doesn't pass the bar.
+1. **Specify:** Determine labeling strategy+classes
+2. **Model Development:** Determine model/learning strategy
+3. **Data Development:** Iterate on training dataset, evaluating model outcomes as one iterates
+4. **Evaluate:** Determine metrics to judge final model on and create test set. (Typically implemented concurrently with step 3)  
+5. **Review:** Review steps 1, 2, and 3 if the model doesn't pass the bar.
 
 The key insights that were discovered upon implementing this process in practice are: 
 
@@ -156,7 +156,7 @@ Many more advanced and domain-specific tools are possible, these are just the es
 
 Especially as tooling grows more advanced, substantial training and adaptation to the tool is needed. Ultimately, the human and the tools they use should greatly surpass the capabilities of any automated of either an fully automated or fully manual system, but this will require significant investment into true mastery of the technology, adapting to it as necessary. The ideal is a cyborg-like hybrid workflow, where sometimes the system prompts the human, somtimes the human prompts the system, with the human providing precise judgement and broad vision, and the computer providing broad analysis and precise memory.
 
-### Continued emphasis on normal code debugging 
+### Continued emphasis on technical ML excellence 
 
 An quote on an OpenAI blog for a reinforcement learning project (can't find it) said "how did we improve performance? By fixing bugs. And how did we improve performance even more? By fixing more bugs".
 
@@ -244,7 +244,7 @@ Developing Software 2.0 can be a difficult, expensive and slow operation to unde
 While no complete guide on Software 2.0 products can be assembled, as there is limitless room for creativity and innovation, some decent principles for those just starting out in Software 2.0 are:
 
 1. Make sure you are getting the best fruit, whether it is low-hanging or not. Sometimes, low-hanging fruit is actually not valuable enough to change anyone's behavior and not valuable enough to sell your product at any price. For example, outsider perceptions of value, and insider's perception of value in an industry can be shockingly different. Insiders recognize that one well-trained, well-suited human might be able to outperform 10 poorly trained humans. So if as an outsider, you try to evaluate the value of automating a poorly trained human, you will get a very different value proposition than the insider's perception of value given a highly trained human.
-2. Make sure your product is not solvable with mathmatical approaches. Deterministic algorithsm and statistical methods are easier to implement, more reliable, and easier to understand. Sometimes difficult puzzles and challenges that seem impossible to solve perfectly, like NP complete problems like the famous traveling salesman problem, have very good heuristic approximations that actually outperform all data-centric methods, in all cases. Finding the right specialist to identify the best heuristic or statistical technique can be tricky, but the long-term reliability of principled algorithmic systems will make up for it eventually.
+2. Make sure your product is not solvable with mathematically principled approaches. Deterministic algorithms and statistical methods are easier to implement, more reliable, and easier to understand. Sometimes difficult puzzles and challenges that seem impossible to solve perfectly, like NP complete problems like the famous traveling salesman problem, have very good heuristic approximations that actually outperform all data-centric methods, in all cases. Finding the right specialist to identify the best heuristic or statistical technique can be tricky, but the long-term reliability of principled algorithmic systems will make up for it eventually.
 3. Make sure your problem does not add more burden to humans than it removes. Does the automation interrupt a previously smooth human workflow, by requiring data entry, application switching, or any other manual work that was previously unnecessary? If so, it can be harder to out-perform an expert human in the flow than you would think. These workflow issues may need to be resolved with hardware or software integrations before your Software 2.0 product can be successful in the market.
 4. If your product is a fully automated system that replaces a human, are you sure your model can generalize to edge cases as well as a human? Extreme sensitivity on edge cases or out-of-domain cases is necessary in most real-world applications. Even in lower-risk applications like industrial quality control, a heavy tail of failed edge cases might end up hurting your product's value. In safety-sensitive domains such as medicine, human-robot coordination, or safety inspections, failure on edge cases might be intolerable, and false alarms might be by far preferable. Evaluating models on unseen domains or distinct instances can be a way of judging if your training strategy can really replace a human where it matters. Some sort of out-of-domain detection training strategy might also be necessary, as out of the box accuracy maximization strategies are unlikely to work well with unseen instances.
 
