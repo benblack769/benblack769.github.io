@@ -2,13 +2,13 @@
 title: "The economic problem of AI"
 slug: economic-problem
 under_construction: false
-excerpt: "An essay on the economic barriers to research and development in AI."
+excerpt: "An essay on the economic barriers to research and development in AI, despite the huge hype and real world rewards."
 comments: false
 share: false
 post_date: "2020"
 ---
 
-### The purpose of technology
+### The utility of technology
 
 Why do you use technology? Do you play with it? Perhaps you do. But, what about the technologies you are still using from 10 years ago? Are they just toys or something more? Are they something that fits into your life like a belt, tying things together, making your life a little easier, a little more convenient, a little brighter, a little less lonely?
 
