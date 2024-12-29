@@ -7,6 +7,7 @@ comments: false
 share: false
 post_date: "2023"
 img: /images/hashlife/hashlife_splash.png
+code: "https://github.com/benblack769/hashlife-rust"
 priority: 0
 ---
 
@@ -32,7 +33,7 @@ You should see the results look something like this:
 Note that the dots coming out of the machine correspond one to one with the twin primes! This works because the machine acts like a prime sieve, eliminating all non-primes, and then also eliminating unpaired primes.
 
 * Code here: [https://github.com/benblack769/hashlife-rust](https://github.com/benblack769/hashlife-rust)
-* You can learn more about hashlife here: https://www.dev-mind.blog/hashlife/ 
+* You can learn more about hashlife here: [https://www.dev-mind.blog/hashlife/](https://www.dev-mind.blog/hashlife/)
 
 #### Key learnings
 

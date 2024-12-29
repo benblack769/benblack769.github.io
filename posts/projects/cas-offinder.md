@@ -6,6 +6,7 @@ excerpt: "Accelerating an open source genome fuzzy search tool."
 comments: false
 share: false
 priority: 1
+code: "https://github.com/pnucolab/cas-offinder-rust"
 img: /images/cas-offinder/data_pipeline.png
 post_date: "2022"
 ---
