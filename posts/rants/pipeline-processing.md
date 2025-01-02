@@ -30,9 +30,9 @@ But at the end of this cavern was treasure:
 
 This treasure was clearly visible across the engineering group, and somewhat valuable to leadership, shining on efforts to success from on high.
 
-Despite this potential treasure, and its visibility, simply formulating a plan to solve the problem perfectly was beyond any of us working there, as there were regulatory commitments to never change any results of any existing models, and a codebase that couldn't be iterated on without breaking something, and a lack of a clear mission stymied any serious planning. 
+Despite this potential treasure, and its visibility, simply formulating a plan to solve the problem perfectly was beyond any of us working there, as there were regulatory commitments to never change any results of any existing models, and a codebase that couldn't be iterated on without breaking something, and a lack of a clear mission, leadership, or resources stymied any serious planning. 
 
-However, the warrior must remain vigilant and prepared against all threats, both those highly visible and those that are obscured. So I traced every logical codepath, and diagrammed out into what seemed like the best logical abstraction: a data processing pipeline (janky diagram of the actual pipeline sketched out below). It wasn't pretty, but it made me understand the inherent simplicity to the logic. The cave was dark, and packed with monsters, but not too big or deep. 
+However, the warrior coder must remain vigilant and prepared against all threats, both those highly visible and those that are obscured. So I traced every logical codepath, and diagrammed out into what seemed like the best logical abstraction: a data processing pipeline (original janky diagram of the actual pipeline sketched out below). It wasn't pretty, but it made me understand the inherent simplicity to the logic. The cave was dark, and packed with monsters, but not too big or deep. 
 
 ![Classifier-diagram](/images/pipeline-processing/images/techcyte-pipeline.png)
 
@@ -62,7 +62,7 @@ The experience led me to know some of the core issues that cause most of the pai
 With a commitment to focus on these concrete system/runtime problems, rather than abstract software design principles, the design fell into place quickly.
 
 1. This would be a microframework that fully controls how and when processes are spawned, errors are handled, and messages are passed. Users will only have access to a fixed set of configuration to change semantic behavior. This decision goes against many of my closely held software design principles, but it seemed like the only way to make sure every one of those failure cases were handled. 
-2. The core microframework would only support a single very simple concept: linear async message passing between workers. All other features and functionality would be built on top, either in the form of coding patterns, or in the form of wrappers with a higher level interface with more features. This decision to only support linear message passing rather than general directed graphs like some competitor systems was mostly to make backpressure (the killer feature of any low-latency pipeline processing system) easier to implement and analyze. 
+2. The core microframework would only support a single very simple concept: linear async message passing between workers. All other features and functionality would be built on top, either in the form of coding patterns, or in the form of wrappers with a higher level interface with more features. This decision to only support linear message passing rather than general directed graphs like some competitor systems (i.e. dagster) was mostly to make backpressure---the killer feature of any low-latency pipeline processing system---easier to implement and analyze. 
 3. Default parameters would be set to maximize stability and accuracy over performance, allowing users to opt-into performance gains only when necessary.
 
 ### Sketching out the API:
@@ -76,6 +76,10 @@ $ cat sample.a | grep -v dog | sort -r
 While this cannot be elegantly translated one to one to python, I remembered this idea from my previous employer that python generators are the most pythonic equivalent of unix pipes. Each "command" is turned into a generator which accepts an iterator, and returns an iterator:
 
 ```python
+"""
+Awfully similar semantics to unix pipe
+load_images | run_model | remap_results | aggregate_results
+"""
 img_iter = load_images(imgs)
 model_results = run_model(img_iter, model_name="yolov5s", model_source="ultralytics/yolov5")
 post_processed_results = remap_results(model_results, classmap= {0: "cat", 1: "dog"})
@@ -95,7 +99,7 @@ With this basic design in place, the basic implementation of the core functional
 
 Even more importantly, this simplicity allowed for fairly exhaustive testing of configuration options and many exceptional cases of segfaults, spawn multiprocessing, and error catching. 
 
-Performance turned out pretty good as well: when fixed-size buffers are enabled, tens of thousands of short messages can be passed per second, and multiple gigabytes of single-connection total message bandwidth for larger messages. Process spawn time is typically well under a second, and shutdown triggered by either exceptions or segfault typically also typically well under a second. There are no busy loops enabled by default, so CPU overhead is very low. All powered by a pure-python implementation with only pure-python dependencies.
+Performance turned out pretty good as well: when fixed-size buffers are enabled, tens of thousands of short messages can be passed per second, and multiple gigabytes of single-connection total message bandwidth for larger messages. Process spawn time is typically well under a second, and shutdown triggered by either exceptions or segfault typically also well under a second. There are no busy loops enabled by default, so CPU overhead is very low. All powered by a pure-python implementation with only pure-python dependencies.
 
 With a customized build and gear designed specifically to tackle the last boss, it should be a breeze. Now it is time to turn our attention to the rest of the dungeon. 
 
@@ -103,7 +107,7 @@ With a customized build and gear designed specifically to tackle the last boss, 
 
 While individual bosses might be soloed by the well prepared, whole dungeons cannot be so easily soloed, as a wide variety of skills, knowledge, relationships, and centers of focus are needed to win every battle and evade every trap (the real world does not have save points or respawns). So Dungeon clearing parties need leaders to establish common objectives and bring people together, and sometimes, we are not the right person to do that. Sometimes, we have to just wait to be hired into a party. 
 
-In my case, I was lucky, as a leader arrived only a few weeks after I had done the above preparation. He came quietly, but quickly: secretly building out a prototype ML model for our most successful product in a couple of weeks, revealing the secret prototype to select influential executives to buy support for his project, quietly inviting a hand-picked team of engineers to work on the plan, all while continuing his prior role as a backend team lead and evading the inevitable pushback from the normal engineering management hierarchy until momentum had developed. 
+In my case, I was lucky, as a leader arrived only a few weeks after I had done the above preparation. He came quietly, but quickly: secretly building out a prototype ML model for our most successful product in a couple of weeks, revealing the prototype to select influential executives to buy support for his project, quietly inviting a hand-picked team of engineers to work on the plan, all while continuing his prior role as a backend team lead and evading the inevitable pushback from the normal engineering management hierarchy until momentum had developed. 
 
 As you might expect from this description, he is the main hero in the greater story surrounding this one, and I am merely a well-prepared mercenary-type side character. He later revealed his immense frustration with the status quo of stale leadership, high operating costs, and bad code, that caused him to reach across the company wanted to help save the company from its reliance this legacy ML codebase and its poor outcomes. We ultimately found a lot of common ground in this frustration and quickly built a trusting relationship. 
 
@@ -118,7 +122,7 @@ My solution to the first one trap was pretty standard: a slew of design diagrams
 
 The second issue I ignored. While the CTO was a phenomenal engineer with great practical sense, he was too far away from the project to control its course, and he had already signed off on the basic principle. All he was doing with this suggestion was trying save the company time and sorrow by making sure we weren't reinventing the wheel. But I was already convinced that there was no such wheel, only the aforementioned logs and Conestoga wagons so I just ignored it, and the issue was dropped because implementation progress was steady. 
 
-After everything was said and done, several months later, the actual production classifier on most of our products ended up adopting the pipeline inference framework, and the CEO was pretty pleased about all the AWS cost savings, and the engineering management was pretty pleased about the additional flexibility, and everyone was happy. Except for me, because I was made a team-lead to make sure all this new infrastructure had the necessary support to make it to production successfully. But after the business hurdles to getting the code to production were crossed, and operational difficulties settled down a bit, I managed to wiggle myself out of the leadership role, and started to have the space to think about where this core pipeline processing framework needs to go.
+After everything was said and done, several months later, the actual production classifier on most of our products ended up adopting the pipeline inference framework, and the CEO was pretty pleased about all the AWS cost savings, and the engineering management was pretty pleased about the additional flexibility, and everyone was happy. Except for me, because I was made a team-lead to make sure all this new infrastructure had the necessary support to make it to production successfully. And I was the one with the most technical expertise and knowledge of the systems. But after the business hurdles to getting the code to production were crossed, and operational difficulties settled down a bit, I managed to wiggle myself out of the leadership role, and started to have the space to think about where this core pipeline processing framework needs to go.
 
 ## The Dungeon Needs a Walkthrough: Implicit feature support in microframeworks via examples and tutorials
 
@@ -222,3 +226,4 @@ This context guard can redirect the global logger or stdout to a file just for t
 
 ## Current status
 
+This project is currently awaiting final approval for an open-source release. Code link and full-code examples/documentation are awaiting this release.
