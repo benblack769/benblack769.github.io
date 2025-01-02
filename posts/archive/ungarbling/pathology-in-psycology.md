@@ -44,13 +44,3 @@ The framework of interacting feelings does not give a coherent story about menta
 Individual mental health can be evaluated, but when society steps in, even certain kinds of pathologies start to make a lot of sense. 
 
 But these other proposals can be evaluated and compared using this framework.
-
-# Yeah, this is garbage.
-
-gives a very specific but profound idea of what mental heath is: the absence of pathological thoughts.
-
-Unlike positive psychology, it proposes that pathological thoughts do not need to be replaced by positive ones, but instead can be replaced by neutral or negative thoughts that are not pathological.
-
-Unlike proper priorities, it claims that sitting down and thinking hard about priorities is only one of many ways to align priorities with true goals. It proposes that in a pathological free world, social factors could also contribute to priority alignment.
-
-Unlike functionalism, it focuses on actual priorities instead of apparent ones.

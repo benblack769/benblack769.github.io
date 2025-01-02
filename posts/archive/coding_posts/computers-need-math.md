@@ -1,9 +1,9 @@
 
-Math and computer science have a long history together. Some of the biggest figures in Computer Science, including Alan Turing, Von Neumann, and Donald Knuth were PhDs in pure mathematics. This connection is not accidental. The work they were doing was all very serious mathematics, even if much of it looks like engineering today.
+Math and computer science have a long history together. Some of the biggest figures in Computer Science, including Alan Turing, Von Neumann, and Donald Knuth were PhDs/Professors in pure mathematics. This connection is not accidental. The work they were doing was all very serious mathematics, even if much of it looks like engineering today.
 
-And yet, in the 21st century, the increasing sophistication of tools and best practices have allowed many good computer scientists to not see the deep connections between the two subjects.
+And yet, in the 21st century, the increasing sophistication of tools and best practices built out by our great mathematical predecessors have allowed many good computer scientists to not see the deep connections between the two subjects.
 
-But I always believe that if you are a computer scientist, and you want to make meaningful conceptual contributions to the subject area, then a deep understanding of mathematics is essential. And even if you only wish to contribute more empirical and applied work, then I believe that mathematical skill is incredibly valuable.  
+But I always believe that if you are a computer scientist, and you want to make meaningful conceptual contributions to the subject area, then a deep understanding of mathematics is essential. And even if you only wish to contribute deeply to empirical and applied work, then mathematical skill is incredibly valuable. Here is why.  
 
 ## Skill: Analysis of API properties
 
