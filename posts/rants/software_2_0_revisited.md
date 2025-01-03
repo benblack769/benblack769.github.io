@@ -240,7 +240,15 @@ The benefits of these principles apply in both end-to-end evaluation, and in sin
 
 # Software 2.0 Product
 
+Those experienced with ML know that people and project management aren't everything. Good people can create an awesome model, and still ultimately fail to provide anything of durable value. 
+
+These failures can usually be tracked to two parts of projects: The very beginning (project choice) and the very end (long term maintenance). 
+
+## Principles of Project Choice
+
 Developing Software 2.0 can be a difficult, expensive, and slow operation to undertake, and the resulting product must be well targeted and highly valuable. In the end, all ML projects without a strong business case eventually fail. ML projects require significant maintenance, computer infrastructure, and support, and need durable sources of income to support operations. Given these costs, driving projects from the business side, and working backwards, can be a much smoother process than trying to find applications for novel ML technologies. The entire Software 2.0 paradigm is about paving smoother, more consistent paths to business automation success, depending more on team quality and commitment, and less on luck and timing with experimental technologies. 
+
+### Ensuring Business Value
 
 While no complete guide on Software 2.0 products can be assembled, as there is limitless room for creativity and innovation, some decent principles for those just starting out in Software 2.0 are:
 
@@ -249,10 +257,94 @@ While no complete guide on Software 2.0 products can be assembled, as there is l
 3. Make sure your problem does not add more burden to humans than it removes. Does the automation interrupt a previously smooth human workflow, by requiring data entry, application switching, or any other manual work that was previously unnecessary? If so, it can be harder to out-perform an expert human in the flow than you would think. These workflow issues may need to be resolved with hardware or software integrations before your Software 2.0 product can be successful in the market.
 4. If your product is a fully automated system that replaces a human, are you sure your model can generalize to edge cases as well as a human? Extreme sensitivity on edge cases or out-of-domain cases is necessary in most real-world applications. Even in lower-risk applications like industrial quality control, a heavy tail of failed edge cases might end up hurting your product's value. In safety-sensitive domains such as medicine, human-robot coordination, or safety inspections, failure on edge cases might be intolerable, and false alarms might be by far preferable. Evaluating models on unseen domains or distinct instances can be a way of judging if your training strategy can really replace a human where it matters. Some sort of out-of-domain detection training strategy might also be necessary, as out of the box accuracy maximization strategies are unlikely to work well with unseen instances.
 
+### Ensuring Data Prevalence
+
+As you might have guessed, "data-centric" software development requires a fair bit of data. This means that project choice needs to include the prevalence of data as a variable. However, data is more complex than "lots" or "little" data.
+
+#### Data Domain Equivalence
+
+Ultimately, it is very hard to train a model that automatically generalizes across domains or across wide gaps in image specification. Some principles: 
+
+1. Do you have access to the true pipeline of data coming in from the real world? If you do, and this pipeline of data has a reasonable diversity of data/edge cases coming in (see [below section](#edge-case-coverage)), you are good to go.
+2. If your data is similarly sourced, then you might be in OK shape. For example, if you are building a system for police body-cam data, but you only have a lot of civilian body-cam data, your data is somewhat out of domain. Police and civilians generally experience different things, so the distribution of data will be different. Additionally, police and civilians typically use different sorts of body-cams with different specs/settings, and mount them on different parts of the body, creating more sources of divergence. However, these gaps can be overcome. Careful search and organization of the data can fix the distribution problem. Augmentation and pre-processing can fix camera differences. 
+3. If your data is very differently sourced, then you will be in trouble. For example, consider if you try to use Imagenet/CoCo, which sources very carefully centered and edited photos from social media, to find objects scattered around a cluttered robotics lab, which is poorly lit, with occlusion, and much worse photography, showing very different angles, lightings, background, and such than social media images. Much research has gone into trying to bridge this domain gap with mediocre results: data domain unequivalence is hard to get around. A more clear example, is if you try to train the police body-cam model with google street view data. You will never find dark images lit only by flashlights, objects at certain angles, objects indoors, or certain complex situations in all the dozens of petabytes of google street view data. It just isn't there. So model will perform very poorly on all these cases, no matter how big the model is, or how sophisticated the training method or data curation is.
+4. There are many ways of bridging domain gaps. Data-side ideas include use of augmentation, synthetic data, and autogenerated labels. Note that if these data-side solutions can feed back into your data curation process, and be reviewed, curated effectively, they are much more likely not to screw up your training set. Model side techniques like out-of-domain detectors and pretrained foundation models are also helpful, but limited in their capabilities.
+
+#### Edge Case Coverage
+
+Even with decent data domain equivalence, sometimes, you are trying to find true edge cases. A literal needle in a haystack, in industrial quality control. Or a screw. Or a piece of plastic. Or any other imaginable object. In Pathology, the main type or two of cancers cause 95%+ of cases, but there are hundreds of types of cancers, any of which can conceivably be present, but which will occur with exponentially decreasing frequency. Do you have access to decent coverage of the most important edge cases? If not, then you should not attempt to build a data-centric product.
+
+However, it might not be all bad. There are several techniques to maximizing the use of the data you do have to try to cover the rarest edge cases by leveraging your existing data.
+
+There are two main approaches to this:
+
+1. Get the model to really understand all possible variations of "normal". Once normal is ruled out, then only abnormal is left. Classical anomaly detection techniques built on top of deep features can help with some of the issues with deep learning based anomaly detection. 
+2. If more axes than a binary good/bad axis is needed, then you can classify objects by how they should be treated, rather than what they are. Needles in food are bad, in the same way that screws are bad. But different than how burnt food is bad, or how mis-folded packaging is bad. The hope is that even if a new type of object comes in, it will be classified correctly, even if it looks somewhat different.
+
+
+## Principles of Long Term Maintenance
+
+Machine learning products can also fail at the end of the project lifecycle---long term maintenance. In particular, the famous data-drift problem is a major issue.
+
+For example, lets say you are making a street car vision system. In a year, there will be new models of cars on the road that your system had never seen. In 2 years, the cameras will be replaced, which will inevitably have different settings/resolutions. These changes are "data drifts" which will degrade performance of any deep learning model. How will your product keep up?
+
+This issue is particularly important since most real-world AI is built in a very fast-moving hardware landscape. Think about how much the hardware on these devices has changed in the last 10 years:
+
+* Drones
+* robots
+* satellite cameras
+* security cameras
+* body cameras
+
+If this data-drift problem is not addressed, your product will lose value very fast. And strategic partners are increasingly aware of this, and will demand a strategy up-front.
+
+### Continuous Monitoring
+
+Before a data-drift is mitigated, it should be detected. This is the idea of "Continuous Monitoring", where the performance of the system is tracked in production after release. However, unlikely dev-ops, where errors can be tracked, it is not always so easy to actually monitor performance of an ML system, since an "error" is not always super well specified, and even if it is, it is often the case that no one is going around entering errors into the system in production. Some ideas to implement continuous monitoring in these ground-truth scarce production scenarios include:
+
+1. Get end-user feedback. Give your users a button to smash if they don't like what your system did. Ideally, this should be attached to the actual data that triggered the user to be unsatisfied, and uploaded for internal review. Rather than a satisfaction survey, think more along the lines of a dis-satisfaction pipeline. Dissatisfaction pipelines, like bug reports, bad customer service reviews, etc, grant value to their users primarily by making them feel included in development. They want to see that their feedback is actually understood (not a robot response), their issue prioritized, and eventually fixed. 
+2. If this is not possible, get someone else to continuously label/evaluate a subsample of your production data. This can be done simply with internal staff. If you want to be like Google, you get innocent bystanders to check your labels (i.e. reCAPCHA). 
+3. If you don't have direct access to production data (i.e. from an edge device that isn't regularly connected to the internet), then you might have to have the device queue up data and request data dumps from your users. Some sort of beneficial contractual terms might be needed to smooth out any business friction, such as data-sharing or privacy concerns.
+4. Some AI developers also have full subsidized in-house production businesses that mimic those of their main clients specifically to better monitor issues and prototype solutions. This is great for product development, but not a very robust solution for this data-drift solution, since your data all comes from the same pipeline. I.e. a self-driving car company based in California will only see clear California roads, not icy Canada roads.
+
+### Continuous Data Collection
+
+Complementary to Continuous Monitoring is continuous data collection, for training/test sets. The need for new data to solve new problems is why it is important to try to get the raw data that triggered the error, and not just the dis-satisfaction report. 
+
+However, just accumulating data is not enough. This data must be reviewed, curated, and incorporated into the main training dataset to effectively and continuously improve the model's quality. 
+
+### Continuous Delivery/Regression Testing
+
+Once an issue has been identified and fixed, it needs to be re-deployed. Crucially, users will want assurance that the new model will be strictly better, and not worse in certain situations. The typical way to prevent these regressions is to have a continuously growing automated test-set which checks all known data distributions, past and present, for regressions. Maintaining a good regression test suite can have the following difficulties:
+
+#### Data Distribution Fragmentation
+
+One challenge here is simply categorizing the different data distributions in this test set. This is not a trivial matter. If these distributions are all lumped together, improvements in new datasets can out-weigh serious regressions in old data distributions that might still be used by certain customers. If the distributions are separated out too finely, then they might be noisy, and not cover important cases. Some reasonable separation strategy is key. 
+
+Duplication of data examples across all test classes it could possibly represent is a good strategy to keep datasets both large and highly stratified. I.e. if you have both a new camera, and it is taking photos in a new country, then it can belong to two test sets: the test set for the new country, and the one for the new camera. This eliminates the need for a combinatorial explosion of test classes.
+
+#### Semantic Shift
+
+Sometimes, a model change is not purely an accuracy improvement. It comes with a significant semantic change in how objects are interpreted by the model, in an effort to improve the end-product. These changes usually come in the form of finer-grained distinctions, more classes, higher-dimensional grading, etc. Under the new semantic definitions, old ground truth labels in the regression test data might be incorrect or incoherent, leaving old regression tests useless to evaluate new models. 
+
+As painful as it might sound, this semantically mis-aligned data should really be re-labeled to the new standards of truth. Keeping test sets small and balanced is key to reduce the pain experienced in this situation. 
+
+### Earning Trust in the New
+
+In higher-risk and/or regulated industries, clients will want to have a very good grasp of the risk profile of any change. They might not trust your regression test set, and might insist on running their own testing before accepting any change to something as hard to analyze as a deep learning model. Even worse, regulators and watchdogs might also want to see formal third-party studies done on any significant changes. Interestingly, even if no such process exists, "standard" validation practices will sprout up very fast.
+
+As most AI businesses get off the ground, surrounded by technical challenges, staffing challenges, and relationship challenges with partners and clients, they will likely trend towards accepting the rules and restrictions imposed on them. Unfortunately, this is not a good long term strategy. The winners in any competitive AI market will be those who improve the fastest. If model releases are delayed (think years of delay in the worst cases), key feedback from production will be missing, slowing improvements. Repeated model mistakes that are not rapidly fixed will decrease trust in your AI. The fact that the same person is holding back your release might also be demanding a fix to a problem, is ultimately irrelevant to this loss in trust.
+
+The key principles involved in building trust in your release process include:
+
+1. **Speed:** If you can throw more money at the validation problem, and get your release time down by throwing money and people brute forcing the validation process, this can be a good medium-term solution, even if there is a bit of grouching about waste.
+2. **Visibility:** Your more efficient, automated test process must be at least as visible, open, and as high-quality as whatever it is replacing. The more people can see into your process, and understand that it is built on solid principles by qualified people, the more they will trust it.
+3. **Internal Ethics:** Long term, your business must uphold good ethics around data use and release processes to be trustworthy enough to lighten external validation load. Hiring schemes, bonus programs, and other incentivising at a high-level can point individual contributors and managers in the way of good or bad ethics. And there is no replacement for good examples of discipline shown from top executives.
+
+<!-- 
 # Software 2.0 Technologies
 
 Software 2.0 (develop features with data, rather than code) is downstream and totally dependent on particular computer science ideas, concepts, and frameworks. One would struggle to build a complex software product (let's say Photoshop) without a compiler, assembler, linker, etc, or at least a very good understanding of the core CS concepts involved in those tools (Regex compilation, LR parsing, SSA form, etc), so that the compiler/linker/etc can be re-built before the project will begin.
 
 Similarly, one will struggle to build any Software 2.0 product without a good deep learning framework, batch job queue, GPU cluster, networked file/object store, etc. 
-
-
+ -->
