@@ -1,11 +1,10 @@
 ---
 title: "Building High Performance Pipeline Processing Tooling in Python"
 slug: pipeline-processing
-under_construction: true
+under_construction: false
 excerpt: "Building abstract software ends up being less like building a wheel and more like clearing a dungeon of danger, uncertainty, and reward."
 comments: false
 share: false
-priority: 1
 img: /images/pipeline-processing/pipeline_diagram.svg
 post_date: "2024"
 ---
