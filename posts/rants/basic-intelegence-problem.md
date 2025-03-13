@@ -1,6 +1,6 @@
 ---
 title: Intelligence as a Definable Problem
-under_construction: false
+under_construction: true
 slug: basic-intelligence-problem
 excerpt: "Philosophical inquiry into the nature of intelligence."
 comments: false
@@ -14,7 +14,9 @@ This question, more in the field of metaphysics than science, is a question I ha
 
 But recently, I have been thinking the same question in a different context, that of machine intelligence. Why do some people think some applications are smart? Why do more experienced programmers and computer scientists take a more skeptical view of the intelligence of computers than most people? And finally, what can I do to make my code act truly intelligently?
 
-I had my first insight in a Philosophy of Computation class. We read several papers by skeptics of AI. And in particular, one piqued my interest: "Psychologism and Behaviorism", by Ned Block, Section 2 ( [link](http://www.nyu.edu/gsas/dept/philo/faculty/block/papers/Psychologism.htm)). Block describes a hypothetical machine that a human programs to respond to every possible set of questions within a fixed amount of time with an appropriate answer. This is not physically possible in our universe for long time periods. But in theory this machine passes the Turing test even though it somehow doesn't seem intelligent. Rather the human programming it is the intelligent one. To, that begs the question: what about this machine makes it unintelligent? I tried to resolve this problem myself. And what I discovered is that intelligence is simply making good decisions quickly with limited information. Maybe obvious in hindsight, but stating it clearly has advantages.
+I had my first insight in a Philosophy of Computation class. We read several papers by skeptics of AI. And in particular, one piqued my interest: "Psychologism and Behaviorism", by Ned Block, Section 2 ( [link](http://www.nyu.edu/gsas/dept/philo/faculty/block/papers/Psychologism.htm)). Block describes a hypothetical machine that a human programs to respond to every possible set of questions within a fixed amount of time with an appropriate answer. This is not physically possible in our universe for long time periods. But in theory this machine passes the Turing test even though it somehow doesn't seem intelligent. Rather the human programming it is the intelligent one. To, that begs the question: what about this machine makes it unintelligent? I tried to resolve this problem myself. 
+
+And what I discovered is that intelligence is simply making *good decisions quickly with limited information. Maybe obvious in hindsight, but stating it clearly has advantages.
 
 
 ### Precise philosophical framework
