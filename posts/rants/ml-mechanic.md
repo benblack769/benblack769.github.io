@@ -7,7 +7,7 @@ share: false
 post_date: "2025"
 ---
 
-## Mechanics vs Architects
+## Mechanics, Craftsmen, and Architects
 
 In every large engineering department you will see these two types of people -- the architects, typically at the top of the ladder, typically in lots of meetings, writing documents, creating diagrams and planning large coordinated efforts involving lots of people and systems. And you will see mechanics going around near the bottom of the ladder, fixing urgent issues with small, clever changes.
 
