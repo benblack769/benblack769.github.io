@@ -15,60 +15,6 @@ As a practitioner designing and implementing real intelligent  systems, the ques
 
 Concepts in model analysis, such as overfitting and underfitting are often discussed in machine learning. However, less well understood are the dataset-side equivalents of these: *overdetermined* and *underdetermined* datasets. I'll be discussing this dataset mis-behavior, how to identify it in your datasets, and quickly review some techniques to solve them
 
-### Overdetermination
-
-Overdetermination occurs when you have true data scarcity. That is, true examples are difficult or impossible to obtain in any reasonable variety, and so its hard to fit a function to the data even ignoring labeling challenges. 
-
-Overdetermination often discussed in the domain of historical analysis. The idea is that when you have some historical trend, there are many possible independent variables, and very few data points. So many possible, reasonable, and well regularized functions fit the same points perfectly. However, most of them do not generalize to the future, and thus do not capture much real information. A good example is predicting the rise of obesity in the United States. There are hundreds of possible indicators, from food sources, mental health shifts, economics, demographic shifts, and very few data points: realistically a single slow moving curve which can be modeled very precisely with just 3 free parameters. 
-
-![Obesity curve](/images/labeling/Obesity_in_the_United_States.svg)
-
-This phenomona is not overfitting because it is not a model design problem, no possible model is capable of reliably fitting the data. Even careful human analysis often fails to fit these sorts of historical trends reliably. Neither can this be solved by collecting more variables to help predict the target data. It can only be solved by finding some way to get more data points.
-
-#### Overdetermination in computer vision
-
-In computer vision, overdeterminism is a bit less clear-cut as compared to historical analysis. We humans intuitively feel as though many computer vision problems are solvable with very few data points. An entomologist can see a single photograph of a rare species of beetle they have never seen before, and can be expected to do a decent job identifying new photographs of the beetle in the future. And so many people intuit that machine learning systems are able to accomplish a similar feat, learning complex functions from very few data points.
-
-However, this intuition is a false intuition. The reality is that the entomologist was trained on hundreds of thousands of images of beetles, and millions of images of insects. Many of this training data has data known to improve self-supervised learning capabilities, including 3d orientation shifts, time-series frames of live insects, scientific articles about function body parts with detailed annotations, images with clean backgrounds, etc. 
-
-![moving insect (https://commons.wikimedia.org/wiki/File:Moschusbock_-_animated.gif)](/images/labeling/Moschusbock_-_animated.gif)
-
-![pinboard (https://www.coffeewithus3.com/diy-bug-board/)](/images/labeling/Hoppers.jpg)
-
-![scientific image (https://lizzieharper.co.uk/2015/01/natural-history-illustration-insect-anatomy/)](/images/labeling/bug-science.png)
-
-This additional context gives powerful ground truth information about the relevant identifying visual information when examining a new type of beetle. Knowledge learned regarding one species generalizes to others, and gets extensively utilized when learning new types of beetles. This prior knowledge is the secret sauce which allows the entomologist to focus in on only a few key identifying criteria, and use these few criteria to reduce the number of independent variables, and transform the beetle identification problem from an overdetermined problem with too many independent variables to a well determined problem with only a few. 
-
-Modern deep learning has a variety of techniques to accomplish a similar feat. Models with carefully crafted inductive biases, cross-correlation loss to make a denser loss function (self-supervised learning), fine-tuning regimes to utilize larger related datasets, various augmentation schemes to generate more diverse image-label pairs, and more. 
-
-However, no current technique comes very close to matching the data efficiency of human domain experts. And so we do have to treat our datasets with the same care we treat overdetermined datasets in historical analysis, finding ways to make sure the model is learning causal, generlizable information regardless of dataset size or lack of diversity.
-
-#### Identifying Overdetermination
-
-Overdetermination is generally discovered from failures to generalize across 
-
-* Overdetermism
-    * Easy to label, hard to get examples of
-        * HFW large eggs
-        * Pap highest atypical cells
-        * Macrophages 
-    * Gap between training data and production data
-    * Lots of very reasonable functions that do perfectly on training+holdout data but miss a bunch of prod data
-    * Training images are often overdetermined (more possible discrimination boundaries than necessary)
-        * Training scans are more-in-focus or higher quality than production scans
-        * Generalization, overfit to one look, fail to pick up other looks despite common features between them
-        * Sometimes certain details are very easy to pick up on, identify/compress the training dataset
-            * Schistosoma
-        * Resulting machine is too simple/incomplete
-        * This extra quality is not always needed to pick up certain things (large HFW eggs/worms)
-        * Lower quality production scans suffer in recall
-    * "Heavy Augmentation"
-        * "I know that this detail isn't needed, so I'll destroy the signal with noise" (blurs/180 color rotations, scales, etc)
-        * We currently think we need a new model for every different set of heavy augmentation.
-    * Learning algorithms (gradient descent) are not perfect at this compression,  one of the reasons large models are needed, is to help them be better
-
-
-
 ### Underdetermination
 
 Underdetermination is the the opposite failure case, where you have many data points, and few independent variables to use to predict them. A good example in computer vision is trying to predict car velocities from a single photograph frame.
@@ -116,6 +62,64 @@ Underdetermined datasets can be solved by several strategies
 4. Label smoothing. Since the label information isn't fully present in the source data, the predicted label should not attempt to reach high accuracies nor should punish somewhat inaccurate predictions too much.
 
 Underdeterminism is often caused by bad pre-processing or data design choices. For example, when an input video is partitioned down to individual still images prior to labeling or model training, information about relative velocities of objects are simply lost. Or when an image is cropped so that only part of the image is visible, then you can still make a good guess as to high level image information (its taken in a city) but might lose detailed information (which model/make/year of the car is centered in the photo).
+
+
+### Overdetermination
+
+Overdetermination occurs when you have true data scarcity. That is, true examples are difficult or impossible to obtain in any reasonable variety, and so its hard to fit a function to the data even ignoring labeling challenges. 
+
+Overdetermination often discussed in the domain of historical analysis. The idea is that when you have some historical trend, there are many possible independent variables, and very few data points. So many possible, reasonable, and well regularized functions fit the same points perfectly. However, most of them do not generalize to the future, and thus do not capture much real information. A good example is predicting the rise of obesity in the United States. There are hundreds of possible indicators, from food sources, mental health shifts, economics, demographic shifts, and very few data points: realistically a single slow moving curve which can be modeled very precisely with just 3 free parameters. 
+
+![Obesity curve](/images/labeling/Obesity_in_the_United_States.svg)
+
+This phenomona is not overfitting because it is not a model design problem, no possible model is capable of reliably fitting the data. Even careful human analysis often fails to fit these sorts of historical trends reliably. Neither can this be solved by collecting more variables to help predict the target data. It can only be solved by finding some way to get more data points.
+
+#### Overdetermination in computer vision
+
+In computer vision, overdeterminism is a bit less clear-cut as compared to historical analysis. We humans intuitively feel as though many computer vision problems are solvable with very few data points. An entomologist can see a single photograph of a rare species of beetle they have never seen before, and can be expected to do a decent job identifying new photographs of the beetle in the future. And so many people intuit that machine learning systems are able to accomplish a similar feat, learning complex functions from very few data points.
+
+However, this intuition is a false intuition. The reality is that the entomologist was trained on hundreds of thousands of images of beetles, and millions of images of insects. Many of this training data has data known to improve self-supervised learning capabilities, including 3d orientation shifts, time-series frames of live insects, scientific articles about function body parts with detailed annotations, images with clean backgrounds, etc. 
+
+![moving insect (https://commons.wikimedia.org/wiki/File:Moschusbock_-_animated.gif)](/images/labeling/Moschusbock_-_animated.gif)
+
+![pinboard (https://www.coffeewithus3.com/diy-bug-board/)](/images/labeling/Hoppers.jpg)
+
+![scientific image (https://lizzieharper.co.uk/2015/01/natural-history-illustration-insect-anatomy/)](/images/labeling/bug-science.png)
+
+This additional context gives powerful ground truth information about the relevant identifying visual information when examining a new type of beetle. Knowledge learned regarding one species generalizes to others, and gets extensively utilized when learning new types of beetles. This prior knowledge is the secret sauce which allows the entomologist to focus in on only a few key identifying criteria, and use these few criteria to reduce the number of independent variables, and transform the beetle identification problem from an overdetermined problem with too many independent variables to a well determined problem with only a few. 
+
+Modern deep learning has a variety of techniques to accomplish a similar feat. Models with carefully crafted inductive biases, cross-correlation loss to make a denser loss function (self-supervised learning), fine-tuning regimes to utilize larger related datasets, various augmentation schemes to generate more diverse image-label pairs, and more. 
+
+However, no current technique comes very close to matching the data efficiency of human domain experts. And so we do have to treat our datasets with the same care we treat overdetermined datasets in historical analysis, finding ways to make sure the model is learning causal, generlizable information regardless of dataset size or lack of diversity.
+
+#### Identifying Overdetermination
+
+Unlike underdeterminism
+
+Overdetermination is generally discovered from failures to generalize across 
+
+* Overdetermism
+    * Easy to label, hard to get examples of
+        * HFW large eggs
+        * Pap highest atypical cells
+        * Macrophages 
+    * Gap between training data and production data
+    * Lots of very reasonable functions that do perfectly on training+holdout data but miss a bunch of prod data
+    * Training images are often overdetermined (more possible discrimination boundaries than necessary)
+        * Training scans are more-in-focus or higher quality than production scans
+        * Generalization, overfit to one look, fail to pick up other looks despite common features between them
+        * Sometimes certain details are very easy to pick up on, identify/compress the training dataset
+            * Schistosoma
+        * Resulting machine is too simple/incomplete
+        * This extra quality is not always needed to pick up certain things (large HFW eggs/worms)
+        * Lower quality production scans suffer in recall
+    * "Heavy Augmentation"
+        * "I know that this detail isn't needed, so I'll destroy the signal with noise" (blurs/180 color rotations, scales, etc)
+        * We currently think we need a new model for every different set of heavy augmentation.
+    * Learning algorithms (gradient descent) are not perfect at this compression,  one of the reasons large models are needed, is to help them be better
+
+
+
 
 
 ### Negative labeling
