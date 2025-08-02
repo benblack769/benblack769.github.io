@@ -106,7 +106,6 @@ Underdeterminism can lead to a variety of model-time failures. Human expert judg
 2. More data and better labels do not help with training.
 
 
-
 #### Mitigating underdetermined datasets
 
 Underdetermined datasets can be solved by several strategies
@@ -117,30 +116,6 @@ Underdetermined datasets can be solved by several strategies
 4. Label smoothing. Since the label information isn't fully present in the source data, the predicted label should not attempt to reach high accuracies nor should punish somewhat inaccurate predictions too much.
 
 Underdeterminism is often caused by bad pre-processing or data design choices. For example, when an input video is partitioned down to individual still images prior to labeling or model training, information about relative velocities of objects are simply lost. Or when an image is cropped so that only part of the image is visible, then you can still make a good guess as to high level image information (its taken in a city) but might lose detailed information (which model/make/year of the car is centered in the photo).
-
-
-### Data efficiency hypothesis of intelligence
-
-Intelligent beings understand a tremendous number of causes, consequences, and other associations with very limited experiences. This "data efficiency" characteristic is so critical to our understanding of intelligence that we judge each other's intelligence by it:
-
-* A "gifted" student can learn faster, with fewer lessons and less practice than an average student.
-* A "sharp" person is one who remembers some information when told only once, and can utilize that information right away in at least some capacity.
-* A "genius" is one who can infer seemingly new knowledge without ever having learned it at all---i.e. generalize to seemingly fundamentally different areas of knowledge.
-
-By contrast, characterizations such as "experienced", "expert", or "master of the craft", while certainly positive assessments of knowledge and effectiveness in a particular area, simply don't have connotations of general intelligence. Because they simply aren't good predictors of effectiveness in other areas.
-
-
-
-* Why do overfit models seem less trustworthy than underfit models?
-    * Same accuracy according to optimal function theory
-    * Underfit models are usually interpretable
-        * Dr Xu: "I understand why it made this mistake, its very understandable"
-    * Overfit models are generally uninterpretable
-        * Blank stares from reviewers, no possible human interpretation
-* Dropping information
-    * Translation engines based on language modeling prefer "fluency" (internal coherence) over "accuracy" (picking up every important detail in the source text).
-* Hallucination
-    * Making up new information that has high coherence with training data rather than with actual example
 
 
 ### Negative labeling
