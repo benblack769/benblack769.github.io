@@ -1,6 +1,6 @@
 ---
 title: Introduction to dataset theory
-under_construction: true
+under_construction: false
 excerpt: "I.e. why supervised computer vision often performs worse than we hope, and how to reason about these failures."
 comments: false
 share: false
