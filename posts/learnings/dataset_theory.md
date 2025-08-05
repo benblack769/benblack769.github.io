@@ -9,9 +9,12 @@ post_date: "2024"
 priority: 1
 ---
 
+
 ## Introduction to Dataset Analysis
 
-Concepts in model analysis, such as overfitting and underfitting are often discussed in machine learning. However, less well understood are the dataset-side equivalents of these: *overdetermined* and *underdetermined* datasets, as coherent concepts worthy of analysis prior to learning models. I'll be discussing this mis-behavior, how to identify it in your datasets, and quickly review some techniques to solve this behavior.
+Before ~2014, most analysis of machine learning systems focused on modeling decisions, and their resulting problematic underfitting or overfitting behaviors. However, with deep learning the models become so powerful that they can fit to any dataset, and the structure and problems of the dataset starts to matter much more than the structure and problems of the model. 
+
+In particular, datasets have little-discussed, but very important corollaries to overfitting and underfitting: *overdetermined* and *underdetermined* datasets. I'll be discussing this mis-behavior, how to identify it in your datasets, and quickly review some techniques to solve this behavior.
 
 ### Underdetermination
 
@@ -63,7 +66,18 @@ Overdetermination is when there are multiple valid models that fit to the data. 
 
 Why is this a problem? Isn't it good to be able to pick from a selection of possible well-performing models? The problem is when this occurs concurrently with domain shifts, i.e. when the training data is not representative of the production data. Then 
 
-Here is a classic example of overdetermination in computer vision: Black bear vs Grizzly bear.
+
+#### A first example of Overdetermination
+
+Overdetermination is often discussed in the domain of historical analysis. The idea is that when you have some historical trend, there are many possible independent variables, and very few data points. So many possible, reasonable, and well regularized functions fit the same points perfectly. However, most of them do not generalize to the future, and thus do not capture much real information. A good example is predicting the rise of obesity in the United States. There are hundreds of possible indicators, from food sources, mental health shifts, economics, demographic shifts, and very few data points: realistically a single slow moving curve which can be modeled very precisely with just 3 free parameters. 
+
+![Obesity curve](/images/labeling/Obesity_in_the_United_States.svg)
+
+This phenomona is not overfitting because it is not a model design problem, no possible model is capable of reliably fitting the data. Even careful human analysis often fails to fit these sorts of historical trends reliably. Neither can this be solved by collecting more variables to help predict the target data. It can only be solved by finding some way to get more data points.
+
+#### Overdetermination in vision
+
+Here is a classic example of overdetermination in computer vision: Black bear vs Grizzly bear (plaguing Yellowstone tourists every year).
 
 ![Bear identification](/images/labeling/bear-ID-3.webp)
 
@@ -85,21 +99,10 @@ This results in a challenging species identification task, where even a single c
 
 To summarize: Overdetermination plus domain shifts can cause models to rely on indicators that will not be available in production.
 
-1. It means that 
-
- occurs when the inputs contain too much unstructured information to create a causal, generalizable function between inputs and outputs. In practical circumstances, overdetermination occurs very often occurs when there are insufficient labels or insufficient diversity in labels. That is, when true examples are difficult or impossible to obtain in any reasonable variety. Note that overdetermination can cause failures in model generalization even when models are simple and well regularized. Theoretical analysis of overdetermination is hard because the problem is not in the formal specification of the dataset, but instead in the actual, practical nature of the dataset with all its real world flaws and incompleteness. 
-
-#### A first example of Overdetermination
-
-Overdetermination is often discussed in the domain of historical analysis. The idea is that when you have some historical trend, there are many possible independent variables, and very few data points. So many possible, reasonable, and well regularized functions fit the same points perfectly. However, most of them do not generalize to the future, and thus do not capture much real information. A good example is predicting the rise of obesity in the United States. There are hundreds of possible indicators, from food sources, mental health shifts, economics, demographic shifts, and very few data points: realistically a single slow moving curve which can be modeled very precisely with just 3 free parameters. 
-
-![Obesity curve](/images/labeling/Obesity_in_the_United_States.svg)
-
-This phenomona is not overfitting because it is not a model design problem, no possible model is capable of reliably fitting the data. Even careful human analysis often fails to fit these sorts of historical trends reliably. Neither can this be solved by collecting more variables to help predict the target data. It can only be solved by finding some way to get more data points.
 
 #### Overdetermination in computer vision
 
-In computer vision, overdeterminism is a bit less clear-cut as compared to historical analysis. We humans intuitively feel as though many computer vision problems are solvable with very few data points. An entomologist can see a single photograph of a rare species of beetle they have never seen before, and can be expected to do a decent job identifying new photographs of the beetle in the future. And so many people intuit that machine learning systems are able to accomplish a similar feat, learning complex functions from very few data points.
+In computer vision, overdeterminism is even more of a problem than when training humans, and even less intuitive. We humans intuitively feel as though many computer vision problems are solvable with very few data points. An entomologist can see a single photograph of a rare species of beetle they have never seen before, and can be expected to do a decent job identifying new photographs of the beetle in the future. And so many people intuit that machine learning systems are able to accomplish a similar feat, learning complex functions from very few data points.
 
 However, this intuition is a false intuition. The reality is that the entomologist was trained on hundreds of thousands of images of beetles, and millions of images of insects. Many of this training data has data known to improve self-supervised learning capabilities, including 3d orientation shifts, time-series frames of live insects, scientific articles about function body parts with detailed annotations, images with clean backgrounds, etc. 
 
@@ -113,26 +116,16 @@ This additional context gives powerful ground truth information about the releva
 
 Modern deep learning has a variety of techniques to accomplish a similar feat. Models with carefully crafted inductive biases, cross-correlation loss to make a denser loss function (self-supervised learning), fine-tuning regimes to utilize larger related datasets, various augmentation schemes to generate more diverse image-label pairs, and more. 
 
-However, no current technique comes very close to matching the data efficiency of human domain experts. And so we do have to treat our datasets with the same care we treat overdetermined datasets in historical analysis, finding ways to make sure the model is learning causal, generlizable information regardless of dataset size or lack of diversity.
+However, no current technique comes very close to matching the data efficiency of human domain experts. And so we do have to treat our datasets with the same care we treat overdetermined datasets in historical analysis, finding ways to make sure the model is learning causal, generalizable information regardless of dataset size or lack of diversity.
 
 #### Common causes of overdetermination
 
-The first common cause of overdetermination in practice is difficulty of obtaining data. 
-
-The second common cause of overdetermination is insufficient data modeling. 
-
-* Easy to label, hard to get examples of
-    * HFW large eggs
-    * Pap highest atypical cells
-    * Macrophages 
-* Training images are often overdetermined (more possible discrimination boundaries than necessary)
-    * Training scans are more-in-focus or higher quality than production scans
-    * Generalization, overfit to one look, fail to pick up other looks despite common features between them
-    * Sometimes certain details are very easy to pick up on, identify/compress the training dataset
-        * Schistosoma
-    * Resulting machine is too simple/incomplete
-    * This extra quality is not always needed to pick up certain things (large HFW eggs/worms)
-    * Lower quality production scans suffer in recall
+* **Difficulty of Collecting Data:** In particular, when objects are very easy to label, i.e. humans can be trained on very few examples, but hard to get examples of, and so insufficiently diverse data is collected.
+* **Too clean of training data:** Can occur when training data is collected specifically for use in some sort of model training, educational, or scientific study (i.e. a medical study) and then the dataset is used for less clean data where fewer features are available.
+* **Insufficient Preprocessing:** Training models end to end on raw data such as pixels, raw audio samples, etc, has been popularized by deep learning, but it does lead to more overdetermined datasets. Effective use of both classical transforms such as FFT analysis, and of deep learning transforms like frozen model features can help a lot
+* **Too much context:** Additional context, especially information about where and when a sample is sourced from, can correlate very strongly with  population statistics become more clear indiciators than causual features. Removing context through cropping, 
+* **Insufficient augmentation:** Augmentations are human-guided image modeling as to what information in an image is not going to be true causal information.
+* **Insufficient Modeling:** Model design choices can allow some kinds of reduction in image informativeness similar to pre-processing/augmentation.
 
 #### Identifying Overdetermination
 
@@ -156,7 +149,10 @@ Overdeterminism is fundamentally caused by an imbalance between the amount of un
 
 The other way to fix overdeterminism is to increase the number of informativeness of the labels:
 
-* **Synthetic data:** Synthetic images
+* **More data:** 
+    * More collection sites
+    * More distinct samples
+* **Synthetic data:** 
     * Mixup/mosaic image combinations
     * Stable diffusion based image generation
     * Simulation image captures  
@@ -166,14 +162,5 @@ The other way to fix overdeterminism is to increase the number of informativenes
 * **Additional loss functions:** 
     * to get it to learn specific informative features of the data and bring them out. I.e. self-supervised cross-correlation losses.
 
-
-
-Before ~2014, most analysis of machine learning systems focused on modeling decisions, and their resulting problematic underfitting or overfitting behaviors. However, with deep learning the models become so powerful that they can fit to any dataset, and the structure and problems of the dataset starts to matter much more than the structure and problems of the model. In particular,
-
-1. Underfitting becomes less relevant because the expressive power of deep neural networks is simply immense, and its sometimes hard to even contrive functions which cannot be learned in practice, as even datasets of tens of thousands of images with completely random target labels can be memorized with 100% training set accuracies with out of the box learning regimes. 
-2. Overfitting becomes less relevant because of the double-dip phenomena, that suggests that empirically, these same very overparameterized deep learning models which allow fitting very complex functions to very complex datasets also make learning simple functions on simple datasets easier.  This behavior is of course tied to random initialization and good inductive biases and other specific characteristics of neural networks, and is not a general characteristic of large models.
-
-
-Of course, modeling decisions are still important: functional window sizes, inductive biases, model capacity, and other model characteristics are extremely important in training good models. However, practitioners are increasingly presented with very solid solution templates to guide them through these decisions and tradeoffs rather than having to find novel solutions with every new problem, as they had to in the past. 
 
 
