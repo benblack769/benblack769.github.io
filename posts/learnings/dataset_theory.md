@@ -106,7 +106,7 @@ In computer vision, overdeterminism is even more of a problem than when training
 
 However, this intuition is a false intuition. The reality is that the entomologist was trained on hundreds of thousands of images of beetles, and millions of images of insects. Many of this training data has data known to improve self-supervised learning capabilities, including 3d orientation shifts, time-series frames of live insects, scientific articles about function body parts with detailed annotations, images with clean backgrounds, etc. 
 
-![moving insect (https://commons.wikimedia.org/wiki/File:Moschusbock_-_animated.gif)](/images/labeling/Moschusbock_-_animated.gif)
+![moving insect](/images/labeling/Moschusbock_-_animated.gif)
 
 ![pinboard (https://www.coffeewithus3.com/diy-bug-board/)](/images/labeling/Hoppers.jpg)
 
