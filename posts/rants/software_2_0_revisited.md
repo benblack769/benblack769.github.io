@@ -5,6 +5,7 @@ under_construction: false
 excerpt: "The dream of Software 2.0 is only starting to be realized. A human-centric framework of successful data development teams is starting to emerge."
 comments: false
 share: false
+priority: 2
 post_date: "2024"
 ---
 
