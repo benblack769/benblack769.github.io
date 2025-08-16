@@ -4,7 +4,7 @@ under_construction: false
 excerpt: "I.e. why supervised computer vision often performs worse than we hope, and how to reason about these failures."
 comments: false
 share: false
-img: /images/labeling/bug-science.png
+img: /dataset_theory/labeling/bug-science.png
 post_date: "2024"
 priority: 1
 ---
@@ -20,11 +20,11 @@ In particular, datasets have little-discussed, but very important corollaries to
 
 Underdetermination occurs where the input data does not have sufficient information to predict the intended target output labels. This can occur when there isn't much information to go on, i.e. trying to identify specific faces in a photograph after they have been blurred out. However, underdeterminism can occur even when there is a lot of information to use. A good example in computer vision is trying to predict car velocities from a single photograph frame.
 
-![Highway photo](/images/labeling/highway-speeds.webp)
+![Highway photo](/dataset_theory/labeling/highway-speeds.webp)
 
 While rough estimates of velocity are possible (basing the guess on other context such as average highway driving speed in that part of the world), it is not generally possible to get precise estimates without at least two photographs at known points in time. For example in the gif below, it is very possible to get accurate estimates of speed, if you know the exact time difference between each frame, and using known reference points such as the length of dotted lines on the highway the cars are driving across.
 
-![Highway gif](/images/labeling/Auf_der_Autobahn2.gif)
+![Highway gif](/dataset_theory/labeling/Auf_der_Autobahn2.gif)
 
 Bringing this back to the deep learning setting, no matter how high capacity a model you had, no matter how much labeled data you had, if you only have static frames as inputs, you will never expect your model to perform very well in general, because the data is *underdetermined*. The information you need is simply not present in the image. 
 
@@ -71,7 +71,7 @@ Why is this a problem? Isn't it good to be able to pick from a selection of poss
 
 Overdetermination is often discussed in the domain of historical analysis. The idea is that when you have some historical trend, there are many possible independent variables, and very few data points. So many possible, reasonable, and well regularized functions fit the same points perfectly. However, most of them do not generalize to the future, and thus do not capture much real information. A good example is predicting the rise of obesity in the United States. There are hundreds of possible indicators, from food sources, mental health shifts, economics, demographic shifts, and very few data points: realistically a single slow moving curve which can be modeled very precisely with just 3 free parameters. 
 
-![Obesity curve](/images/labeling/Obesity_in_the_United_States.svg)
+![Obesity curve](/dataset_theory/labeling/Obesity_in_the_United_States.svg)
 
 This phenomona is not overfitting because it is not a model design problem, no possible model is capable of reliably fitting the data. Even careful human analysis often fails to fit these sorts of historical trends reliably. Neither can this be solved by collecting more variables to help predict the target data. It can only be solved by finding some way to get more data points.
 
@@ -79,7 +79,7 @@ This phenomona is not overfitting because it is not a model design problem, no p
 
 Here is a classic example of overdetermination in computer vision: Black bear vs Grizzly bear (plaguing Yellowstone tourists every year).
 
-![Bear identification](/images/labeling/bear-ID-3.webp)
+![Bear identification](/dataset_theory/labeling/bear-ID-3.webp)
 
 The problem is that this identification chart tells you many useful features to look for. But if you don't pay attention to the labels, and only look at the images, you get a bunch of very obvious, but fundamentally unreliable features:
 
@@ -89,13 +89,13 @@ The problem is that this identification chart tells you many useful features to 
 
 None of these obvious features are reliable indicators. Grizzly bears can be small, black, and with smooth fur. Black bears can be fairly large, brown, and with rough fur. This is why this identifier has to tell you to focus on subtle details in body shape instead of these more obvious features. The [site where the above identifier was posted](https://www.fieldandstream.com/stories/conservation/wildlife-conservation/black-bear-vs-brown-bear) immediately shows the following picture of a blonde black bear to prove this point:
 
-![blonde black bear](/images/labeling/blonde_black_bear.webp)
+![blonde black bear](/dataset_theory/labeling/blonde_black_bear.webp)
 
 And in the wild, things get even more difficult. Its almost impossible to get a picture this clear, so many of these subtle features are occluded or obscured, and so the determination needs to be made on whatever features are clear and available. 
 
 This results in a challenging species identification task, where even a single clear identifier should be used in isolation when available. For example, in the following picture, the paws are easily identifiable as a Grizzly bear, but the rest of the bear is in an unusual position and many of the usual indicators are obscured. 
 
-![Grizzly bear](/images/labeling/Grizzly-bears-Jackson.png)
+![Grizzly bear](/dataset_theory/labeling/Grizzly-bears-Jackson.png)
 
 To summarize: Overdetermination plus domain shifts can cause models to rely on indicators that will not be available in production.
 
@@ -106,11 +106,11 @@ In computer vision, overdeterminism is even more of a problem than when training
 
 However, this intuition is a false intuition. The reality is that the entomologist was trained on hundreds of thousands of images of beetles, and millions of images of insects. Many of this training data has data known to improve self-supervised learning capabilities, including 3d orientation shifts, time-series frames of live insects, scientific articles about function body parts with detailed annotations, images with clean backgrounds, etc. 
 
-![moving insect](/images/labeling/Moschusbock_-_animated.gif)
+![moving insect](/dataset_theory/labeling/Moschusbock_-_animated.gif)
 
-![pinboard (https://www.coffeewithus3.com/diy-bug-board/)](/images/labeling/Hoppers.jpg)
+![pinboard (https://www.coffeewithus3.com/diy-bug-board/)](/dataset_theory/labeling/Hoppers.jpg)
 
-![scientific image (https://lizzieharper.co.uk/2015/01/natural-history-illustration-insect-anatomy/)](/images/labeling/bug-science.png)
+![scientific image (https://lizzieharper.co.uk/2015/01/natural-history-illustration-insect-anatomy/)](/dataset_theory/labeling/bug-science.png)
 
 This additional context gives powerful ground truth information about the relevant identifying visual information when examining a new type of beetle. Knowledge learned regarding one species generalizes to others, and gets extensively utilized when learning new types of beetles. This prior knowledge is the secret sauce which allows the entomologist to focus in on only a few key identifying criteria, and use these few criteria to reduce the number of independent variables, and transform the beetle identification problem from an overdetermined problem with too many independent variables to a well determined problem with only a few. 
 

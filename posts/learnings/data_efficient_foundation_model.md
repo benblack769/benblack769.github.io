@@ -1,16 +1,26 @@
 ---
-title: Practical labeling theory for computer vision
+title: Data efficient foundation models
 under_construction: true
-excerpt: "."
+excerpt: "Concrete concepts for developing useable foundation models with minimal data."
 comments: false
 share: false
-img: /images/labeling/bug-science.png
+img: ""
 post_date: "2024"
 priority: 1
 ---
 
+Foundation models are notorious for being very data hungry. Segment anything was trained with 1 billion masks. CLIP was trained with >100 million image captions. 
 
-As a practitioner designing and implementing real intelligent  systems, the question often comes up how to best teach the machine what it needs to solve the problem we need to solve, i.e. crafting efficient and effective dataset from the perhaps limited data you have. In particular, I'll be discussing supervised learning regimes where label scarcity, low diversity of positive labels, sparse information, production data shift and other factors makes crafting a training dataset tricky and unpredictable. Many of the improvements in real world systems follow developments in data design rather than model design. In this first post in this series, we'll be reviewing the fundamental theory behind these practical lessons in data designs.
+However, it is possible to train useful foundation models with much fewer labels, using a number of very pragmatic tricks to utilize preexisting models and available data as effectively as possible. These tricks are powering a new generation of data-efficient foundation models that are bringing recent innovations from social platforms into the real world
+
+* Foundation model overview
+    * Foundation model implies multi-task---usable for different real world workflows, different people trying to do different things.
+    * Multi-task requires some degree of human direction of what task to focus on
+    * Encode task into model input
+        * Segment anything: Point/box prompt as decoder input
+        * Clip: Can choose either image or text to be the prompt
+        * Conditional diffusion model: Choose masked image, get back full 
+        * Chat-bot: Encode prompt into token sequence
 
 ### Negative labeling
 
