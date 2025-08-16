@@ -11,10 +11,13 @@ priority: 1
 
 Foundation models are notorious for being very data hungry. Segment anything was trained with 1 billion masks. CLIP was trained with >100 million image captions. 
 
-However, it is possible to train useful foundation models with much fewer labels, using a number of very pragmatic tricks to utilize preexisting models and available data as effectively as possible. These tricks are powering a new generation of data-efficient foundation models that are bringing recent innovations from social platforms into the real world
+However, it is possible to train useful foundation models with much fewer labels, using a number of very pragmatic tricks to utilize preexisting models and available data as effectively as possible. These tricks are powering a new generation of data-efficient foundation models that are bringing recent innovations from social platforms into the real world.
+
+
 
 * Foundation model overview
     * Foundation model implies multi-task---usable for different real world workflows, different people trying to do different things.
+    * Semantic multi-task requires open vocabulary---can use arbitrary natural language to describe objects
     * Multi-task requires some degree of human direction of what task to focus on
     * Encode task into model input
         * Segment anything: Point/box prompt as decoder input
@@ -22,16 +25,61 @@ However, it is possible to train useful foundation models with much fewer labels
         * Conditional diffusion model: Choose masked image, get back full 
         * Chat-bot: Encode prompt into token sequence
 
-### Negative labeling
+Key ideas include: 
 
-* Most real-world AI has "unusual" or "exceptional" case detection as its most important factor in actual deployment
-    * Industrial QC
-    * Medical screening
-* Subtyping is not very important, anomalies should just be escalated to an human, because if its a real problem, addressing the anomaly will be a creative challenge in itself anyways (fixing the machine in industrial QC, creating a treatment plan in medical diagnosis)
-* Sensitivity is very important, even a 1 in 10,000 anomaly is still a very serious problem, must pick up such a rare case with high precision.
-* Natural datasets not always sufficient. 
-    * I.e. regional diseases (tropical parasites) or plant-specific industrial datasets may mean that even with millions of training examples in the natural dataset, very serious problems in other regions/plants/etc may not have any examples in your dataset.
-    * Creative datasets (purchasing data/data from academic studies or other out of domain sets)
+* Transfer learning from social media foundation models
+* Focus on diversity over quantity
+* Smaller model architectures (a big step down in data diversity vs natural images)
+* Richer prompting to allow manual error correction
+
+Examples include:
+
+
+* Medical foundation models
+    * [PLIP](https://www.nature.com/articles/s41591-023-02504-3): 
+        * Twitter scraped data, 208,414 image-text pairs scraped with hashtags
+        * Pathologists collaborate by posting unusual or interesting cases on twitter to discuss what they could be.
+        * Critical dependency on transfer learning from CLIP
+        * Extreme diversity, only rare and interesting cases make their way to twitter
+        * A basis for virtually all open-vocabulary pathology models
+    * [Virchov2](https://arxiv.org/html/2408.00738v1): Self-supervised feature encoding for pathology
+        * Focus on dataset diversity
+        * Pathology-specific loss function
+    * [MedSam](https://www.nature.com/articles/s41467-024-44824-z):
+        * 1,570,263 image-mask pairs
+        * 10 imaging modalities and over 30 cancer types
+            * CT images
+            * MRI images
+            * derm photographs
+            * H&E Pathology scans
+        * Smaller models (Vit-B model is big model, then lots of micro-models)
+        * Focus on diversity over volume
+        * [ScribblePrompt](https://arxiv.org/pdf/2312.07381)
+            * Rich prompts for better control when model is not as smart
+            * Needs somewhat more expensive decoder
+    * [Medical LLMs](https://huggingface.co/blog/leaderboard-medicalllm)
+        * Competitive and rich field, with proposed models from many LLM vendors (google, meta, etc)
+        * Lots of scrapable medical data in pure-text format, but several orders of magnitude less than general text data.
+        * Transfer learning from regular LLMs
+    * Medical diffusion models
+        * No clear winning model
+        * Old tasks such as anomaly detection, nearest neighbors  and classification by looking at reconstruction loss or other discriminator.
+
+### Clever bootstrapping and applications
+
+* PLIP->Grounded object tagging: Using noisy PLIP generated labels to automatically train object detection model. **CVPR NOTES!!!**
+    * Can generate a diversity of text headers for each source image
+    * Can manually review/clean those generated headers for accuracy. 
+* Medical Segment anything -> cell segmenter **MIDL Notes!!!**
+    * No need to train specialized cell counter, only a very rough models to tell cells of interest apart from other cells.
+* PLIP + cell segmenter -> open-vocabulary instance segmentation
+* Medical LLMs + Virchov/PLIP image features -> Good start to train custom open-vocabulary models ontop novel data
+
+
+### Anomaly detection models
+
+Negative data labeling:
+
 * Decision boundary theory of AI
     * Positive labels on one side, negative on the other
     * High dimensional space means complex boundaries are possible (100 dimensional space means decision boundary is a 99 dimensional hyperplane)
@@ -54,41 +102,6 @@ However, it is possible to train useful foundation models with much fewer labels
         * Linear models
         * Random forests
 
-### Generic labeling
-
-Get the machine to learn only part of the problem of interest, so that it generalizes better across many tasks.
-
-* Negative labels
-    * Label all the uninteresting stuff, get back interesting stuff
-    * Likely to return everything on new domains
-* Object-labeling
-    * what is an object?
-        * Counter-factual probabilities (how likely is it for an object to be separated from its parent)
-            * Window of a car vs a random part of a door vs a whole car
-            * Windows can be broken/removed/replaced by a solid door/etc
-            * Part of a window cannot be easily used in counterfactuals
-            * Humans have very good knowledge of counterfactuals
-        * object vs orientation
-            * Person vs person's arm
-            * Arm can be in many orientations with respect to a person
-    * Requires user to disambiguate through interaction
-        * "Segment anything" "segment some things" (an author on the paper told me not to expect good performance on out of domain data)
-        * Improvements in data
-            * MedSam
-        * Improvements in disambiguation
-            * ScribblePrompt
-* Text-based image labeling
-    * How likely that this text corresponds with this image (or parts of the image)?
-    * When handling parts of an image, should ideally also be object/counterfactual-aware (described above)
-    * Localized training labels vs global training labels
-        * Rely on 
-    * Various tuning to focus more on image-image correspondence (objectness/described above), yeilding possible hallucinations or image-text correspondence, yielding possible signal noise, which could be distracting or requiring additional filters
-* Image-based text labeling
-    * Give me an image, output text
-    * Spatial models vs generative models
-        * When asked to generate text, spatial models can only process fixed number of proposals
-            * Dictionary of words/phrases
-        * In generative models, text-text coherence matters more than image-text correspondence, much more likely to say something abstractly true but unrelated to the image than guess
 
 ### In the wild labeling
 
