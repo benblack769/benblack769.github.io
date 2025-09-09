@@ -8,7 +8,7 @@ Most publications and explanations of deep learning have two sorts of explanatio
 
 While I must give all credit to Colah's blog for putting together that excelent diagram, I think it is telling why it is so well known: every other LSTM diagram before that was kind of terrible. Making high quality diagrams is hard, and takes a lot of time and effort. 
 
-And it is hard to do math in diagrams---explaining each step will take a lot of time and effort, as each transformation will require a new diagram. So proof-oriented diagrams (like my own here: ![backprop diagrams](/posts/blog/backprop_in_4_diagrams.md) are extremely time consuming, so you more often see proof written like this:
+And it is hard to do math in diagrams---explaining each step will take a lot of time and effort, as each transformation will require a new diagram. So proof-oriented diagrams (like my own here: ![backprop diagrams](/posts/learnings/backprop_in_4_diagrams.md) are extremely time consuming, so you more often see proof written like this:
 
 TERRIBLE LOOKING PROOF HERE
 

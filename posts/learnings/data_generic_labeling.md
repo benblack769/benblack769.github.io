@@ -27,10 +27,12 @@ Get the machine to learn only part of the problem of interest, so that it genera
     * Natural datasets not always sufficient. 
         * I.e. regional diseases (tropical parasites) or plant-specific industrial datasets may mean that even with millions of training examples in the natural dataset, very serious problems in other regions/plants/etc may not have any examples in your dataset.
         * Creative datasets (purchasing data/data from academic studies or other out of domain sets)
-    * Deep learning methods not very effective at this: Using classifical methods like OneClassSVM or IsolationForrests combined with deep learning feature extractors is key
+    * Deep learning methods not very effective at this: Using classical methods like OneClassSVM or IsolationForests combined with deep learning feature extractors is key
     * Even when it works, likely to return a ton of stuff on new domains
 * Object-labeling
     * what is an object?
+        * High internal coherence (removed parts removes some coherence or )
+        * Low external coherence (can be moved around in the environment with little loss in coherence)
         * Counter-factual probabilities (how likely is it for an object to be separated from its parent)
             * Window of a car vs a random part of a door vs a whole car
             * Windows can be broken/removed/replaced by a solid door/etc
