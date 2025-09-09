@@ -174,4 +174,4 @@ print(intersecting_idxs) # [0, 1]
 
 ## Follow up projects
 
-Note that this project has inspired others, including [this one about rectangle cover](/posts/learnings/rect_cover.md)
+Note that this project has inspired others, including [this one about rectangle cover](/posts/learnings/rect_cover/)
