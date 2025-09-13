@@ -1,15 +1,13 @@
 ---
-title: Zoomy
+title: Optimizing OpenSeadragon
 under_construction: true
-excerpt: "Zoomy."
+excerpt: "An engineering team's adventurous journey to fight the dragons of complexity and ascent to the peaks of performance."
 comments: false
 share: false
-img: /images/backprop/diagram-svg/whole-backprop.pdf.svg
-post_date: "2024"
+img: ''
+post_date: "2025"
 priority: 1
 ---
-
-An Engineer Turns Ventures out of His Town Two find treasure in the dragon's lair
 
 In any optimization project, your path starts easy. Wandering through the fields towns, you make progress quickly, with fellow companions trying to optimize their own projects and publishing their insights and efforts online. The experience is easy and brisk, with a logical sequence of simple fixes involving little code or effort.
 
