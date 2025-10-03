@@ -9,7 +9,7 @@ post_date: "2025"
 priority: 1
 ---
 
-In any optimization project, your path starts easy. Wandering through the fields towns, you make progress quickly, with fellow companions trying to optimize their own projects and publishing their insights and efforts online. The experience is easy and brisk, with a logical sequence of simple fixes involving little code or effort.
+In any optimization project, your path starts easy. Wandering through the fields and towns, you make progress quickly, with fellow companions trying to optimize their own projects and publishing their insights and efforts online. The experience is easy and brisk, with a logical sequence of simple fixes involving little code or effort.
 
 As you make progress, you move past the fields and towns ascend into the forests, where the bottlenecks aren't clearly identifiable, and the hills, where fixes are a bigger lift. The path becomes thinner, with fewer people taking the same path, and any documentation becomes more obscure and harder to understand. You start to encounter beasts: Biased and misleading benchmarks, latency-filled and incomplete monitoring tools, mind-bending architectural choices rearing their head in critical dependencies, and your own nasty house bugs that infect the increasing complex codebase you are building.
 
@@ -30,7 +30,10 @@ However, this initial 200ms time goal turned out to not be too hard to meet. Set
 
 ### Phase 2: Attack of the dragon of chaos
 
-As soon as the network started giving us consistently fast responses, our next problem became clear.
+As soon as the network started giving us consistently fast responses, our next problem became clear---the frontend framework.
+
+Previously, we had been depending heavily on [OpenSeadragon](https://openseadragon.github.io/), a popular open source library for zoomable images like our own. But many of the system and display optimizations included in the library were clearly designed for slow servers and poor networks: rate limiting requests, heavy animations enabled by default to make the network.
+
 * OSD changes
 * Web workers
 * More OSD Changes
