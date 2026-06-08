@@ -21,7 +21,7 @@ What Python's `multiprocessing.Pool` provides for data parallelism, this micro-f
 * [Source code and usage documentation (github)](https://github.com/Techcyte/pipeline-lib)
 * [Longer writeup about inspiration and integration into a real production system](https://benblack769.github.io/posts/rants/pipeline-processing/)
 
-#### Strengths:
+### Strengths:
 
 * Extremely robust error handling (error handling as a first-class citizen, a central part of API design rather than an afterthought).
 * High throughput message handling. >10,000+ messages per second, >1GB/s of memory transfer in [benchmarks](https://github.com/Techcyte/pipeline-lib#benchmarks)
@@ -29,7 +29,7 @@ What Python's `multiprocessing.Pool` provides for data parallelism, this micro-f
 * Pure-python: simple to install/deploy, no binary dependencies
 * Runtime type checking for strict enforcment of up-front design
 
-#### Weaknesses:
+### Weaknesses:
 
 * Porting cost: Existing code needs lots of adaptation to get it to fit the framework's execution model
 * Pure-python: Not competitive with comparable C++ frameworks in terms of message or data throughput. 
@@ -58,15 +58,15 @@ A unique feature of the pipeline lib is *synchronous processing*, an odd feature
 
 This tradeoff latency vs bandwidth of pipeline message processing is controlled by a single parameter `packets_in_flight`. From a consumer's perspective, the `packets_in_flight` is an ordinary queue buffer size. If there are available packets that a producer has placed in the buffer, then the consumer can consume them. For example, see the following diagram, which is limited by producer capacity.
 
-![producer bound system](docs/producer_bound.png)
+![producer bound system](/images/pipeline-processing/docs/producer_bound.png)
 
 From the producer side, however, it is quite different than a queue, in that the system will not yield control back to the worker until there are empty slots available to start producing. See diagram below of system which is limited by consumer capacity. The producers are blocking because all 7 slots are filled, with 5 messages stored in the buffer, waiting to be consumed, and 2 of which are being processed by consumers.
 
-![consumer bound system](docs/consumer_bound.png)
+![consumer bound system](/images/pipeline-processing/docs/consumer_bound.png)
 
 Note the effect of having a series of tasks with `packets_in_flight=1` means that multiple steps execute sequentially. For example, in the below diagram, task 1 is being blocked on the single packet in queue 1 being released, as that is being held by task 2. However, task 2 is in turn being blocked by task 3. Note that even though task 2 is blocked, it still reserving the space on queue 1.
 
-![sequential execution chain](docs/sequential_chain.png)
+![sequential execution chain](/images/pipeline-processing/docs/sequential_chain.png)
 
 
 The system enforces this by not yielding control back to the producer until there is a slot available
