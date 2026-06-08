@@ -9,7 +9,7 @@ code: "https://github.com/Techcyte/pipeline-lib"
 comments: false
 share: false
 post_date: "2024"
-priority: 2
+priority: 1
 img: /images/pipeline-processing/pipeline_diagram.svg
 ---
 
