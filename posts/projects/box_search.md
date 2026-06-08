@@ -5,6 +5,7 @@ under_construction: false
 excerpt: "Using Rust to implement simple, extremely fast data structures and algorithms for rectangular intersection problems"
 comments: false
 share: false
+code: "https://github.com/Techcyte/box-intersect-lib"
 priority: 1
 post_date: "2022"
 img: /images/box_search/GIF_Frame-63.png
