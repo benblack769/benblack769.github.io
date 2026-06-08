@@ -146,4 +146,14 @@ This particular case produces 6 tiles, where the optimal solution produces 4. Ho
 
 The resulting algorithm is better in the worst case and in synthetic benchmarks than both the global greedy algorithm and the left-greedy algorithm. It can be implemented in `O(N*log(N))` with a fast data structure, or without any fancy data structure in `O(N*sqrt(N))`.
 
+
 And all it required was a bit of care and a bit of persistence!
+
+### References:
+
+The algorithm code is published here:
+
+* [Source code](https://github.com/Techcyte/box-intersect-lib)
+    * [Specifically this function in efficient_coverage.rs](https://github.com/Techcyte/box-intersect-lib/blob/main/box-intersect-lib/src/efficient_coverage.rs#L35)
+
+

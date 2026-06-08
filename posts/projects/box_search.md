@@ -11,6 +11,9 @@ post_date: "2022"
 img: /images/box_search/GIF_Frame-63.png
 ---
 
+## References
+
+* [Source code](https://github.com/Techcyte/box-intersect-lib)
 
 ## Box intersection
 
