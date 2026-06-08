@@ -1,7 +1,7 @@
 ---
 title: "Expert Systems are Still Hard"
 slug: expert-systems
-under_construction: false
+under_construction: true
 excerpt: "We now have 3 generations of AI methods and technologies to develop expert systems with --- rule-based systems, machine learning systems, and now LLM reasoning and knowledge systems. Reliable expert systems remain hard to build despite this expanded toolset."
 comments: false
 share: false
