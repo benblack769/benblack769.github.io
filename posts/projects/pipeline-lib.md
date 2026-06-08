@@ -3,8 +3,6 @@ title: "Pipeline-Lib"
 slug: pipeline-lib
 under_construction: false
 excerpt: "A streaming pipeline accelerator micro-framework for Python."
-website: ""
-publication: ""
 code: "https://github.com/Techcyte/pipeline-lib"
 comments: false
 share: false
