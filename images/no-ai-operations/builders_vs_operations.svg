@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="22" markerHeight="20" refX="16" refY="10" orient="auto">
+      <path d="M 0 0 L 22 10 L 0 20 Z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="880" height="500" fill="#ffffff"/>
+
+  <!-- ============ LEFT PANEL: Development & Strategy ============ -->
+  <rect x="40" y="40" width="360" height="320" rx="16" fill="#fdf4e7" stroke="#d97706" stroke-width="3"/>
+  <text x="220" y="85" text-anchor="middle" font-size="19" font-weight="bold" fill="#b45309">DEVELOPMENT &amp; STRATEGY</text>
+
+  <!-- builder (stick figure with hard hat) -->
+  <circle cx="160" cy="170" r="16" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+  <path d="M 143 163 A 17 17 0 0 1 177 163 Z" fill="#d97706"/>
+  <rect x="138" y="161" width="44" height="5" rx="2.5" fill="#d97706"/>
+  <circle cx="154" cy="172" r="2.2" fill="#222222"/>
+  <circle cx="166" cy="172" r="2.2" fill="#222222"/>
+  <path d="M 153 179 Q 160 184 167 179" stroke="#222222" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <line x1="160" y1="186" x2="160" y2="250" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="160" y1="208" x2="128" y2="232" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="160" y1="208" x2="220" y2="228" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="160" y1="250" x2="140" y2="292" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="160" y1="250" x2="180" y2="292" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- AI robot -->
+  <line x1="280" y1="146" x2="280" y2="134" stroke="#222222" stroke-width="3"/>
+  <circle cx="280" cy="130" r="5" fill="#7c3aed"/>
+  <rect x="248" y="146" width="64" height="52" rx="11" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+  <circle cx="266" cy="168" r="4.5" fill="#222222"/>
+  <circle cx="294" cy="168" r="4.5" fill="#222222"/>
+  <path d="M 264 181 Q 280 191 296 181" stroke="#222222" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="256" y="206" width="48" height="50" rx="8" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+  <line x1="256" y1="220" x2="220" y2="228" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="304" y1="220" x2="332" y2="240" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="268" y1="256" x2="268" y2="284" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="292" y1="256" x2="292" y2="284" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- clasped hands -->
+  <circle cx="220" cy="228" r="6" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+
+  <!-- AI sparkles -->
+  <path d="M 330 150 l 3 8 l 8 3 l -8 3 l -3 8 l -3 -8 l -8 -3 l 8 -3 Z" fill="#7c3aed"/>
+  <path d="M 348 195 l 2 5 l 5 2 l -5 2 l -2 5 l -2 -5 l -5 -2 l 5 -2 Z" fill="#7c3aed"/>
+  <path d="M 105 155 l 2 5 l 5 2 l -5 2 l -2 5 l -2 -5 l -5 -2 l 5 -2 Z" fill="#7c3aed"/>
+
+  <!-- ============ RIGHT PANEL: Operations ============ -->
+  <rect x="480" y="40" width="360" height="320" rx="16" fill="#eef3f9" stroke="#34557f" stroke-width="3"/>
+  <text x="660" y="85" text-anchor="middle" font-size="19" font-weight="bold" fill="#34557f">OPERATIONS</text>
+
+  <!-- confused robot, crossed out -->
+  <line x1="580" y1="170" x2="580" y2="156" stroke="#222222" stroke-width="3"/>
+  <circle cx="580" cy="152" r="5" fill="#222222"/>
+  <rect x="545" y="170" width="70" height="58" rx="11" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+  <path d="M 559 188 l 11 11 M 570 188 l -11 11" stroke="#222222" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 590 188 l 11 11 M 601 188 l -11 11" stroke="#222222" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 560 214 q 5 -6 10 0 q 5 6 10 0 q 5 -6 10 0" stroke="#222222" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="580" cy="196" r="60" stroke="#c0392b" stroke-width="7" fill="none"/>
+  <line x1="538" y1="154" x2="622" y2="238" stroke="#c0392b" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- gear with check -->
+  <g stroke="#222222" stroke-width="9">
+    <line x1="740" y1="166" x2="740" y2="150"/>
+    <line x1="740" y1="226" x2="740" y2="242"/>
+    <line x1="710" y1="196" x2="694" y2="196"/>
+    <line x1="770" y1="196" x2="786" y2="196"/>
+    <line x1="719" y1="175" x2="708" y2="164"/>
+    <line x1="761" y1="175" x2="772" y2="164"/>
+    <line x1="719" y1="217" x2="708" y2="228"/>
+    <line x1="761" y1="217" x2="772" y2="228"/>
+  </g>
+  <circle cx="740" cy="196" r="34" fill="#ffffff" stroke="#222222" stroke-width="5"/>
+  <circle cx="740" cy="196" r="12" fill="#ffffff" stroke="#222222" stroke-width="5"/>
+  <circle cx="777" cy="158" r="16" fill="#34557f"/>
+  <path d="M 769 158 L 774 164 L 786 151" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ============ BOTTOM: builder walks into operations ============ -->
+  <path d="M 220 375 C 220 465, 660 465, 660 375" stroke="#d97706" stroke-width="5" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- big builder with hard hat and AI sparkle -->
+  <circle cx="440" cy="375" r="13" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+  <path d="M 426 369 A 14 14 0 0 1 454 369 Z" fill="#d97706"/>
+  <rect x="422" y="367" width="36" height="4.5" rx="2" fill="#d97706"/>
+  <circle cx="435" cy="377" r="2" fill="#222222"/>
+  <circle cx="445" cy="377" r="2" fill="#222222"/>
+  <path d="M 434 383 Q 440 387 446 383" stroke="#222222" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <line x1="440" y1="388" x2="440" y2="416" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="440" y1="396" x2="418" y2="410" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="440" y1="396" x2="464" y2="404" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="440" y1="416" x2="424" y2="442" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <line x1="440" y1="416" x2="456" y2="442" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 472 394 l 3 8 l 8 3 l -8 3 l -3 8 l -3 -8 l -8 -3 l 8 -3 Z" fill="#7c3aed"/>
+</svg>
