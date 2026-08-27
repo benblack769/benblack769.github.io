@@ -1,6 +1,7 @@
 ---
 title: AI is for Builders, not Operations
-under_construction: true
+under_construction: false
+img: /images/no-ai-operations/builders_vs_operations.svg
 excerpt: "Operations need reliability, repeatability, and efficiency --- three things that classic information technology has that AI does not have. What business needs is not AI, but builders empowered with powerful AI tools to make their information technology systems truly great."
 comments: false
 share: false
